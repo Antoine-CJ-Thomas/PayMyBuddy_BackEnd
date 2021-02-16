@@ -1,4 +1,4 @@
-package PayMyBuddy_BackEnd.PayMyBuddy_BackEnd;
+package com.paymybuddy.app;
 
 /**
  * Hello world!
