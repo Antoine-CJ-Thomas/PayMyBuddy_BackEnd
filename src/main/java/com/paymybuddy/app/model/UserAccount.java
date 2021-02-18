@@ -3,6 +3,7 @@ package com.paymybuddy.app.model;
 public class UserAccount {
 
 	private int id;
+<<<<<<< HEAD
 	private String emailAdress;
 	private String password;
 	private String firstName;
@@ -29,6 +30,28 @@ public class UserAccount {
 
 	public String getPassword() {
 		return password;
+=======
+	private String emailAdresse;
+	private String firstName;
+	private String lastName;
+	private float balanceAmount;
+
+	public UserAccount(int id, String emailAdresse, String firstName, String lastName, float balanceAmount) {
+		
+		this.id = id;
+		this.emailAdresse = emailAdresse;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.balanceAmount = balanceAmount;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public String getEmailAdresse() {
+		return emailAdresse;
+>>>>>>> refs/remotes/origin/develop
 	}
 
 	public String getFirstName() {
