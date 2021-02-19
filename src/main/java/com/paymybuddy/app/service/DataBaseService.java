@@ -28,7 +28,7 @@ public class DataBaseService {
     	this.password = password;
     }
     
-    public void InsertOperation(String insertRequest) {
+    public void insertOperation(String insertRequest) {
         logger.info("InsertOperation(" + insertRequest + ")");
     	
         Connection connection = null;
@@ -41,32 +41,16 @@ public class DataBaseService {
            
            statement = connection.createStatement();
            statement.executeUpdate(insertRequest);
-
+           
            connection.commit();
            
-           logger.info("Insert operation done successfully");
+           logger.info("- Insert operation done successfully");
 
         } catch (Exception e) {
-        	
-            logger.error("Insert operation throw exception : " + e.getMessage());
-            
+            logger.error("- Insert operation throw exception : " + e.getMessage());
         } finally {
-			
-	        if (statement != null) {
-            	try {
-					statement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			
-	        if (connection != null) {
-            	try {
-            		connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+        	closeStatement(statement);
+        	closeConnection(connection);
 		}
     }
     
@@ -87,29 +71,13 @@ public class DataBaseService {
 
            connection.commit();
            
-           logger.info("Select operation done successfully");
+           logger.info("- Select operation done successfully");
            
         } catch (Exception e) {
-        	
-            logger.error("Select operation throw exception : " + e.getMessage());
-            
+            logger.error("- Select operation throw exception : " + e.getMessage());
         } finally {
-			
-	        if (statement != null) {
-            	try {
-					statement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			
-	        if (connection != null) {
-            	try {
-            		connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+        	closeStatement(statement);
+        	closeConnection(connection);
 		}
         
 		return resultSet;
@@ -131,29 +99,13 @@ public class DataBaseService {
 
            connection.commit();
            
-           logger.info("Update operation done successfully");
+           logger.info("- Update operation done successfully");
 
         } catch (Exception e) {
-        	
-            logger.error("Update operation throw exception : " + e.getMessage());
-            
+            logger.error("- Update operation throw exception : " + e.getMessage());
         } finally {
-			
-	        if (statement != null) {
-            	try {
-					statement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			
-	        if (connection != null) {
-            	try {
-            		connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+        	closeStatement(statement);
+        	closeConnection(connection);
 		}
     }
     
@@ -173,28 +125,34 @@ public class DataBaseService {
 
            connection.commit();
            
-           logger.info("Delete operation done successfully");
+           logger.info("- Delete operation done successfully");
            
         } catch (Exception e) {
-        	
-            logger.error("Delete operation throw exception : " + e.getMessage());
-            
+            logger.error("- Delete operation throw exception : " + e.getMessage());
         } finally {
-			
-	        if (statement != null) {
-            	try {
-					statement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+        	closeStatement(statement);
+        	closeConnection(connection);
+		}
+    }
+    
+    private void closeConnection(Connection connection) {
+
+        if (connection != null) {
+        	try {
+        		connection.close();
+			} catch (SQLException e) {
+	            logger.error("- Close connection throw exception : " + e.getMessage());
 			}
-			
-	        if (connection != null) {
-            	try {
-            		connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+		}
+    }
+    
+    private void closeStatement(Statement statement) {
+    	
+        if (statement != null) {
+        	try {
+				statement.close();
+			} catch (SQLException e) {
+	            logger.error("- Close statement throw exception : " + e.getMessage());
 			}
 		}
     }
