@@ -24,16 +24,16 @@ class UserAccountTest {
 	}
 
 	@Test
-	void test_getEmailAdress() {
+	void test_getEmailAddress() {
 
     	//GIVEN
-		String emailAdress = "emailAdress";
+		String emailAddress = "emailAdress";
         
     	//WHEN
-		userAccount = new UserAccount(0, emailAdress, null, null, null, 0.0f);
+		userAccount = new UserAccount(0, emailAddress, null, null, null, 0.0f);
     	
     	//THEN
-        assertEquals(emailAdress, userAccount.getEmailAdress());
+        assertEquals(emailAddress, userAccount.getEmailAddress());
 	}
 
 	@Test
