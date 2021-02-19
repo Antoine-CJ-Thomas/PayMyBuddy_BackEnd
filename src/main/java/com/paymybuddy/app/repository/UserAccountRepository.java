@@ -17,17 +17,17 @@ public class UserAccountRepository {
 	private UserAccount userAccount;
 
 	public void setUserAccount(UserAccount UserAccount) {
-        logger.info("setUserAccountList(" + UserAccount + ")");
+        logger.info("setUserAccount(" + UserAccount + ")");
 		this.userAccount = UserAccount;
 	}
 
 	public void resetAccount() {
-        logger.info("removeUserAccount()");
+        logger.info("resetAccount()");
         userAccount = null;
 	}
 
 	public UserAccount getUserAccount() {
-        logger.info("getUserAccountList()");
+        logger.info("getUserAccount()");
 		return userAccount;
 	}
 }
