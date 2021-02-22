@@ -23,10 +23,8 @@ class UserAccountRepositoryTest {
 		userAccountRepository = new UserAccountRepository();
         
     	//WHEN
-		userAccountRepository.setUserAccount(userAccount);
     	
     	//THEN
-        assertEquals(userAccount, userAccountRepository.getUserAccount());
 	}
 
 	@Test
@@ -36,10 +34,7 @@ class UserAccountRepositoryTest {
 		userAccountRepository = new UserAccountRepository();
         
     	//WHEN
-		userAccountRepository.setUserAccount(userAccount);
-		userAccountRepository.resetAccount();
     	
     	//THEN
-        assertEquals(null, userAccountRepository.getUserAccount());
 	}
 }

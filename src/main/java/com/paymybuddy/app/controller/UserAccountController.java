@@ -2,6 +2,7 @@ package com.paymybuddy.app.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jsoniter.output.JsonStream;
 import com.paymybuddy.app.model.UserAccount;
 import com.paymybuddy.app.repository.UserAccountRepository;
-import com.paymybuddy.app.service.DataBaseService;
 import com.paymybuddy.app.service.UserAccountService;
 
 
@@ -23,72 +23,41 @@ import com.paymybuddy.app.service.UserAccountService;
 public class UserAccountController {
 
     private static final Logger logger = LogManager.getLogger("UserAccountController");
-
-    private static DataBaseService dataBaseService;
-    private static UserAccountService userAccountService;
+    
+    @Autowired
+    private UserAccountService userAccountService;
 
 	public UserAccountController(UserAccountRepository userAccountRepository) {
         logger.info("UserAccountController()");
-
-        userAccountService = new UserAccountService(userAccountRepository);
-        
-        //PROVISOIRE
-        dataBaseService = new DataBaseService("jdbc:postgresql://localhost:5432/app","usertest", "testuser");
 	}
 
 	@GetMapping("/user/account")
-	public String getAccount() {
-        logger.info("getAccount()");
-        
-		return JsonStream.serialize(userAccountService.getAccount());
+	public String getUserAccount(@RequestBody UserAccount userAccount) {
+        logger.info("getUserAccount()");
+		return JsonStream.serialize(userAccountService.getUserAccount(userAccount.getEmailAddress(), new UserAccount()));
 	}
 
 	@PostMapping("/user/account")
-	public String createAccount(@RequestBody UserAccount userAccount) {
-        logger.info("createAccount()");
-        
-		dataBaseService.insertOperation(userAccountService.createAccount(userAccount));
-		
-		return null;
+	public String createUserAccount(@RequestBody UserAccount userAccount) {
+        logger.info("createUserAccount()");
+		return JsonStream.serialize(userAccountService.createUserAccount(userAccount));
 	}
 
 	@PutMapping("/user/account")
-	public String editAccount(@RequestBody UserAccount userAccount) {
-        logger.info("editAccount()");
-        
-		dataBaseService.updateOperation(userAccountService.editAccount(userAccount));
-    	userAccountService.copyAccountData(dataBaseService.selectOperation(userAccountService.searchAccount(userAccount)));
-    	
-		return null;
+	public String editUserAccount(@RequestBody UserAccount userAccount) {
+        logger.info("editUserAccount()");
+		return JsonStream.serialize(userAccountService.editUserAccount(userAccount));
 	}
 
 	@DeleteMapping("/user/account")
-	public String deleteAccount() {
-        logger.info("deleteAccount()");
-        
-		dataBaseService.deleteOperation(userAccountService.deleteAccount());
-        userAccountService.eraseAccountData();
-        
-		return null;
+	public String deleteUserAccount(@RequestBody UserAccount userAccount) {
+        logger.info("deleteUserAccount()");
+		return JsonStream.serialize(userAccountService.deleteUserAccount(userAccount.getEmailAddress()));
 	}
 
 	@PostMapping("/user/logIn")
-	public String logIn(@RequestBody UserAccount userAccount) {
-        logger.info("logIn()");
-                
-        if (userAccountService.logIn(dataBaseService.selectOperation(userAccountService.searchAccount(userAccount)))) {
-        	userAccountService.copyAccountData(dataBaseService.selectOperation(userAccountService.searchAccount(userAccount)));
-        }
-        return null;
-	}
-
-	@PostMapping("/user/logOut")
-	public String logOut() {
-        logger.info("logOut()");
-        
-        userAccountService.logOut();
-        userAccountService.eraseAccountData();
-        
-		return null;
+	public String logInUserAccount(@RequestBody UserAccount userAccount) {
+        logger.info("logInUserAccount()");
+		return JsonStream.serialize(userAccountService.logInUserAccount(userAccount.getEmailAddress(), userAccount.getPassword()));
 	}
 }
