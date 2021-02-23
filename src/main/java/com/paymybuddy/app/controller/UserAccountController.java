@@ -54,9 +54,9 @@ public class UserAccountController {
 		return JsonStream.serialize(userAccountService.deleteUserAccount(userAccount.getEmailAddress()));
 	}
 
-	@PostMapping("/user/logIn")
-	public String logInUserAccount(@RequestBody UserAccount userAccount) {
-        logger.info("logInUserAccount()");
-		return JsonStream.serialize(userAccountService.logInUserAccount(userAccount.getEmailAddress(), userAccount.getPassword()));
+	@PostMapping("/user/login")
+	public String loginUserAccount(@RequestBody UserAccount userAccount) {
+        logger.info("loginUserAccount()");
+		return JsonStream.serialize(userAccountService.loginUserAccount(userAccount.getEmailAddress(), userAccount.getPassword()));
 	}
 }

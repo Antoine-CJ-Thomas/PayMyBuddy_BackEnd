@@ -71,14 +71,4 @@ public class UserAccount {
 	public float getBalanceAmount() {
 		return balanceAmount;
 	}
-	
-	public void eraseData() {
-		
-		this.id = 0;
-		this.emailAddress = "";
-		this.password = "";
-		this.firstName = "";
-		this.lastName = "";
-		this.balanceAmount = 0.0f;
-	}
 }

@@ -14,7 +14,7 @@ class UserAccountRepositoryTest {
 	private UserAccountRepository userAccountRepository;
 	
 	@Mock
-	UserAccount userAccount;
+	private UserAccount userAccount;
     
 	@Test
 	void test_setUserAccount() {

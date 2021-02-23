@@ -62,9 +62,7 @@ public class UserAccountRepository {
 		dataBaseConfig.createStatement();
 				
 		dataBaseConfig.createResult(request);
-		
-		userAccount.eraseData();
-		
+				
     	try {
 
 			if (dataBaseConfig.getResult().next()) {
@@ -75,6 +73,16 @@ public class UserAccountRepository {
 				userAccount.setFirstName(dataBaseConfig.getResult().getString("first_name"));
 				userAccount.setLastName(dataBaseConfig.getResult().getString("last_name"));
 				userAccount.setBalanceAmount(dataBaseConfig.getResult().getFloat("balance"));
+			}
+			
+			else {
+
+				userAccount.setId(-1);
+				userAccount.setEmailAddress("");
+				userAccount.setPassword("");
+				userAccount.setFirstName("");
+				userAccount.setLastName("");
+				userAccount.setBalanceAmount(0.0f);
 			}
 
 		} catch (SQLException e) {

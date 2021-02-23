@@ -2,6 +2,7 @@ package com.paymybuddy.app.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -10,6 +11,12 @@ class UserAccountTest {
 
 	private UserAccount userAccount;
     
+	@BeforeEach
+	void beforeEach() {
+
+		userAccount = new UserAccount(0, null, null, null, null, 0.0f);
+	}
+    
 	@Test
 	void test_getId() {
 
@@ -17,7 +24,7 @@ class UserAccountTest {
 		int id = 1;
         
     	//WHEN
-		userAccount = new UserAccount(id, null, null, null, null, 0.0f);
+		userAccount.setId(id);
     	
     	//THEN
         assertEquals(id, userAccount.getId());
@@ -30,7 +37,7 @@ class UserAccountTest {
 		String emailAddress = "emailAdress";
         
     	//WHEN
-		userAccount = new UserAccount(0, emailAddress, null, null, null, 0.0f);
+		userAccount.setEmailAddress(emailAddress);
     	
     	//THEN
         assertEquals(emailAddress, userAccount.getEmailAddress());
@@ -43,7 +50,7 @@ class UserAccountTest {
 		String password = "password";
         
     	//WHEN
-		userAccount = new UserAccount(0, null, password, null, null, 0.0f);
+		userAccount.setPassword(password);
     	
     	//THEN
         assertEquals(password, userAccount.getPassword());
@@ -56,7 +63,7 @@ class UserAccountTest {
 		String firstName = "firstName";
         
     	//WHEN
-		userAccount = new UserAccount(0, null, null, firstName, null, 0.0f);
+		userAccount.setFirstName(firstName);
     	
     	//THEN
         assertEquals(firstName, userAccount.getFirstName());
@@ -69,7 +76,7 @@ class UserAccountTest {
 		String lastName = "lastName";
         
     	//WHEN
-		userAccount = new UserAccount(0, null, null, null, lastName, 0.0f);
+		userAccount.setLastName(lastName);
     	
     	//THEN
         assertEquals(lastName, userAccount.getLastName());
@@ -82,7 +89,7 @@ class UserAccountTest {
 		float balanceAmount = 1.0f;
         
     	//WHEN
-		userAccount = new UserAccount(0, null, null, null, null, balanceAmount);
+		userAccount.setBalanceAmount(balanceAmount);
     	
     	//THEN
         assertEquals(balanceAmount, userAccount.getBalanceAmount());

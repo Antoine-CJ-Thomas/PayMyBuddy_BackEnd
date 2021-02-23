@@ -85,11 +85,9 @@ public class UserAccountService {
         
         userAccountRepository.deleteUserAcount(emailAddress);
 		
-		this.userAccount = userAccountRepository.selectUserAcount(userAccount.getEmailAddress());
-        
-		System.out.println("userAccount.getId() : " + userAccount.getId());
-		
-        if (userAccount.getId() == 0) {
+		this.userAccount = userAccountRepository.selectUserAcount(emailAddress);
+        		
+        if (userAccount.getId() == -1) {
 
 			deleteSuccessful = true;
 		    logger.info("- Account deleted successfully");
@@ -103,12 +101,14 @@ public class UserAccountService {
 		return deleteSuccessful;
 	}
 
-	public boolean logInUserAccount(String emailAddress, String password) {
-        logger.info("logInUserAccount(" + emailAddress + ", " + password +")");
+	public boolean loginUserAccount(String emailAddress, String password) {
+        logger.info("loginUserAccount(" + emailAddress + ", " + password +")");
         
 		boolean loginSuccessful = false;
 		
-        if (userAccountRepository.selectUserAcount(emailAddress).getPassword().equals(password)) {
+		this.userAccount = userAccountRepository.selectUserAcount(emailAddress);
+		
+        if (userAccount.getPassword().equals(password)) {
 
 		    loginSuccessful = true;
 		    logger.info("- Connexion allowed");
