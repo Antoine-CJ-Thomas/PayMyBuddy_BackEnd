@@ -71,6 +71,7 @@ public class PostgreConfig implements DataBaseConfig{
 	}
 
 	@Override
+<<<<<<< HEAD
 	public void createResult(String request) {
 		
         try {
@@ -96,6 +97,17 @@ public class PostgreConfig implements DataBaseConfig{
 			}
 		}
     }
+=======
+	public ResultSet executeQueryStatement(String request) {
+		
+        try {
+			resultSet = statement.executeQuery(request);
+		} catch (SQLException e) {
+            logger.error("- Open resultSet throw exception : " + e.getMessage());
+		}
+		return resultSet;
+	}
+>>>>>>> refs/remotes/origin/develop
 
 	@Override
 	public void closeStatement() {

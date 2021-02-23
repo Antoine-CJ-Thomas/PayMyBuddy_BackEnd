@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jsoniter.output.JsonStream;
 import com.paymybuddy.app.model.UserAccount;
+<<<<<<< HEAD
+=======
+import com.paymybuddy.app.repository.UserAccountRepository;
+>>>>>>> refs/remotes/origin/develop
 import com.paymybuddy.app.service.UserAccountService;
 
 
@@ -26,14 +30,22 @@ public class UserAccountController {
     @Autowired
     private UserAccountService userAccountService;
 
+<<<<<<< HEAD
 	public UserAccountController() {
+=======
+	public UserAccountController(UserAccountRepository userAccountRepository) {
+>>>>>>> refs/remotes/origin/develop
         logger.info("UserAccountController()");
 	}
 
 	@GetMapping("/user/account")
 	public String getUserAccount(@RequestBody UserAccount userAccount) {
         logger.info("getUserAccount()");
+<<<<<<< HEAD
 		return JsonStream.serialize(userAccountService.getUserAccount(userAccount.getEmailAddress()));
+=======
+		return JsonStream.serialize(userAccountService.getUserAccount(userAccount.getEmailAddress(), new UserAccount()));
+>>>>>>> refs/remotes/origin/develop
 	}
 
 	@PostMapping("/user/account")
