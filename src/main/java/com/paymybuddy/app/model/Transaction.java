@@ -2,6 +2,9 @@ package com.paymybuddy.app.model;
 
 import java.util.Date;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Transaction {
 	
 	protected Date date;
@@ -9,6 +12,8 @@ public class Transaction {
 	protected String description;
 	protected UserAccount userAccount;
 
+	public Transaction() {}
+	
 	public Date getDate() {
 		return date;
 	}

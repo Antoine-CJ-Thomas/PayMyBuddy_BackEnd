@@ -2,10 +2,15 @@ package com.paymybuddy.app.model;
 
 import java.util.Date;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class ExternalTransaction extends Transaction {
 
 	private BankAccount bankAccount;
 
+	public ExternalTransaction() {}
+	
 	public ExternalTransaction(UserAccount userAccount, BankAccount bankAccount, String description, float amount) {
 		
 		date = new Date();

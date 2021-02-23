@@ -2,9 +2,14 @@ package com.paymybuddy.app.model;
 
 import java.util.Date;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class InternalTransaction extends Transaction {
 
 	private UserContact userContact;
+
+	public InternalTransaction() {}
 	
 	public InternalTransaction(UserAccount userAccount, UserContact userContact, String description, float amount) {
 		

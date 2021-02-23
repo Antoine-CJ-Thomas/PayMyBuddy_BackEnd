@@ -1,5 +1,8 @@
 package com.paymybuddy.app.model;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class UserContact {
 
 	private int id;
@@ -7,6 +10,8 @@ public class UserContact {
 	private String firstName;
 	private String lastName;
 
+	public UserContact() {}
+	
 	public UserContact(int id, String emailAdresse, String firstName, String lastName) {
 		
 		this.id = id;

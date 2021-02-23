@@ -1,5 +1,8 @@
 package com.paymybuddy.app.model;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class UserAccount {
 
 	private int id;
@@ -9,9 +12,7 @@ public class UserAccount {
 	private String lastName;
 	private float balanceAmount;
 	
-	public UserAccount() {
-		
-	}
+	public UserAccount() {}
 
 	public UserAccount(int id, String emailAddress, String password, String firstName, String lastName, float balanceAmount) {
 		
@@ -69,5 +70,15 @@ public class UserAccount {
 
 	public float getBalanceAmount() {
 		return balanceAmount;
+	}
+	
+	public void eraseData() {
+		
+		this.id = 0;
+		this.emailAddress = "";
+		this.password = "";
+		this.firstName = "";
+		this.lastName = "";
+		this.balanceAmount = 0.0f;
 	}
 }
