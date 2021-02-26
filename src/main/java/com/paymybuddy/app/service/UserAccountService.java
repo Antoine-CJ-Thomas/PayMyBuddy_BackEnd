@@ -5,7 +5,11 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.paymybuddy.app.model.UserAccount;
+import com.paymybuddy.app.dto.UserAccountCreatingDto;
+import com.paymybuddy.app.dto.UserAccountDeletingDto;
+import com.paymybuddy.app.dto.UserAccountEditingDto;
+import com.paymybuddy.app.dto.UserAccountLoginDto;
+import com.paymybuddy.app.dto.UserAccountRetrievingDto;
 import com.paymybuddy.app.repository.UserAccountRepository;
 
 /**
@@ -18,107 +22,113 @@ public class UserAccountService {
 
     @Autowired
 	private UserAccountRepository userAccountRepository;
-
-    @Autowired
-    private UserAccount userAccount;
-	
+    
 	public UserAccountService() {
         logger.info("UserAccountService()");
 	}
 	
-	public boolean createUserAccount(UserAccount userAccount) {
-        logger.info("createUserAccount(" + userAccount + ")");
+	public UserAccountCreatingDto createUserAccount(UserAccountCreatingDto userAccountCreatingDto) {
+        logger.info("createUserAccount(" + userAccountCreatingDto + ")");
+                
+        userAccountRepository.insertUserAccount(userAccountCreatingDto.getEmailAddress(), userAccountCreatingDto.getPassword(), userAccountCreatingDto.getFirstName(), userAccountCreatingDto.getLastName()); 		
+        userAccountRepository.selectUserAccount(userAccountCreatingDto.getEmailAddress(), userAccountCreatingDto.getUserAccount());
         
-        userAccountRepository.insertUserAcount(userAccount);
-        
-		boolean creationSuccessful = false;
+        if (userAccountCreatingDto.getUserAccount().getEmailAddress().equals(userAccountCreatingDto.getEmailAddress())) {
 
-		this.userAccount = userAccountRepository.selectUserAcount(userAccount.getEmailAddress());
-		
-        if (this.userAccount.getPassword().equals(userAccount.getPassword()) && this.userAccount.getFirstName().equals(userAccount.getFirstName()) && this.userAccount.getLastName().equals(userAccount.getLastName())) {
-
-        	creationSuccessful = true;
+        	userAccountCreatingDto.setDataValidated(true);
 		    logger.info("- Account created successfully");
         }
         
         else {
 
+        	userAccountCreatingDto.setDataValidated(false);
 		    logger.info("- Account couldn't be created");
         }
         
-		return creationSuccessful;
+		return userAccountCreatingDto;
 	}
 
-	public UserAccount getUserAccount(String emailAddress) {
-        logger.info("getUserAccount(" + emailAddress + ")");
+	public UserAccountDeletingDto deleteUserAccount(UserAccountDeletingDto userAccountDeletingDto) {
+        logger.info("deleteUserAccount(" + userAccountDeletingDto +")");
                 
-		return userAccountRepository.selectUserAcount(emailAddress);
-	}
+        userAccountRepository.deleteUserAccount(userAccountDeletingDto.getEmailAddress());
+        userAccountRepository.selectUserAccount(userAccountDeletingDto.getEmailAddress(), userAccountDeletingDto.getUserAccount());
+		        		
+        if (userAccountDeletingDto.getUserAccount().getEmailAddress().equals("")) {
 
-	public boolean editUserAccount(UserAccount userAccount) {
-        logger.info("editUserAccount(" + userAccount + ")");
-        
-        userAccountRepository.updateUserAcount(userAccount);
-        
-		boolean editionSuccessful = false;
-		
-		this.userAccount = userAccountRepository.selectUserAcount(userAccount.getEmailAddress());
-		
-        if (this.userAccount.getPassword().equals(userAccount.getPassword()) && this.userAccount.getFirstName().equals(userAccount.getFirstName()) && this.userAccount.getLastName().equals(userAccount.getLastName())) {
-
-			editionSuccessful = true;
-		    logger.info("- Account edited successfully");
-        }
-        
-        else {
-
-		    logger.info("- Account couldn't be edited");
-        }
-        
-		return editionSuccessful;
-	}
-
-	public boolean deleteUserAccount(String emailAddress) {
-        logger.info("deleteUserAccount(" + emailAddress +")");
-        
-		boolean deleteSuccessful = false;
-        
-        userAccountRepository.deleteUserAcount(emailAddress);
-		
-		this.userAccount = userAccountRepository.selectUserAcount(emailAddress);
-        		
-        if (userAccount.getId() == -1) {
-
-			deleteSuccessful = true;
+        	userAccountDeletingDto.setDataValidated(true);
 		    logger.info("- Account deleted successfully");
         }
         
         else {
 
+        	userAccountDeletingDto.setDataValidated(false);
 		    logger.info("- Account couldn't be deleted");
         }
-
-		return deleteSuccessful;
+		return userAccountDeletingDto;
 	}
 
-	public boolean loginUserAccount(String emailAddress, String password) {
-        logger.info("loginUserAccount(" + emailAddress + ", " + password +")");
+	public UserAccountEditingDto editUserAccount(UserAccountEditingDto userAccountEditingDto) {
+        logger.info("editUserAccount(" + userAccountEditingDto + ")");
         
-		boolean loginSuccessful = false;
+        userAccountRepository.updateUserAccount(userAccountEditingDto.getEmailAddress(), userAccountEditingDto.getPassword(), userAccountEditingDto.getFirstName(), userAccountEditingDto.getLastName());
+        userAccountRepository.selectUserAccount(userAccountEditingDto.getEmailAddress(), userAccountEditingDto.getUserAccount());
+        		
 		
-		this.userAccount = userAccountRepository.selectUserAcount(emailAddress);
-		
-        if (userAccount.getPassword().equals(password)) {
+        if (userAccountEditingDto.getPassword().equals(userAccountEditingDto.getUserAccount().getPassword()) 
+        		&& userAccountEditingDto.getFirstName().equals(userAccountEditingDto.getUserAccount().getFirstName()) 
+        		&& userAccountEditingDto.getLastName().equals(userAccountEditingDto.getUserAccount().getLastName())) {
 
-		    loginSuccessful = true;
+        	userAccountEditingDto.setDataValidated(true);
+		    logger.info("- Account edited successfully");
+        }
+        
+        else {
+
+        	userAccountEditingDto.setDataValidated(false);
+		    logger.info("- Account couldn't be edited");
+        }
+        
+		return userAccountEditingDto;
+	}
+
+	public UserAccountLoginDto loginUserAccount(UserAccountLoginDto userAccountLoginDto) {
+        logger.info("loginUserAccount(" + userAccountLoginDto +")");
+
+        userAccountRepository.selectUserAccount(userAccountLoginDto.getEmailAddress(), userAccountLoginDto.getUserAccount());
+        
+        if (userAccountLoginDto.getUserAccount().getPassword().equals(userAccountLoginDto.getPassword())) {
+
+        	userAccountLoginDto.setDataValidated(true);
 		    logger.info("- Connexion allowed");
         }
         
         else {
 
+        	userAccountLoginDto.setDataValidated(false);
 		    logger.info("- Connexion prohibited");
         }
 
-		return loginSuccessful;
+		return userAccountLoginDto;
+	}
+
+	public UserAccountRetrievingDto retrieveUserAccount(UserAccountRetrievingDto userAccountRetrievingDto) {
+        logger.info("retrieveUserAccount(" + userAccountRetrievingDto + ")");
+        
+        userAccountRepository.selectUserAccount(userAccountRetrievingDto.getEmailAddress(), userAccountRetrievingDto.getUserAccount());
+        
+        if (userAccountRetrievingDto.getUserAccount().getEmailAddress().equals(userAccountRetrievingDto.getEmailAddress())) {
+
+        	userAccountRetrievingDto.setDataValidated(true);
+		    logger.info("- Account found");
+        }
+        
+        else {
+
+        	userAccountRetrievingDto.setDataValidated(false);
+		    logger.info("- Acount couldn't be found");
+        }
+        
+		return userAccountRetrievingDto;
 	}
 }

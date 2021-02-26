@@ -14,24 +14,11 @@ class UserAccountTest {
 	@BeforeEach
 	void beforeEach() {
 
-		userAccount = new UserAccount(0, null, null, null, null, 0.0f);
-	}
-    
-	@Test
-	void test_getId() {
-
-    	//GIVEN
-		int id = 1;
-        
-    	//WHEN
-		userAccount.setId(id);
-    	
-    	//THEN
-        assertEquals(id, userAccount.getId());
+		userAccount = new UserAccount(null, null, null, null, 0.0f);
 	}
 
 	@Test
-	void test_getEmailAddress() {
+	void test_setAndGetEmailAddress() {
 
     	//GIVEN
 		String emailAddress = "emailAdress";
@@ -44,7 +31,7 @@ class UserAccountTest {
 	}
 
 	@Test
-	void test_getPassword() {
+	void test_setAndGetPassword() {
 
     	//GIVEN
 		String password = "password";
@@ -57,7 +44,7 @@ class UserAccountTest {
 	}
 
 	@Test
-	void test_getFirstName() {
+	void test_setAndGetFirstName() {
 
     	//GIVEN
 		String firstName = "firstName";
@@ -70,7 +57,7 @@ class UserAccountTest {
 	}
 
 	@Test
-	void test_getLastName() {
+	void test_setAndGetLastName() {
 
     	//GIVEN
 		String lastName = "lastName";
@@ -83,7 +70,7 @@ class UserAccountTest {
 	}
 
 	@Test
-	void test_getBalanceAmount() {
+	void test_setAndGetBalanceAmount() {
 
     	//GIVEN
 		float balanceAmount = 1.0f;

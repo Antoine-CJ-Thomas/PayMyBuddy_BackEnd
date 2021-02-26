@@ -4,7 +4,6 @@ import java.sql.SQLException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.paymybuddy.app.model.UserAccount;
@@ -20,24 +19,19 @@ public class UserAccountRepository {
     private static final Logger logger = LogManager.getLogger("UserAccountRepository");
 
     private DataBaseConfig dataBaseConfig;
-
-    @Autowired
-    private UserAccount userAccount;
     
     public UserAccountRepository() {
         logger.info("UserAccountRepository()");
     	dataBaseConfig = new PostgreConfig();
     }
 
-	public void insertUserAcount(UserAccount userAccount) {
-        logger.info("insertUserAcount( " + userAccount + " )");
+	public void insertUserAccount(String emailAddress, String password, String firstName, String lastName) {
+        logger.info("insertUserAccount(" + emailAddress + "," + password + "," + firstName + "," + lastName + ")");
 		
-		String tableName = "user_account";
-		String columnList = "(email_address,password,first_name,last_name,balance)";
-		String valueList = "('" + userAccount.getEmailAddress() + "','" + userAccount.getPassword() + "','" + userAccount.getFirstName() + "','" + userAccount.getLastName() + "'," + 0.00 + ")";
-		
-		String request = ("INSERT INTO " + tableName + " " + columnList + " VALUES " + valueList + ";");
-        
+		String request 	= "INSERT "
+						+ "INTO user_account (email_address,password,first_name,last_name,balance) " 
+						+ "VALUES ('" + emailAddress + "','" + password + "','" + firstName + "','" + lastName + "'," + 0.00 + ");";
+						
 		dataBaseConfig.openConnection();
 		dataBaseConfig.createStatement();
 		
@@ -50,13 +44,12 @@ public class UserAccountRepository {
 
 	}
 
-	public UserAccount selectUserAcount(String emailAddress) {
-        logger.info("selectUserAcount( " + emailAddress + " )");
-                
-		String tableName = "user_account";
-		String whereCondition = "email_address='" + emailAddress + "'";
+	public void selectUserAccount(String emailAddress, UserAccount userAccount) {
+        logger.info("selectUserAccount(" + emailAddress + ")");
 		
-		String request = ("SELECT * FROM " + tableName + " WHERE " + whereCondition + ";");
+		String request 	= "SELECT * "
+						+ "FROM user_account " 
+						+ "WHERE email_address='" + emailAddress + "';";
         
 		dataBaseConfig.openConnection();
 		dataBaseConfig.createStatement();
@@ -67,7 +60,6 @@ public class UserAccountRepository {
 
 			if (dataBaseConfig.getResult().next()) {
 
-				userAccount.setId(dataBaseConfig.getResult().getInt("id"));
 				userAccount.setEmailAddress(dataBaseConfig.getResult().getString("email_address"));
 				userAccount.setPassword(dataBaseConfig.getResult().getString("password"));
 				userAccount.setFirstName(dataBaseConfig.getResult().getString("first_name"));
@@ -77,7 +69,6 @@ public class UserAccountRepository {
 			
 			else {
 
-				userAccount.setId(-1);
 				userAccount.setEmailAddress("");
 				userAccount.setPassword("");
 				userAccount.setFirstName("");
@@ -93,18 +84,14 @@ public class UserAccountRepository {
 		
 		dataBaseConfig.closeStatement();
 		dataBaseConfig.closeConnection();
-		
-		return userAccount;
 	}
 
-	public void updateUserAcount(UserAccount userAccount) {
-        logger.info("updateUserAcount( " + userAccount + " )");
-        
-		String tableName = "user_account";
-		String setAction = "password='" + userAccount.getPassword() + "'," + "first_name='" + userAccount.getFirstName() + "'," + "last_name='" + userAccount.getLastName() + "'";
-		String whereCondition = "email_address='" + userAccount.getEmailAddress() + "'";
+	public void updateUserAccount(String emailAddress, String password, String firstName, String lastName) {
+        logger.info("updateUserAccount(" + emailAddress + "," + password + "," + firstName + "," + lastName + ")");        
 		
-        String request = ("UPDATE " + tableName + " SET " + setAction + " WHERE " + whereCondition + ";");
+		String request 	= "UPDATE user_account "
+						+ "SET password='" + password + "'," + "first_name='" + firstName + "'," + "last_name='" + lastName + "'" 
+						+ "WHERE email_address='" + emailAddress + "';";
         
 		dataBaseConfig.openConnection();
 		dataBaseConfig.createStatement();
@@ -118,13 +105,12 @@ public class UserAccountRepository {
 	
 	}
 
-	public void deleteUserAcount(String emailAddress) {
-        logger.info("deleteUserAcount( " + emailAddress + " )");
-        
-		String tableName = "user_account";
-		String whereCondition = "email_address='" + emailAddress + "'";
-		
-        String request = ("DELETE FROM " + tableName + " WHERE " + whereCondition + ";");
+	public void deleteUserAccount(String emailAddress) {
+        logger.info("deleteUserAccount(" + emailAddress + ")");
+	
+		String request 	= "DELETE "
+						+ "FROM user_account " 
+						+ "WHERE email_address='" + emailAddress + "';";
         
 		dataBaseConfig.openConnection();
 		dataBaseConfig.createStatement();

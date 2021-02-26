@@ -5,31 +5,37 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserContact {
 
-	private int id;
-	private String emailAdresse;
+	private String emailAddress;
 	private String firstName;
 	private String lastName;
 
 	public UserContact() {}
 	
-	public UserContact(int id, String emailAdresse, String firstName, String lastName) {
+	public UserContact(String emailAddress, String firstName, String lastName) {
 		
-		this.id = id;
-		this.emailAdresse = emailAdresse;
+		this.emailAddress = emailAddress;
 		this.firstName = firstName;
 		this.lastName = lastName;
 	}
 
-	public int getId() {
-		return id;
+	public void setEmailAddress(String emailAdresse) {
+		this.emailAddress = emailAdresse;
 	}
 
-	public String getEmailAdresse() {
-		return emailAdresse;
+	public String getEmailAddress() {
+		return emailAddress;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
 	public String getFirstName() {
 		return firstName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public String getLastName() {

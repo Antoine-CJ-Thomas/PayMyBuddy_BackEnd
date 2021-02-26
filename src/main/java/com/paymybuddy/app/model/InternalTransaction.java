@@ -21,6 +21,10 @@ public class InternalTransaction extends Transaction {
 		this.amount = amount;
 	}
 
+	public void setUserContact(UserContact userContact) {
+		this.userContact = userContact;
+	}
+
 	public UserContact getUserContact() {
 		return userContact;
 	}

@@ -2,6 +2,7 @@ package com.paymybuddy.app.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -10,40 +11,33 @@ class BankAccountTest {
 
 	private BankAccount bankAccount;
     
-	@Test
-	void test_getId() {
+	@BeforeEach
+	void beforeEach() {
 
-    	//GIVEN
-		int id = 1;
-        
-    	//WHEN
-		bankAccount = new BankAccount(id, null, null);
-    	
-    	//THEN
-        assertEquals(id, bankAccount.getId());
+		bankAccount = new BankAccount(null, null);
 	}
 
 	@Test
-	void test_getAccoundNUmber() {
+	void test_setAndGetAccoundNUmber() {
 
     	//GIVEN
 		String accoundNUmber = "accoundNUmber";
         
     	//WHEN
-		bankAccount = new BankAccount(0, accoundNUmber, null);
+		bankAccount.setAccoundNUmber(accoundNUmber);
     	
     	//THEN
         assertEquals(accoundNUmber, bankAccount.getAccoundNUmber());
 	}
 
 	@Test
-	void test_getSwiftCode() {
+	void test_setAndGetSwiftCode() {
 
     	//GIVEN
 		String swiftCode = "swiftCode";
         
     	//WHEN
-		bankAccount = new BankAccount(0, null, swiftCode);
+		bankAccount.setSwiftCode(swiftCode);
     	
     	//THEN
         assertEquals(swiftCode, bankAccount.getSwiftCode());

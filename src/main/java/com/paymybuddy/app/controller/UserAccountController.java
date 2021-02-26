@@ -11,7 +11,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jsoniter.output.JsonStream;
-import com.paymybuddy.app.model.UserAccount;
+import com.paymybuddy.app.dto.UserAccountCreatingDto;
+import com.paymybuddy.app.dto.UserAccountDeletingDto;
+import com.paymybuddy.app.dto.UserAccountEditingDto;
+import com.paymybuddy.app.dto.UserAccountLoginDto;
+import com.paymybuddy.app.dto.UserAccountRetrievingDto;
 import com.paymybuddy.app.service.UserAccountService;
 
 
@@ -30,33 +34,33 @@ public class UserAccountController {
         logger.info("UserAccountController()");
 	}
 
-	@GetMapping("/user/account")
-	public String getUserAccount(@RequestBody UserAccount userAccount) {
-        logger.info("getUserAccount()");
-		return JsonStream.serialize(userAccountService.getUserAccount(userAccount.getEmailAddress()));
-	}
-
 	@PostMapping("/user/account")
-	public String createUserAccount(@RequestBody UserAccount userAccount) {
+	public String createUserAccount(@RequestBody UserAccountCreatingDto userAccountCreatingDto) {
         logger.info("createUserAccount()");
-		return JsonStream.serialize(userAccountService.createUserAccount(userAccount));
-	}
-
-	@PutMapping("/user/account")
-	public String editUserAccount(@RequestBody UserAccount userAccount) {
-        logger.info("editUserAccount()");
-		return JsonStream.serialize(userAccountService.editUserAccount(userAccount));
+		return JsonStream.serialize(userAccountService.createUserAccount(userAccountCreatingDto));
 	}
 
 	@DeleteMapping("/user/account")
-	public String deleteUserAccount(@RequestBody UserAccount userAccount) {
+	public String deleteUserAccount(@RequestBody UserAccountDeletingDto userAccountDeletingDto) {
         logger.info("deleteUserAccount()");
-		return JsonStream.serialize(userAccountService.deleteUserAccount(userAccount.getEmailAddress()));
+		return JsonStream.serialize(userAccountService.deleteUserAccount(userAccountDeletingDto));
+	}
+
+	@PutMapping("/user/account")
+	public String editUserAccount(@RequestBody UserAccountEditingDto userAccountEditingDto) {
+        logger.info("editUserAccount()");
+		return JsonStream.serialize(userAccountService.editUserAccount(userAccountEditingDto));
 	}
 
 	@PostMapping("/user/login")
-	public String loginUserAccount(@RequestBody UserAccount userAccount) {
+	public String loginUserAccount(@RequestBody UserAccountLoginDto userAccountLoginDto) {
         logger.info("loginUserAccount()");
-		return JsonStream.serialize(userAccountService.loginUserAccount(userAccount.getEmailAddress(), userAccount.getPassword()));
+		return JsonStream.serialize(userAccountService.loginUserAccount(userAccountLoginDto));
+	}
+
+	@GetMapping("/user/account")
+	public String retrieveUserAccount(@RequestBody UserAccountRetrievingDto userAccountRetrievingDto) {
+        logger.info("retrieveUserAccount()");
+		return JsonStream.serialize(userAccountService.retrieveUserAccount(userAccountRetrievingDto));
 	}
 }

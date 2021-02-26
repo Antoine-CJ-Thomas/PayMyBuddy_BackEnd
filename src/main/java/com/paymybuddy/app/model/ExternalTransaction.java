@@ -20,6 +20,10 @@ public class ExternalTransaction extends Transaction {
 		this.description = description;
 		this.amount = amount;
 	}
+
+	public void setBankAccount(BankAccount bankAccount) {
+		this.bankAccount = bankAccount;
+	}
 	
 	public BankAccount getBankAccount() {
 		return bankAccount;

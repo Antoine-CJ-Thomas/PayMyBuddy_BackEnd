@@ -1,14 +1,20 @@
 package com.paymybuddy.app.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import com.paymybuddy.app.dto.UserAccountCreatingDto;
+import com.paymybuddy.app.dto.UserAccountDeletingDto;
+import com.paymybuddy.app.dto.UserAccountEditingDto;
+import com.paymybuddy.app.dto.UserAccountLoginDto;
+import com.paymybuddy.app.dto.UserAccountRetrievingDto;
 import com.paymybuddy.app.model.UserAccount;
 import com.paymybuddy.app.repository.UserAccountRepository;
 
@@ -16,12 +22,21 @@ import com.paymybuddy.app.repository.UserAccountRepository;
 class UserAccountServiceTest {
 
 	private UserAccountService userAccountService;
-	
+
 	@Mock
-	private UserAccount userAccount, anotherUserAccount;
-	
+	private UserAccountCreatingDto userAccountCreatingDto;
+	@Mock
+	private UserAccountDeletingDto userAccountDeletingDto;
+	@Mock
+	private UserAccountEditingDto userAccountEditingDto;
+	@Mock
+	private UserAccountLoginDto userAccountLoginDto;
+	@Mock
+	private UserAccountRetrievingDto userAccountRetrievingDto;
 	@Mock
 	private UserAccountRepository userAccountRepository;
+	@Mock
+	private UserAccount userAccount;
     
 	@BeforeEach
 	void beforeEach() {
@@ -40,57 +55,83 @@ class UserAccountServiceTest {
 		String lastName = "lastName";
         
     	//WHEN
+		when(userAccountCreatingDto.getEmailAddress()).thenReturn(emailAddress);
+		when(userAccountCreatingDto.getPassword()).thenReturn(password);
+		when(userAccountCreatingDto.getFirstName()).thenReturn(firstName);
+		when(userAccountCreatingDto.getLastName()).thenReturn(lastName);
+		when(userAccountCreatingDto.getUserAccount()).thenReturn(userAccount);
 		when(userAccount.getEmailAddress()).thenReturn(emailAddress);
-		when(userAccount.getPassword()).thenReturn(password);
-		when(userAccount.getFirstName()).thenReturn(firstName);
-		when(userAccount.getLastName()).thenReturn(lastName);
-		when(userAccountRepository.selectUserAcount(emailAddress)).thenReturn(userAccount);
+		
+		userAccountService.createUserAccount(userAccountCreatingDto);
 	    
     	//THEN
-        assertEquals(true, userAccountService.createUserAccount(userAccount));
+        verify(userAccountCreatingDto, Mockito.times(1)).setDataValidated(true);
 	}
 
 	@Test
 	void test_createUserAccount_false() {
 
     	//GIVEN
-		String anotherEmailAddress = "anotherEmailAddress";
+		String emailAddress = "emailAddress";
+		String differentEmailAddress = "differentEmailAddress";
 		String password = "password";
-		String anotherPassword = "anotherPassword";
 		String firstName = "firstName";
-		String anotherFirstName = "anotherFirstName";
 		String lastName = "lastName";
-		String anotherLastName = "anotherLastName";
         
     	//WHEN
-		when(userAccount.getEmailAddress()).thenReturn(anotherEmailAddress);
-		when(userAccount.getPassword()).thenReturn(password);
-		when(userAccount.getFirstName()).thenReturn(firstName);
-		when(userAccount.getLastName()).thenReturn(lastName);
+		when(userAccountCreatingDto.getEmailAddress()).thenReturn(emailAddress);
+		when(userAccountCreatingDto.getPassword()).thenReturn(password);
+		when(userAccountCreatingDto.getFirstName()).thenReturn(firstName);
+		when(userAccountCreatingDto.getLastName()).thenReturn(lastName);
+		when(userAccountCreatingDto.getUserAccount()).thenReturn(userAccount);
+		when(userAccount.getEmailAddress()).thenReturn(differentEmailAddress);
 		
-		when(anotherUserAccount.getPassword()).thenReturn(anotherPassword);
-		when(anotherUserAccount.getFirstName()).thenReturn(anotherFirstName);
-		when(anotherUserAccount.getLastName()).thenReturn(anotherLastName);
-		
-		when(userAccountRepository.selectUserAcount(anotherEmailAddress)).thenReturn(anotherUserAccount);
-	       	
+		userAccountService.createUserAccount(userAccountCreatingDto);
+	    
     	//THEN
-        assertEquals(false, userAccountService.createUserAccount(userAccount));
+        verify(userAccountCreatingDto, Mockito.times(1)).setDataValidated(false);
 	}
 	
 	@Test
-	void test_getUserAccount() {
+	void test_deleteUserAccount_true() {
 
     	//GIVEN
 		String emailAddress = "emailAddress";
+		String emptyEmailAddress = "";
+		String password = "password";
         
     	//WHEN
-		when(userAccountRepository.selectUserAcount(emailAddress)).thenReturn(userAccount);
+		when(userAccountDeletingDto.getEmailAddress()).thenReturn(emailAddress);
+		when(userAccountDeletingDto.getPassword()).thenReturn(password);
+		when(userAccountDeletingDto.getUserAccount()).thenReturn(userAccount);
+		when(userAccount.getEmailAddress()).thenReturn(emptyEmailAddress);
+		
+		userAccountService.deleteUserAccount(userAccountDeletingDto);
 	    
     	//THEN
-        assertEquals(userAccount, userAccountService.getUserAccount(emailAddress));
+        verify(userAccountDeletingDto, Mockito.times(1)).setDataValidated(true);
 	}
 	
+	@Test
+	void test_deleteUserAccount_false() {
+
+    	//GIVEN
+		String emailAddress = "emailAddress";
+		String differentEmailAddress = "differentEmailAddress";
+		String password = "password";
+        
+    	//WHEN
+		when(userAccountDeletingDto.getEmailAddress()).thenReturn(emailAddress);
+		when(userAccountDeletingDto.getPassword()).thenReturn(password);
+		when(userAccountDeletingDto.getUserAccount()).thenReturn(userAccount);
+		when(userAccount.getEmailAddress()).thenReturn(differentEmailAddress);
+		
+		userAccountService.deleteUserAccount(userAccountDeletingDto);
+	    
+    	//THEN
+        verify(userAccountDeletingDto, Mockito.times(1)).setDataValidated(false);
+	}
+
 	@Test
 	void test_editUserAccount_true() {
 
@@ -101,72 +142,45 @@ class UserAccountServiceTest {
 		String lastName = "lastName";
         
     	//WHEN
-		when(userAccount.getEmailAddress()).thenReturn(emailAddress);
+		when(userAccountEditingDto.getEmailAddress()).thenReturn(emailAddress);
+		when(userAccountEditingDto.getPassword()).thenReturn(password);
+		when(userAccountEditingDto.getFirstName()).thenReturn(firstName);
+		when(userAccountEditingDto.getLastName()).thenReturn(lastName);
+		when(userAccountEditingDto.getUserAccount()).thenReturn(userAccount);
 		when(userAccount.getPassword()).thenReturn(password);
 		when(userAccount.getFirstName()).thenReturn(firstName);
 		when(userAccount.getLastName()).thenReturn(lastName);
-		when(userAccountRepository.selectUserAcount(emailAddress)).thenReturn(userAccount);
+		
+		userAccountService.editUserAccount(userAccountEditingDto);
 	    
     	//THEN
-        assertEquals(true, userAccountService.editUserAccount(userAccount));
+        verify(userAccountEditingDto, Mockito.times(1)).setDataValidated(true);
 	}
-
+	
 	@Test
 	void test_editUserAccount_false() {
 
     	//GIVEN
-		String anotherEmailAddress = "anotherEmailAddress";
+		String emailAddress = "emailAddress";
 		String password = "password";
-		String anotherPassword = "anotherPassword";
 		String firstName = "firstName";
-		String anotherFirstName = "anotherFirstName";
+		String differentFirstName = "differentFirstName";
 		String lastName = "lastName";
-		String anotherLastName = "anotherLastName";
         
     	//WHEN
-		when(userAccount.getEmailAddress()).thenReturn(anotherEmailAddress);
+		when(userAccountEditingDto.getEmailAddress()).thenReturn(emailAddress);
+		when(userAccountEditingDto.getPassword()).thenReturn(password);
+		when(userAccountEditingDto.getFirstName()).thenReturn(firstName);
+		when(userAccountEditingDto.getLastName()).thenReturn(lastName);
+		when(userAccountEditingDto.getUserAccount()).thenReturn(userAccount);
 		when(userAccount.getPassword()).thenReturn(password);
-		when(userAccount.getFirstName()).thenReturn(firstName);
+		when(userAccount.getFirstName()).thenReturn(differentFirstName);
 		when(userAccount.getLastName()).thenReturn(lastName);
 		
-		when(anotherUserAccount.getPassword()).thenReturn(anotherPassword);
-		when(anotherUserAccount.getFirstName()).thenReturn(anotherFirstName);
-		when(anotherUserAccount.getLastName()).thenReturn(anotherLastName);
-		
-		when(userAccountRepository.selectUserAcount(anotherEmailAddress)).thenReturn(anotherUserAccount);
-	       	
-    	//THEN
-        assertEquals(false, userAccountService.editUserAccount(userAccount));
-	}
-	
-	@Test
-	void test_deleteUserAccount_true() {
-
-    	//GIVEN
-		int id = -1;
-		String emailAddress = "emailAddress";
-        
-    	//WHEN
-		when(userAccount.getId()).thenReturn(id);
-		when(userAccountRepository.selectUserAcount(emailAddress)).thenReturn(userAccount);
+		userAccountService.editUserAccount(userAccountEditingDto);
 	    
     	//THEN
-        assertEquals(true, userAccountService.deleteUserAccount(emailAddress));
-	}
-	
-	@Test
-	void test_deleteUserAccount_false() {
-
-    	//GIVEN
-		int anotherId = 1;
-		String anotherEmailAddress = "anotherEmailAddress";
-        
-    	//WHEN
-		when(anotherUserAccount.getId()).thenReturn(anotherId);
-		when(userAccountRepository.selectUserAcount(anotherEmailAddress)).thenReturn(anotherUserAccount);
-	    
-    	//THEN
-        assertEquals(false, userAccountService.deleteUserAccount(anotherEmailAddress));
+        verify(userAccountEditingDto, Mockito.times(1)).setDataValidated(false);
 	}
 	
 	@Test
@@ -177,26 +191,69 @@ class UserAccountServiceTest {
 		String password = "password";
         
     	//WHEN
+		when(userAccountLoginDto.getEmailAddress()).thenReturn(emailAddress);
+		when(userAccountLoginDto.getPassword()).thenReturn(password);
+		when(userAccountLoginDto.getUserAccount()).thenReturn(userAccount);
 		when(userAccount.getPassword()).thenReturn(password);
-		when(userAccountRepository.selectUserAcount(emailAddress)).thenReturn(userAccount);
+		
+		userAccountService.loginUserAccount(userAccountLoginDto);
 	    
     	//THEN
-        assertEquals(true, userAccountService.loginUserAccount(emailAddress, password));
+        verify(userAccountLoginDto, Mockito.times(1)).setDataValidated(true);		
 	}
 	
 	@Test
 	void test_loginUserAccount_false() {
 
     	//GIVEN
-		String anotherEmailAddress = "anotherEmailAddress";
+		String emailAddress = "emailAddress";
 		String password = "password";
-		String anotherPassword = "anotherPassword";
+		String differentPassword = "differentPassword";
         
     	//WHEN
-		when(anotherUserAccount.getPassword()).thenReturn(anotherPassword);
-		when(userAccountRepository.selectUserAcount(anotherEmailAddress)).thenReturn(anotherUserAccount);
+		when(userAccountLoginDto.getEmailAddress()).thenReturn(emailAddress);
+		when(userAccountLoginDto.getPassword()).thenReturn(password);
+		when(userAccountLoginDto.getUserAccount()).thenReturn(userAccount);
+		when(userAccount.getPassword()).thenReturn(differentPassword);
+		
+		userAccountService.loginUserAccount(userAccountLoginDto);
 	    
     	//THEN
-        assertEquals(false, userAccountService.loginUserAccount(anotherEmailAddress, password));
+        verify(userAccountLoginDto, Mockito.times(1)).setDataValidated(false);			
+	}
+
+	@Test
+	void test_retrieveUserAccount_true() {
+
+    	//GIVEN
+		String emailAddress = "emailAddress";
+        
+    	//WHEN
+		when(userAccountRetrievingDto.getEmailAddress()).thenReturn(emailAddress);
+		when(userAccountRetrievingDto.getUserAccount()).thenReturn(userAccount);
+		when(userAccount.getEmailAddress()).thenReturn(emailAddress);
+		
+		userAccountService.retrieveUserAccount(userAccountRetrievingDto);
+	    
+    	//THEN
+        verify(userAccountRetrievingDto, Mockito.times(1)).setDataValidated(true);
+	}
+
+	@Test
+	void test_retrieveUserAccount_false() {
+
+    	//GIVEN
+		String emailAddress = "emailAddress";
+		String differentEmailAddress = "differentEmailAddress";
+        
+    	//WHEN
+		when(userAccountRetrievingDto.getEmailAddress()).thenReturn(emailAddress);
+		when(userAccountRetrievingDto.getUserAccount()).thenReturn(userAccount);
+		when(userAccount.getEmailAddress()).thenReturn(differentEmailAddress);
+		
+		userAccountService.retrieveUserAccount(userAccountRetrievingDto);
+	    
+    	//THEN
+        verify(userAccountRetrievingDto, Mockito.times(1)).setDataValidated(false);
 	}
 }

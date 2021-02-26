@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserAccount {
 
-	private int id;
 	private String emailAddress;
 	private String password;
 	private String firstName;
@@ -14,22 +13,13 @@ public class UserAccount {
 	
 	public UserAccount() {}
 
-	public UserAccount(int id, String emailAddress, String password, String firstName, String lastName, float balanceAmount) {
+	public UserAccount(String emailAddress, String password, String firstName, String lastName, float balanceAmount) {
 		
-		this.id = id;
 		this.emailAddress = emailAddress;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.balanceAmount = balanceAmount;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public int getId() {
-		return id;
 	}
 
 	public void setEmailAddress(String emailAddress) {

@@ -2,6 +2,7 @@ package com.paymybuddy.app.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -10,53 +11,46 @@ class UserContactTest {
 
 	private UserContact userContact;
     
-	@Test
-	void test_getId() {
+	@BeforeEach
+	void beforeEach() {
 
-    	//GIVEN
-		int id = 1;
-        
-    	//WHEN
-		userContact = new UserContact(id, null, null, null);
-    	
-    	//THEN
-        assertEquals(id, userContact.getId());
+		userContact = new UserContact(null, null, null);
 	}
 
 	@Test
-	void test_getEmailAdresse() {
+	void test_setAndGetEmailAdresse() {
 
     	//GIVEN
-		String emailAdresse = "emailAdresse";
+		String emailAddress = "emailAdress";
         
     	//WHEN
-		userContact = new UserContact(0, emailAdresse, null, null);
+		userContact.setEmailAddress(emailAddress);
     	
     	//THEN
-        assertEquals(emailAdresse, userContact.getEmailAdresse());
+        assertEquals(emailAddress, userContact.getEmailAddress());
 	}
 
 	@Test
-	void test_getFirstName() {
+	void test_setAndGetFirstName() {
 
     	//GIVEN
 		String firstName = "firstName";
         
     	//WHEN
-		userContact = new UserContact(0, null, firstName, null);
+		userContact.setFirstName(firstName);
     	
     	//THEN
         assertEquals(firstName, userContact.getFirstName());
 	}
 
 	@Test
-	void test_getLastName() {
+	void test_setAndGetLastName() {
 
     	//GIVEN
 		String lastName = "lastName";
         
     	//WHEN
-		userContact = new UserContact(0, null, null, lastName);
+		userContact.setLastName(lastName);
     	
     	//THEN
         assertEquals(lastName, userContact.getLastName());
