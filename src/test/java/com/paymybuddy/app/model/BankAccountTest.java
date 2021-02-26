@@ -24,10 +24,10 @@ class BankAccountTest {
 		String accoundNUmber = "accoundNUmber";
         
     	//WHEN
-		bankAccount.setAccoundNUmber(accoundNUmber);
+		bankAccount.setAccoundNumber(accoundNUmber);
     	
     	//THEN
-        assertEquals(accoundNUmber, bankAccount.getAccoundNUmber());
+        assertEquals(accoundNUmber, bankAccount.getAccoundNumber());
 	}
 
 	@Test

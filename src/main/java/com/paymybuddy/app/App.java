@@ -6,6 +6,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.jsoniter.output.JsonStream;
+import com.paymybuddy.app.dto.BankAccountAddingDto;
+import com.paymybuddy.app.dto.BankAccountRemovingDto;
+import com.paymybuddy.app.dto.BankAccountRetrievingDto;
 import com.paymybuddy.app.dto.UserAccountCreatingDto;
 import com.paymybuddy.app.dto.UserAccountDeletingDto;
 import com.paymybuddy.app.dto.UserAccountEditingDto;
@@ -26,6 +29,7 @@ public class App {
 
 		SpringApplication.run(App.class, args);
 		
+		//PROVISOIRE
 		
 		System.out.println();
 		System.out.println("UserAccount : " + JsonStream.serialize(new UserAccount()));
@@ -41,6 +45,11 @@ public class App {
 		System.out.println("UserContactAddingDto : " + JsonStream.serialize(new UserContactAddingDto("userEmailAddress", "contactEmailAddress")));
 		System.out.println("UserContactRemovingDto : " + JsonStream.serialize(new UserContactRemovingDto("userEmailAddress", "contactEmailAddress")));
 		System.out.println("UserContactRetrievingDto : " + JsonStream.serialize(new UserContactRetrievingDto("emailAddress")));
+
+		System.out.println();
+		System.out.println("BankAccountAddingDto : " + JsonStream.serialize(new BankAccountAddingDto("userEmailAddress", "accountNumber", "swiftCode")));
+		System.out.println("BankAccountRemovingDto : " + JsonStream.serialize(new BankAccountRemovingDto("userEmailAddress", "accountNumber", "swiftCode")));
+		System.out.println("BankAccountRetrievingDto : " + JsonStream.serialize(new BankAccountRetrievingDto("emailAddress")));
 		
 		System.out.println();
     }
