@@ -88,7 +88,9 @@ public class BankAccountRepository {
     		
 			while (dataBaseConfig.getResult().next()) {
 				
-				bankAccountList.add(new BankAccount(dataBaseConfig.getResult().getString("account_number"), dataBaseConfig.getResult().getString("swift_code")));
+				bankAccountList.add(new BankAccount(
+						dataBaseConfig.getResult().getString("account_number"), 
+						dataBaseConfig.getResult().getString("swift_code")));
 			}
 
 		} catch (SQLException e) {

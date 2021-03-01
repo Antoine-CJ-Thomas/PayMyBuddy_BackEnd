@@ -17,7 +17,7 @@ import com.paymybuddy.app.repository.BankAccountRepository;
 @Service
 public class BankAccountService {
 
-    private static final Logger logger = LogManager.getLogger("bankAccountService");
+    private static final Logger logger = LogManager.getLogger("BankAccountService");
 
     @Autowired
 	private BankAccountRepository bankAccountRepository;

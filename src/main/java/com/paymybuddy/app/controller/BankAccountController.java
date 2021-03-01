@@ -22,7 +22,7 @@ import com.paymybuddy.app.service.BankAccountService;
 @RestController
 public class BankAccountController {
 
-    private static final Logger logger = LogManager.getLogger("UserContactController");
+    private static final Logger logger = LogManager.getLogger("BankAccountController");
     
     @Autowired
     private BankAccountService bankAccountService;

@@ -1,5 +1,9 @@
 package com.paymybuddy.app;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.Date;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.boot.SpringApplication;
@@ -9,6 +13,8 @@ import com.jsoniter.output.JsonStream;
 import com.paymybuddy.app.dto.BankAccountAddingDto;
 import com.paymybuddy.app.dto.BankAccountRemovingDto;
 import com.paymybuddy.app.dto.BankAccountRetrievingDto;
+import com.paymybuddy.app.dto.InternalTransactionExecutingDto;
+import com.paymybuddy.app.dto.InternalTransactionRetrievingDto;
 import com.paymybuddy.app.dto.UserAccountCreatingDto;
 import com.paymybuddy.app.dto.UserAccountDeletingDto;
 import com.paymybuddy.app.dto.UserAccountEditingDto;
@@ -33,6 +39,15 @@ public class App {
 		
 		System.out.println();
 		System.out.println("UserAccount : " + JsonStream.serialize(new UserAccount()));
+
+		System.out.println();
+		System.out.println("BankAccountAddingDto : " + JsonStream.serialize(new BankAccountAddingDto("userEmailAddress", "accountNumber", "swiftCode")));
+		System.out.println("BankAccountRemovingDto : " + JsonStream.serialize(new BankAccountRemovingDto("userEmailAddress", "accountNumber", "swiftCode")));
+		System.out.println("BankAccountRetrievingDto : " + JsonStream.serialize(new BankAccountRetrievingDto("emailAddress")));
+		
+		System.out.println();
+		System.out.println("InternalTransactionExecutingDto : " + JsonStream.serialize(new InternalTransactionExecutingDto("userEmailAddress", "contactEmailAddress", "dateAndTime", 0, "description")));
+		System.out.println("InternalTransactionRetrievingDto : " + JsonStream.serialize(new InternalTransactionRetrievingDto("userEmailAddress", "accountNumber", "swiftCode")));
 		
 		System.out.println();
 		System.out.println("UserAccountCreatingDto : " + JsonStream.serialize(new UserAccountCreatingDto("emailAddress", "password", "firstName", "lastName")));
@@ -45,11 +60,6 @@ public class App {
 		System.out.println("UserContactAddingDto : " + JsonStream.serialize(new UserContactAddingDto("userEmailAddress", "contactEmailAddress")));
 		System.out.println("UserContactRemovingDto : " + JsonStream.serialize(new UserContactRemovingDto("userEmailAddress", "contactEmailAddress")));
 		System.out.println("UserContactRetrievingDto : " + JsonStream.serialize(new UserContactRetrievingDto("emailAddress")));
-
-		System.out.println();
-		System.out.println("BankAccountAddingDto : " + JsonStream.serialize(new BankAccountAddingDto("userEmailAddress", "accountNumber", "swiftCode")));
-		System.out.println("BankAccountRemovingDto : " + JsonStream.serialize(new BankAccountRemovingDto("userEmailAddress", "accountNumber", "swiftCode")));
-		System.out.println("BankAccountRetrievingDto : " + JsonStream.serialize(new BankAccountRetrievingDto("emailAddress")));
 		
 		System.out.println();
     }

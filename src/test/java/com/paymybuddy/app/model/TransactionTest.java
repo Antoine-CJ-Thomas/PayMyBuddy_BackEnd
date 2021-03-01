@@ -2,8 +2,6 @@ package com.paymybuddy.app.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.Date;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -24,16 +22,16 @@ class TransactionTest {
 	}
     
 	@Test
-	void test_setAndGetDate() {
+	void test_setAndGetDescription() {
 
     	//GIVEN
-		Date date = new Date();
+		String description = "description";
         
     	//WHEN
-		transaction.setDate(date);
+		transaction.setDescription(description);
     	
     	//THEN
-        assertEquals(date, transaction.getDate());
+        assertEquals(description, transaction.getDescription());
 	}
     
 	@Test
@@ -50,27 +48,15 @@ class TransactionTest {
 	}
     
 	@Test
-	void test_setAndGetDescription() {
+	void test_setAndGetDate() {
 
     	//GIVEN
-		String description = "description";
+		String dateAndTime = "dateAndTime";
         
     	//WHEN
-		transaction.setDescription(description);
+		transaction.setDateAndTime(dateAndTime);
     	
     	//THEN
-        assertEquals(description, transaction.getDescription());
-	}
-    
-	@Test
-	void test_setAndGetUserAccount() {
-
-    	//GIVEN
-        
-    	//WHEN
-		transaction.setUserAccount(userAccount);
-    	
-    	//THEN
-        assertEquals(userAccount, transaction.getUserAccount());
+        assertEquals(dateAndTime, transaction.getDateAndTime());
 	}
 }

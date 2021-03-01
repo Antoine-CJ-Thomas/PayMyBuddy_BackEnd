@@ -38,6 +38,7 @@ class BankAccountRetrievingDtoTest {
     	//THEN
         assertEquals(emailAddress, bankAccountRetrievingDto.getEmailAddress());
 	}
+	
 	@Test
 	void test_setAndGetBankAccountList() {
 

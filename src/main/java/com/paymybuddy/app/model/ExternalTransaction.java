@@ -1,7 +1,5 @@
 package com.paymybuddy.app.model;
 
-import java.util.Date;
-
 import org.springframework.stereotype.Component;
 
 @Component
@@ -11,21 +9,19 @@ public class ExternalTransaction extends Transaction {
 
 	public ExternalTransaction() {}
 	
-	public ExternalTransaction(UserAccount userAccount, BankAccount bankAccount, String description, float amount) {
-		
-		date = new Date();
-		
-		this.userAccount = userAccount;
+	public ExternalTransaction(BankAccount bankAccount, String description, String dateAndTime, float amount) {
+
 		this.bankAccount = bankAccount;
 		this.description = description;
+		this.dateAndTime = dateAndTime;
 		this.amount = amount;
+	}
+
+	public BankAccount getBankAccount() {
+		return bankAccount;
 	}
 
 	public void setBankAccount(BankAccount bankAccount) {
 		this.bankAccount = bankAccount;
-	}
-	
-	public BankAccount getBankAccount() {
-		return bankAccount;
 	}
 }

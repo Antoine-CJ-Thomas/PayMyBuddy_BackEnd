@@ -86,7 +86,10 @@ public class UserContactRepository {
     		
 			while (dataBaseConfig.getResult().next()) {
 				
-				userContactList.add(new UserContact(dataBaseConfig.getResult().getString("email_address"), dataBaseConfig.getResult().getString("first_name"), dataBaseConfig.getResult().getString("last_name")));
+				userContactList.add(new UserContact(
+						dataBaseConfig.getResult().getString("email_address"), 
+						dataBaseConfig.getResult().getString("first_name"), 
+						dataBaseConfig.getResult().getString("last_name")));
 			}
 
 		} catch (SQLException e) {
