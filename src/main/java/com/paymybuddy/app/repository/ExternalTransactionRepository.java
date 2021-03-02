@@ -24,7 +24,7 @@ public class ExternalTransactionRepository {
     private DataBaseConfig dataBaseConfig;
     
     public ExternalTransactionRepository() {
-        logger.info("UserContactRepository()");
+        logger.info("ExternalTransactionRepository()");
     	dataBaseConfig = new PostgreConfig();
     }
 

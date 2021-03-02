@@ -26,7 +26,7 @@ public class InternalTransactionController {
     private InternalTransactionService internalTransactionService;
 
 	public InternalTransactionController() {
-        logger.info("UserContactController()");
+        logger.info("InternalTransactionController()");
 	}
 
 	@PostMapping("/transaction/internal")
@@ -37,7 +37,7 @@ public class InternalTransactionController {
 
 	@GetMapping("/transaction/internal")
 	public String retrieveInternalTransactionList(@RequestBody InternalTransactionRetrievingDto internalTransactionRetrievingDto) {
-        logger.info("retrieveBankAccountList()");
+        logger.info("retrieveInternalTransactionList()");
 		return JsonStream.serialize(internalTransactionService.retrieveInternalTransactionList(internalTransactionRetrievingDto));
 	}
 }

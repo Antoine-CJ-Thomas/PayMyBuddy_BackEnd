@@ -17,12 +17,12 @@ import com.paymybuddy.app.config.PostgreConfig;
 @Component
 public class BankAccountRepository {
 
-    private static final Logger logger = LogManager.getLogger("UserContactRepository");
+    private static final Logger logger = LogManager.getLogger("BankAccountRepository");
 
     private DataBaseConfig dataBaseConfig;
     
     public BankAccountRepository() {
-        logger.info("UserContactRepository()");
+        logger.info("BankAccountRepository()");
     	dataBaseConfig = new PostgreConfig();
     }
 
@@ -63,7 +63,7 @@ public class BankAccountRepository {
 	}
 
 	public void selectBankAccountList(String emailAddress, ArrayList<BankAccount> bankAccountList) {
-        logger.info("selectUserContact(" + emailAddress + "," + bankAccountList + ")");
+        logger.info("selectBankAccountList(" + emailAddress + "," + bankAccountList + ")");
 		
 		String request 	= "SELECT * "
 						+ "FROM bank_account "

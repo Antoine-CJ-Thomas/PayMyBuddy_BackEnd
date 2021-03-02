@@ -24,7 +24,7 @@ public class InternalTransactionRepository {
     private DataBaseConfig dataBaseConfig;
     
     public InternalTransactionRepository() {
-        logger.info("UserContactRepository()");
+        logger.info("InternalTransactionRepository()");
     	dataBaseConfig = new PostgreConfig();
     }
 

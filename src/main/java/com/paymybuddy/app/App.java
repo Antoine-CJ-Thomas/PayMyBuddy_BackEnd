@@ -1,9 +1,5 @@
 package com.paymybuddy.app;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.util.Date;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.boot.SpringApplication;
@@ -32,7 +28,7 @@ public class App {
 
     private static final Logger logger = LogManager.getLogger("App");
 	
-    public static void main( String[] args ) {
+    public static void main(String[] args) {
         logger.info("main");
 
 		SpringApplication.run(App.class, args);
