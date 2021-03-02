@@ -28,7 +28,7 @@ public class BankAccountController {
     private BankAccountService bankAccountService;
 
 	public BankAccountController() {
-        logger.info("UserContactController()");
+        logger.info("BankAccountController()");
 	}
 
 	@PostMapping("/user/bankaccount")

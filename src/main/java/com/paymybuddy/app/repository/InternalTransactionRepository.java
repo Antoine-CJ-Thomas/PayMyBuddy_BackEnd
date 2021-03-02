@@ -19,7 +19,7 @@ import com.paymybuddy.app.config.PostgreConfig;
 @Component
 public class InternalTransactionRepository {
 
-    private static final Logger logger = LogManager.getLogger("UserContactRepository");
+    private static final Logger logger = LogManager.getLogger("InternalTransactionRepository");
 
     private DataBaseConfig dataBaseConfig;
     
@@ -75,7 +75,7 @@ public class InternalTransactionRepository {
 	}
 
 	public void selectInternalTransactionFromUser(String emailAddress, ArrayList<InternalTransaction> internalTransactionList) {
-        logger.info("selectInternalTransaction(" + emailAddress + "," + internalTransactionList + ")");
+        logger.info("selectInternalTransactionFromUser(" + emailAddress + "," + internalTransactionList + ")");
 		
 		String request 	= "SELECT * "
 						+ "FROM internal_transaction "
@@ -95,8 +95,6 @@ public class InternalTransactionRepository {
 		dataBaseConfig.createStatement();
 				
 		dataBaseConfig.createResult(request);
-		
-		System.out.println(request);
 				
     	try {
     		
@@ -121,7 +119,7 @@ public class InternalTransactionRepository {
 	}
 
 	public void selectInternalTransactionToUser(String emailAddress, ArrayList<InternalTransaction> internalTransactionList) {
-        logger.info("selectInternalTransaction(" + emailAddress + "," + internalTransactionList + ")");
+        logger.info("selectInternalTransactionToUser(" + emailAddress + "," + internalTransactionList + ")");
 		
 		String request 	= "SELECT * "
 						+ "FROM internal_transaction "

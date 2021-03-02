@@ -9,7 +9,7 @@ public class ExternalTransaction extends Transaction {
 
 	public ExternalTransaction() {}
 	
-	public ExternalTransaction(BankAccount bankAccount, String description, String dateAndTime, float amount) {
+	public ExternalTransaction(BankAccount bankAccount, String dateAndTime, String description, float amount) {
 
 		this.bankAccount = bankAccount;
 		this.description = description;

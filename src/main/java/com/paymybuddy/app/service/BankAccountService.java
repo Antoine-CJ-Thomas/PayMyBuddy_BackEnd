@@ -29,7 +29,7 @@ public class BankAccountService {
 	public BankAccountAddingDto addBankAccount(BankAccountAddingDto bankAccountAddingDto) {
         logger.info("addBankAccount(" + bankAccountAddingDto + ")");
         
-        bankAccountRepository.insertBankAccount(bankAccountAddingDto.getEmailAddress(), bankAccountAddingDto.getAccoundNumber(), bankAccountAddingDto.getSwiftCode());
+        bankAccountRepository.insertBankAccount(bankAccountAddingDto.getEmailAddress(), bankAccountAddingDto.getAccountNumber(), bankAccountAddingDto.getSwiftCode());
         bankAccountRepository.selectBankAccountList(bankAccountAddingDto.getEmailAddress(), bankAccountAddingDto.getBankAccountList());
         
         int index = bankAccountAddingDto.getBankAccountList().size();
@@ -46,7 +46,7 @@ public class BankAccountService {
             	
 		    	index--;
             	        	
-            	if (u.getAccoundNumber().equals(bankAccountAddingDto.getAccoundNumber()) && u.getSwiftCode().equals(bankAccountAddingDto.getSwiftCode())) {
+            	if (u.getAccountNumber().equals(bankAccountAddingDto.getAccountNumber()) && u.getSwiftCode().equals(bankAccountAddingDto.getSwiftCode())) {
 
             		bankAccountAddingDto.setDataValidated(true);
         		    logger.info("- Bank account added successfully");
@@ -67,7 +67,7 @@ public class BankAccountService {
 	public BankAccountRemovingDto removeBankAccount(BankAccountRemovingDto bankAccountRemovingDto) {
         logger.info("removeBankAccount(" + bankAccountRemovingDto +")");
         
-        bankAccountRepository.deleteBankAccount(bankAccountRemovingDto.getEmailAddress(), bankAccountRemovingDto.getAccoundNumber(), bankAccountRemovingDto.getSwiftCode());
+        bankAccountRepository.deleteBankAccount(bankAccountRemovingDto.getEmailAddress(), bankAccountRemovingDto.getAccountNumber(), bankAccountRemovingDto.getSwiftCode());
         bankAccountRepository.selectBankAccountList(bankAccountRemovingDto.getEmailAddress(), bankAccountRemovingDto.getBankAccountList());
         
         int index = bankAccountRemovingDto.getBankAccountList().size();
@@ -84,7 +84,7 @@ public class BankAccountService {
 		    	
 		    	index--;
 
-            	if (u.getAccoundNumber().equals(bankAccountRemovingDto.getAccoundNumber()) && u.getSwiftCode().equals(bankAccountRemovingDto.getSwiftCode())) {
+            	if (u.getAccountNumber().equals(bankAccountRemovingDto.getAccountNumber()) && u.getSwiftCode().equals(bankAccountRemovingDto.getSwiftCode())) {
 
 		    		bankAccountRemovingDto.setDataValidated(false);
 				    logger.info("- Bank account couldn't be removed");

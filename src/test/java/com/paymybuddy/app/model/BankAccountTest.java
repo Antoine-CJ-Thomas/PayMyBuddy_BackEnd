@@ -18,16 +18,16 @@ class BankAccountTest {
 	}
 
 	@Test
-	void test_setAndGetAccoundNUmber() {
+	void test_setAndGetAccountNumber() {
 
     	//GIVEN
-		String accoundNUmber = "accoundNUmber";
+		String AccountNumber = "AccountNumber";
         
     	//WHEN
-		bankAccount.setAccoundNumber(accoundNUmber);
+		bankAccount.setAccountNumber(AccountNumber);
     	
     	//THEN
-        assertEquals(accoundNUmber, bankAccount.getAccoundNumber());
+        assertEquals(AccountNumber, bankAccount.getAccountNumber());
 	}
 
 	@Test

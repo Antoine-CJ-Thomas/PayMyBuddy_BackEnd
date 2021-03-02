@@ -10,7 +10,7 @@ import com.paymybuddy.app.model.BankAccount;
 public class BankAccountRemovingDto {
 
 	private String emailAddress;
-	private String accoundNumber;
+	private String accountNumber;
 	private String swiftCode;
 	
 	private ArrayList<BankAccount> bankAccountList = new ArrayList<BankAccount>();
@@ -18,10 +18,10 @@ public class BankAccountRemovingDto {
 	
 	public BankAccountRemovingDto() {}
 	
-	public BankAccountRemovingDto(String emailAddress, String accoundNumber, String swiftCode) {
+	public BankAccountRemovingDto(String emailAddress, String accountNumber, String swiftCode) {
 		
 		this.emailAddress = emailAddress;
-		this.accoundNumber = accoundNumber;
+		this.accountNumber = accountNumber;
 		this.swiftCode = swiftCode;
 	}
 
@@ -33,12 +33,12 @@ public class BankAccountRemovingDto {
 		this.emailAddress = emailAddress;
 	}
 
-	public String getAccoundNumber() {
-		return accoundNumber;
+	public String getAccountNumber() {
+		return accountNumber;
 	}
 
-	public void setAccoundNumber(String accoundNUmber) {
-		this.accoundNumber = accoundNUmber;
+	public void setAccountNumber(String accountNumber) {
+		this.accountNumber = accountNumber;
 	}
 
 	public String getSwiftCode() {

@@ -5,30 +5,30 @@ import org.springframework.stereotype.Component;
 @Component
 public class BankAccount {
 
-	private String accoundNumber;
+	private String accountNumber;
 	private String swiftCode;
 
 	public BankAccount() {}
 	
-	public BankAccount(String accoundNumber, String swiftCode) {
+	public BankAccount(String accountNumber, String swiftCode) {
 		
-		this.accoundNumber = accoundNumber;
+		this.accountNumber = accountNumber;
 		this.swiftCode = swiftCode;
 	}
-	
-	public void setAccoundNumber(String accoundNUmber) {
-		this.accoundNumber = accoundNUmber;
+
+	public String getAccountNumber() {
+		return accountNumber;
 	}
-	
-	public String getAccoundNumber() {
-		return accoundNumber;
+
+	public void setAccountNumber(String accountNumber) {
+		this.accountNumber = accountNumber;
+	}
+
+	public String getSwiftCode() {
+		return swiftCode;
 	}
 
 	public void setSwiftCode(String swiftCode) {
 		this.swiftCode = swiftCode;
-	}
-	
-	public String getSwiftCode() {
-		return swiftCode;
 	}
 }

@@ -13,6 +13,8 @@ import com.jsoniter.output.JsonStream;
 import com.paymybuddy.app.dto.BankAccountAddingDto;
 import com.paymybuddy.app.dto.BankAccountRemovingDto;
 import com.paymybuddy.app.dto.BankAccountRetrievingDto;
+import com.paymybuddy.app.dto.ExternalTransactionExecutingDto;
+import com.paymybuddy.app.dto.ExternalTransactionRetrievingDto;
 import com.paymybuddy.app.dto.InternalTransactionExecutingDto;
 import com.paymybuddy.app.dto.InternalTransactionRetrievingDto;
 import com.paymybuddy.app.dto.UserAccountCreatingDto;
@@ -46,8 +48,12 @@ public class App {
 		System.out.println("BankAccountRetrievingDto : " + JsonStream.serialize(new BankAccountRetrievingDto("emailAddress")));
 		
 		System.out.println();
-		System.out.println("InternalTransactionExecutingDto : " + JsonStream.serialize(new InternalTransactionExecutingDto("userEmailAddress", "contactEmailAddress", "dateAndTime", 0, "description")));
-		System.out.println("InternalTransactionRetrievingDto : " + JsonStream.serialize(new InternalTransactionRetrievingDto("userEmailAddress", "accountNumber", "swiftCode")));
+		System.out.println("ExternalTransactionExecutingDto : " + JsonStream.serialize(new ExternalTransactionExecutingDto("userEmailAddress", "accountNumber", "swiftCode", "dateAndTime", "description", 0)));
+		System.out.println("ExternalTransactionRetrievingDto : " + JsonStream.serialize(new ExternalTransactionRetrievingDto("userEmailAddress")));
+		
+		System.out.println();
+		System.out.println("InternalTransactionExecutingDto : " + JsonStream.serialize(new InternalTransactionExecutingDto("userEmailAddress", "contactEmailAddress", "dateAndTime", "description", 0)));
+		System.out.println("InternalTransactionRetrievingDto : " + JsonStream.serialize(new InternalTransactionRetrievingDto("userEmailAddress")));
 		
 		System.out.println();
 		System.out.println("UserAccountCreatingDto : " + JsonStream.serialize(new UserAccountCreatingDto("emailAddress", "password", "firstName", "lastName")));

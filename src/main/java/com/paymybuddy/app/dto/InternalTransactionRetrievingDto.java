@@ -16,7 +16,7 @@ public class InternalTransactionRetrievingDto {
 	
 	public InternalTransactionRetrievingDto() {}
 	
-	public InternalTransactionRetrievingDto(String emailAddress, String accoundNumber, String swiftCode) {
+	public InternalTransactionRetrievingDto(String emailAddress) {
 		
 		this.emailAddress = emailAddress;
 	}

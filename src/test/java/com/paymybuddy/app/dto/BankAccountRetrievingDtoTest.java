@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.paymybuddy.app.model.UserAccount;
 import com.paymybuddy.app.model.BankAccount;
 
 @SpringBootTest

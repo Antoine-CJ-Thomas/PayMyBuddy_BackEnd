@@ -19,7 +19,7 @@ public class InternalTransactionExecutingDto {
 	
 	public InternalTransactionExecutingDto() {}
 	
-	public InternalTransactionExecutingDto(String userEmailAddress, String contactEmailAddress, String dateAndTime, float amount, String description) {
+	public InternalTransactionExecutingDto(String userEmailAddress, String contactEmailAddress, String dateAndTime, String description, float amount) {
 
 		this.userEmailAddress = userEmailAddress;
 		this.contactEmailAddress = contactEmailAddress;

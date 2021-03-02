@@ -39,16 +39,16 @@ class BankAccountRemovingDtoTest {
 	}
 
 	@Test
-	void test_setAndGetAccoundNumber() {
+	void test_setAndGetAccountNumber() {
 
     	//GIVEN
-		String accoundNumber = "accoundNumber";
+		String AccountNumber = "AccountNumber";
         
     	//WHEN
-		bankAccountRemovingDto.setAccoundNumber(accoundNumber);
+		bankAccountRemovingDto.setAccountNumber(AccountNumber);
     	
     	//THEN
-        assertEquals(accoundNumber, bankAccountRemovingDto.getAccoundNumber());
+        assertEquals(AccountNumber, bankAccountRemovingDto.getAccountNumber());
 	}
 
 	@Test

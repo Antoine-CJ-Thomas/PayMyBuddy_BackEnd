@@ -22,7 +22,7 @@ class InternalTransactionExecutingDtoTest {
 	@BeforeEach
 	void beforeEach() {
 
-		internalTransactionExecutingDto = new InternalTransactionExecutingDto(null, null, null, 0.0f, null);
+		internalTransactionExecutingDto = new InternalTransactionExecutingDto(null, null, null, null, 0.0f);
 	}
 
 	@Test

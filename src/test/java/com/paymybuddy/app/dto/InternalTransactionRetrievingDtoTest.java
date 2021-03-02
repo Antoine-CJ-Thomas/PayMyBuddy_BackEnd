@@ -22,7 +22,7 @@ class InternalTransactionRetrievingDtoTest {
 	@BeforeEach
 	void beforeEach() {
 
-		internalTransactionRetrievingDto = new InternalTransactionRetrievingDto(null, null, null);
+		internalTransactionRetrievingDto = new InternalTransactionRetrievingDto(null);
 	}
 
 	@Test
