@@ -2,15 +2,12 @@ package com.paymybuddy.app.dto;
 
 import org.springframework.stereotype.Component;
 
-import com.paymybuddy.app.model.UserAccount;
-
 @Component
 public class UserAccountDeletingDto {
 
 	private String emailAddress;
 	private String password;
 	
-	private UserAccount userAccount = new UserAccount();
 	private boolean dataValidated;
 	
 	public UserAccountDeletingDto() {}
@@ -35,14 +32,6 @@ public class UserAccountDeletingDto {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public UserAccount getUserAccount() {
-		return userAccount;
-	}
-
-	public void setUserAccount(UserAccount userAccount) {
-		this.userAccount = userAccount;
 	}
 
 	public boolean isDataValidated() {

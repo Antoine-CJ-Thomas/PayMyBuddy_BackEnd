@@ -1,5 +1,6 @@
 package com.paymybuddy.app.repository;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.apache.logging.log4j.LogManager;
@@ -25,46 +26,36 @@ public class UserAccountRepository {
     	dataBaseConfig = new PostgreConfig();
     }
 
-	public void insertUserAccount(String emailAddress, String password, String firstName, String lastName) {
+	public boolean insertUserAccount(String emailAddress, String password, String firstName, String lastName) {
         logger.info("insertUserAccount(" + emailAddress + "," + password + "," + firstName + "," + lastName + ")");
 		
-		String request 	= "INSERT "
+		String query 	= "INSERT "
 						+ "INTO user_account (email_address,password,first_name,last_name,balance) " 
 						+ "VALUES ('" + emailAddress + "','" + password + "','" + firstName + "','" + lastName + "'," + 0.00 + ");";
-						
-		dataBaseConfig.openConnection();
-		dataBaseConfig.createStatement();
-		
-		dataBaseConfig.disableAutoCommit();
-		dataBaseConfig.executeUpdateStatement(request);
-		dataBaseConfig.commit();
-		
-		dataBaseConfig.closeStatement();
-		dataBaseConfig.closeConnection();
 
+		dataBaseConfig.insertQuery(query);
+		
+		return dataBaseConfig.isQueryExecutedSuccessfully();
 	}
 
-	public void selectUserAccount(String emailAddress, UserAccount userAccount) {
+	public boolean selectUserAccount(String emailAddress, UserAccount userAccount) {
         logger.info("selectUserAccount(" + emailAddress + ")");
 		
-		String request 	= "SELECT * "
+		String query 	= "SELECT * "
 						+ "FROM user_account " 
 						+ "WHERE email_address='" + emailAddress + "';";
-        
-		dataBaseConfig.openConnection();
-		dataBaseConfig.createStatement();
-				
-		dataBaseConfig.createResult(request);
+
+		ResultSet resultSet = dataBaseConfig.selectQuery(query);
 				
     	try {
 
-			if (dataBaseConfig.getResult().next()) {
+			if (resultSet.next()) {
 
-				userAccount.setEmailAddress(dataBaseConfig.getResult().getString("email_address"));
-				userAccount.setPassword(dataBaseConfig.getResult().getString("password"));
-				userAccount.setFirstName(dataBaseConfig.getResult().getString("first_name"));
-				userAccount.setLastName(dataBaseConfig.getResult().getString("last_name"));
-				userAccount.setBalanceAmount(dataBaseConfig.getResult().getFloat("balance"));
+				userAccount.setEmailAddress(resultSet.getString("email_address"));
+				userAccount.setPassword(resultSet.getString("password"));
+				userAccount.setFirstName(resultSet.getString("first_name"));
+				userAccount.setLastName(resultSet.getString("last_name"));
+				userAccount.setBalanceAmount(resultSet.getFloat("balance"));
 			}
 			
 			else {
@@ -77,49 +68,46 @@ public class UserAccountRepository {
 			}
 
 		} catch (SQLException e) {
-            logger.error("- ResultSet throw exception : " + e.getMessage());
+			e.printStackTrace();
+            
 		} finally {
-			dataBaseConfig.closeResult();
+			
+			try {
+				
+				if (resultSet != null) {
+					resultSet.close();
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 	    }
 		
-		dataBaseConfig.closeStatement();
-		dataBaseConfig.closeConnection();
+		return dataBaseConfig.isQueryExecutedSuccessfully();
 	}
 
-	public void updateUserAccount(String emailAddress, String password, String firstName, String lastName) {
+	public boolean updateUserAccount(String emailAddress, String password, String firstName, String lastName) {
         logger.info("updateUserAccount(" + emailAddress + "," + password + "," + firstName + "," + lastName + ")");        
 		
-		String request 	= "UPDATE user_account "
+		String query 	= "UPDATE user_account "
 						+ "SET password='" + password + "'," + "first_name='" + firstName + "'," + "last_name='" + lastName + "'" 
 						+ "WHERE email_address='" + emailAddress + "';";
         
-		dataBaseConfig.openConnection();
-		dataBaseConfig.createStatement();
+		dataBaseConfig.updateQuery(query);
 		
-		dataBaseConfig.disableAutoCommit();
-		dataBaseConfig.executeUpdateStatement(request);
-		dataBaseConfig.commit();
-		
-		dataBaseConfig.closeStatement();
-		dataBaseConfig.closeConnection();
+		return dataBaseConfig.isQueryExecutedSuccessfully();
 	
 	}
 
-	public void deleteUserAccount(String emailAddress) {
+	public boolean deleteUserAccount(String emailAddress) {
         logger.info("deleteUserAccount(" + emailAddress + ")");
 	
-		String request 	= "DELETE "
+		String query 	= "DELETE "
 						+ "FROM user_account " 
 						+ "WHERE email_address='" + emailAddress + "';";
         
-		dataBaseConfig.openConnection();
-		dataBaseConfig.createStatement();
+		dataBaseConfig.deleteQuery(query);
 		
-		dataBaseConfig.disableAutoCommit();
-		dataBaseConfig.executeUpdateStatement(request);
-		dataBaseConfig.commit();
-		
-		dataBaseConfig.closeStatement();
-		dataBaseConfig.closeConnection();
+		return dataBaseConfig.isQueryExecutedSuccessfully();
 	}
 }

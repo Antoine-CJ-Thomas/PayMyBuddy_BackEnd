@@ -1,5 +1,6 @@
 package com.paymybuddy.app.repository;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -26,10 +27,10 @@ public class UserContactRepository {
     	dataBaseConfig = new PostgreConfig();
     }
 
-	public void insertUserContact(String userEmailAddress, String contactEmailAddress) {
+	public boolean insertUserContact(String userEmailAddress, String contactEmailAddress) {
         logger.info("insertUserContact(" + userEmailAddress + "," + contactEmailAddress + ")");
 				
-		String request 	= "INSERT "
+		String query 	= "INSERT "
 						+ "INTO user_contact (user_id,contact_id) "
 						+ "VALUES ("
 						
@@ -47,23 +48,16 @@ public class UserContactRepository {
 							+ ")"
 							
 						+ ");";
-        
-		dataBaseConfig.openConnection();
-		dataBaseConfig.createStatement();
-		
-		dataBaseConfig.disableAutoCommit();
-		dataBaseConfig.executeUpdateStatement(request);
-		dataBaseConfig.commit();
-		
-		dataBaseConfig.closeStatement();
-		dataBaseConfig.closeConnection();
 
+		dataBaseConfig.insertQuery(query);
+		
+		return dataBaseConfig.isQueryExecutedSuccessfully();
 	}
 
-	public void selectUserContactList(String emailAddress, ArrayList<UserContact> userContactList) {
+	public boolean selectUserContactList(String emailAddress, ArrayList<UserContact> userContactList) {
         logger.info("selectUserContact(" + emailAddress + "," + userContactList + ")");
 		
-		String request 	= "SELECT * "
+		String query 	= "SELECT * "
 						+ "FROM user_account "
 						+ "INNER JOIN user_contact ON user_account.id = user_contact.contact_id "
 						+ "WHERE "
@@ -76,36 +70,42 @@ public class UserContactRepository {
 								
 							+ ")"
 						+ ";";
+
+		ResultSet resultSet = dataBaseConfig.selectQuery(query);
 		
-		dataBaseConfig.openConnection();
-		dataBaseConfig.createStatement();
-				
-		dataBaseConfig.createResult(request);
-				
     	try {
     		
-			while (dataBaseConfig.getResult().next()) {
+			while (resultSet.next()) {
 				
 				userContactList.add(new UserContact(
-						dataBaseConfig.getResult().getString("email_address"), 
-						dataBaseConfig.getResult().getString("first_name"), 
-						dataBaseConfig.getResult().getString("last_name")));
+						resultSet.getString("email_address"), 
+						resultSet.getString("first_name"), 
+						resultSet.getString("last_name")));
 			}
 
 		} catch (SQLException e) {
-            logger.error("- ResultSet throw exception : " + e.getMessage());
+			e.printStackTrace();
+            
 		} finally {
-			dataBaseConfig.closeResult();
+			
+			try {
+				
+				if (resultSet != null) {
+					resultSet.close();
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 	    }
 		
-		dataBaseConfig.closeStatement();
-		dataBaseConfig.closeConnection();
-	}
+		return dataBaseConfig.isQueryExecutedSuccessfully();
+    }
 
-	public void deleteUserContact(String userEmailAddress, String contactEmailAddress) {
+	public boolean deleteUserContact(String userEmailAddress, String contactEmailAddress) {
         logger.info("deleteUserContact(" + userEmailAddress + "," + contactEmailAddress + ")");
         
-		String request 	= "DELETE "
+		String query 	= "DELETE "
 						+ "FROM user_contact "
 						+ "WHERE "
 						
@@ -124,14 +124,8 @@ public class UserContactRepository {
 							+ ")"
 						+ ";";
         
-		dataBaseConfig.openConnection();
-		dataBaseConfig.createStatement();
+		dataBaseConfig.deleteQuery(query);
 		
-		dataBaseConfig.disableAutoCommit();
-		dataBaseConfig.executeUpdateStatement(request);
-		dataBaseConfig.commit();
-		
-		dataBaseConfig.closeStatement();
-		dataBaseConfig.closeConnection();
+		return dataBaseConfig.isQueryExecutedSuccessfully();
 	}
 }

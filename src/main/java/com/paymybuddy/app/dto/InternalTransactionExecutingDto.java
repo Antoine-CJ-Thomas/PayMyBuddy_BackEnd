@@ -1,9 +1,6 @@
 package com.paymybuddy.app.dto;
 
-import java.util.ArrayList;
 import org.springframework.stereotype.Component;
-
-import com.paymybuddy.app.model.InternalTransaction;
 
 @Component
 public class InternalTransactionExecutingDto {
@@ -14,7 +11,6 @@ public class InternalTransactionExecutingDto {
 	private String description;
 	private float amount;
 	
-	private ArrayList<InternalTransaction> internalTransactionList = new ArrayList<InternalTransaction>();
 	private boolean dataValidated;
 	
 	public InternalTransactionExecutingDto() {}
@@ -66,14 +62,6 @@ public class InternalTransactionExecutingDto {
 
 	public void setDateAndTime(String dateAndTime) {
 		this.dateAndTime = dateAndTime;
-	}
-
-	public ArrayList<InternalTransaction> getInternalTransactionList() {
-		return internalTransactionList;
-	}
-
-	public void setInternalTransactionList(ArrayList<InternalTransaction> internalTransactionList) {
-		this.internalTransactionList = internalTransactionList;
 	}
 
 	public boolean isDataValidated() {

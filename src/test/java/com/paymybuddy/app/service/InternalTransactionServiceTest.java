@@ -15,7 +15,6 @@ import org.springframework.test.util.ReflectionTestUtils;
 import com.paymybuddy.app.dto.InternalTransactionExecutingDto;
 import com.paymybuddy.app.dto.InternalTransactionRetrievingDto;
 import com.paymybuddy.app.model.InternalTransaction;
-import com.paymybuddy.app.model.UserContact;
 import com.paymybuddy.app.repository.InternalTransactionRepository;
 
 @SpringBootTest
@@ -32,16 +31,13 @@ class internalTransactionServiceTest {
 	@Mock
 	private InternalTransaction internalTransaction;
 	@Mock
-	private UserContact userContact;
-	
-	private ArrayList<InternalTransaction> InternalTransactionList;
+	private ArrayList<InternalTransaction> internalTransactionList;
     
 	@BeforeEach
 	void beforeEach() {
 
 		internalTransactionService = new InternalTransactionService();
 		ReflectionTestUtils.setField(internalTransactionService, "internalTransactionRepository", internalTransactionRepository);
-		InternalTransactionList = new ArrayList<InternalTransaction>();
 	}
 	
 	@Test
@@ -50,19 +46,20 @@ class internalTransactionServiceTest {
     	//GIVEN
 		String userEmailAddress = "userEmailAddress";
 		String contactEmailAddress = "contactEmailAddress";
-		String requestDateAndTime = "2021.00.00.00.00.0";
-		String transactionDateAndTime = "2021.00.00.00.01.0";
+		String description = "description";
+		float amount = 0.0f;
         
     	//WHEN
 		when(internalTransactionExecutingDto.getUserEmailAddress()).thenReturn(userEmailAddress);
 		when(internalTransactionExecutingDto.getContactEmailAddress()).thenReturn(contactEmailAddress);
-		when(internalTransactionExecutingDto.getDateAndTime()).thenReturn(requestDateAndTime);
-		when(internalTransactionExecutingDto.getInternalTransactionList()).thenReturn(InternalTransactionList);
-		when(internalTransaction.getDateAndTime()).thenReturn(transactionDateAndTime);
-		when(internalTransaction.getUserContact()).thenReturn(userContact);
-		when(userContact.getEmailAddress()).thenReturn(contactEmailAddress);
-		InternalTransactionList.add(internalTransaction);
-		
+		when(internalTransactionExecutingDto.getDescription()).thenReturn(description);
+		when(internalTransactionExecutingDto.getAmount()).thenReturn(amount);
+	
+		when(internalTransactionRepository.insertInternalTransaction(
+				internalTransactionExecutingDto.getUserEmailAddress(), 
+				internalTransactionExecutingDto.getContactEmailAddress(), 
+				internalTransactionExecutingDto.getDescription(),
+				internalTransactionExecutingDto.getAmount())).thenReturn(true);
 		
 		internalTransactionService.executeInternalTransaction(internalTransactionExecutingDto);
 	    
@@ -76,19 +73,20 @@ class internalTransactionServiceTest {
     	//GIVEN
 		String userEmailAddress = "userEmailAddress";
 		String contactEmailAddress = "contactEmailAddress";
-		String requestDateAndTime = "2021.00.00.00.02.0";
-		String transactionDateAndTime = "2021.00.00.00.01.0";
+		String description = "description";
+		float amount = 0.0f;
         
     	//WHEN
 		when(internalTransactionExecutingDto.getUserEmailAddress()).thenReturn(userEmailAddress);
 		when(internalTransactionExecutingDto.getContactEmailAddress()).thenReturn(contactEmailAddress);
-		when(internalTransactionExecutingDto.getDateAndTime()).thenReturn(requestDateAndTime);
-		when(internalTransactionExecutingDto.getInternalTransactionList()).thenReturn(InternalTransactionList);
-		when(internalTransaction.getDateAndTime()).thenReturn(transactionDateAndTime);
-		when(internalTransaction.getUserContact()).thenReturn(userContact);
-		when(userContact.getEmailAddress()).thenReturn(contactEmailAddress);
-		InternalTransactionList.add(internalTransaction);
-		
+		when(internalTransactionExecutingDto.getDescription()).thenReturn(description);
+		when(internalTransactionExecutingDto.getAmount()).thenReturn(amount);
+	
+		when(internalTransactionRepository.insertInternalTransaction(
+				internalTransactionExecutingDto.getUserEmailAddress(), 
+				internalTransactionExecutingDto.getContactEmailAddress(), 
+				internalTransactionExecutingDto.getDescription(),
+				internalTransactionExecutingDto.getAmount())).thenReturn(false);
 		
 		internalTransactionService.executeInternalTransaction(internalTransactionExecutingDto);
 	    
@@ -104,8 +102,11 @@ class internalTransactionServiceTest {
         
     	//WHEN
 		when(internalTransactionRetrievingDto.getEmailAddress()).thenReturn(emailAddress);
-		when(internalTransactionRetrievingDto.getInternalTransactionList()).thenReturn(InternalTransactionList);
-		InternalTransactionList.add(internalTransaction);
+		when(internalTransactionRetrievingDto.getInternalTransactionList()).thenReturn(internalTransactionList);
+
+		when(internalTransactionRepository.selectInternalTransaction(
+				internalTransactionRetrievingDto.getEmailAddress(), 
+				internalTransactionRetrievingDto.getInternalTransactionList())).thenReturn(true);
 		
 		internalTransactionService.retrieveInternalTransactionList(internalTransactionRetrievingDto);
 	    
@@ -121,7 +122,11 @@ class internalTransactionServiceTest {
         
     	//WHEN
 		when(internalTransactionRetrievingDto.getEmailAddress()).thenReturn(emailAddress);
-		when(internalTransactionRetrievingDto.getInternalTransactionList()).thenReturn(InternalTransactionList);
+		when(internalTransactionRetrievingDto.getInternalTransactionList()).thenReturn(internalTransactionList);
+
+		when(internalTransactionRepository.selectInternalTransaction(
+				internalTransactionRetrievingDto.getEmailAddress(), 
+				internalTransactionRetrievingDto.getInternalTransactionList())).thenReturn(false);
 		
 		internalTransactionService.retrieveInternalTransactionList(internalTransactionRetrievingDto);
 	    

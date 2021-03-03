@@ -32,8 +32,6 @@ class UserContactServiceTest {
 	@Mock
 	private UserContactRepository userContactRepository;
 	@Mock
-	private UserContact userContact;
-	
 	private ArrayList<UserContact> userContactList;
     
 	@BeforeEach
@@ -54,9 +52,10 @@ class UserContactServiceTest {
     	//WHEN
 		when(userContactAddingDto.getUserEmailAddress()).thenReturn(userEmailAddress);
 		when(userContactAddingDto.getContactEmailAddress()).thenReturn(contactEmailAddress);
-		when(userContactAddingDto.getUserContactList()).thenReturn(userContactList);
-		when(userContact.getEmailAddress()).thenReturn(contactEmailAddress);
-		userContactList.add(userContact);
+		
+		when(userContactRepository.insertUserContact(
+				userContactAddingDto.getUserEmailAddress(), 
+				userContactAddingDto.getContactEmailAddress())).thenReturn(true);
 		
 		userContactService.addUserContact(userContactAddingDto);
 	    
@@ -70,14 +69,14 @@ class UserContactServiceTest {
     	//GIVEN
 		String userEmailAddress = "userEmailAddress";
 		String contactEmailAddress = "contactEmailAddress";
-		String differentContactEmailAddress = "differentContactEmailAddress";
         
     	//WHEN
 		when(userContactAddingDto.getUserEmailAddress()).thenReturn(userEmailAddress);
 		when(userContactAddingDto.getContactEmailAddress()).thenReturn(contactEmailAddress);
-		when(userContactAddingDto.getUserContactList()).thenReturn(userContactList);
-		when(userContact.getEmailAddress()).thenReturn(differentContactEmailAddress);
-		userContactList.add(userContact);
+		
+		when(userContactRepository.insertUserContact(
+				userContactAddingDto.getUserEmailAddress(), 
+				userContactAddingDto.getContactEmailAddress())).thenReturn(false);
 		
 		userContactService.addUserContact(userContactAddingDto);
 	    
@@ -91,14 +90,14 @@ class UserContactServiceTest {
     	//GIVEN
 		String userEmailAddress = "userEmailAddress";
 		String contactEmailAddress = "contactEmailAddress";
-		String differentContactEmailAddress = "differentContactEmailAddress";
         
     	//WHEN
 		when(userContactRemovingDto.getUserEmailAddress()).thenReturn(userEmailAddress);
 		when(userContactRemovingDto.getContactEmailAddress()).thenReturn(contactEmailAddress);
-		when(userContactRemovingDto.getUserContactList()).thenReturn(userContactList);
-		when(userContact.getEmailAddress()).thenReturn(differentContactEmailAddress);
-		userContactList.add(userContact);
+		
+		when(userContactRepository.deleteUserContact(
+				userContactRemovingDto.getUserEmailAddress(), 
+				userContactRemovingDto.getContactEmailAddress())).thenReturn(true);
 		
 		userContactService.removeUserContact(userContactRemovingDto);
 	    
@@ -116,9 +115,10 @@ class UserContactServiceTest {
     	//WHEN
 		when(userContactRemovingDto.getUserEmailAddress()).thenReturn(userEmailAddress);
 		when(userContactRemovingDto.getContactEmailAddress()).thenReturn(contactEmailAddress);
-		when(userContactRemovingDto.getUserContactList()).thenReturn(userContactList);
-		when(userContact.getEmailAddress()).thenReturn(contactEmailAddress);
-		userContactList.add(userContact);
+		
+		when(userContactRepository.deleteUserContact(
+				userContactRemovingDto.getUserEmailAddress(), 
+				userContactRemovingDto.getContactEmailAddress())).thenReturn(false);
 		
 		userContactService.removeUserContact(userContactRemovingDto);
 	    
@@ -135,7 +135,10 @@ class UserContactServiceTest {
     	//WHEN
 		when(userContactRetrievingDto.getEmailAddress()).thenReturn(emailAddress);
 		when(userContactRetrievingDto.getUserContactList()).thenReturn(userContactList);
-		userContactList.add(userContact);
+		
+		when(userContactRepository.selectUserContactList(
+				userContactRetrievingDto.getEmailAddress(), 
+				userContactRetrievingDto.getUserContactList())).thenReturn(true);
 		
 		userContactService.retrieveUserContactList(userContactRetrievingDto);
 	    
@@ -152,6 +155,10 @@ class UserContactServiceTest {
     	//WHEN
 		when(userContactRetrievingDto.getEmailAddress()).thenReturn(emailAddress);
 		when(userContactRetrievingDto.getUserContactList()).thenReturn(userContactList);
+		
+		when(userContactRepository.selectUserContactList(
+				userContactRetrievingDto.getEmailAddress(), 
+				userContactRetrievingDto.getUserContactList())).thenReturn(false);
 		
 		userContactService.retrieveUserContactList(userContactRetrievingDto);
 	    

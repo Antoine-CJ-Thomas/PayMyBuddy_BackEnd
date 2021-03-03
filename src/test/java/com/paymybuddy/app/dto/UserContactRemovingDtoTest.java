@@ -2,22 +2,14 @@ package com.paymybuddy.app.dto;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.ArrayList;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import com.paymybuddy.app.model.UserContact;
 
 @SpringBootTest
 class UserContactRemovingDtoTest {
 
 	private UserContactRemovingDto userContactRemovingDto;
-	
-	@Mock
-	private ArrayList<UserContact> userContactList = new ArrayList<UserContact>();
     
 	@BeforeEach
 	void beforeEach() {
@@ -49,18 +41,6 @@ class UserContactRemovingDtoTest {
     	
     	//THEN
         assertEquals(emailAddress, userContactRemovingDto.getContactEmailAddress());
-	}
-    
-	@Test
-	void test_setAndGetUserContactList() {
-
-    	//GIVEN
-        
-    	//WHEN
-		userContactRemovingDto.setUserContactList(userContactList);
-    	
-    	//THEN
-        assertEquals(userContactList, userContactRemovingDto.getUserContactList());
 	}
 
 	@Test

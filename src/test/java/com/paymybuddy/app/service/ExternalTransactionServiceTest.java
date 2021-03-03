@@ -14,7 +14,6 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import com.paymybuddy.app.dto.ExternalTransactionExecutingDto;
 import com.paymybuddy.app.dto.ExternalTransactionRetrievingDto;
-import com.paymybuddy.app.model.BankAccount;
 import com.paymybuddy.app.model.ExternalTransaction;
 import com.paymybuddy.app.repository.ExternalTransactionRepository;
 
@@ -32,40 +31,38 @@ class ExternalTransactionServiceTest {
 	@Mock
 	private ExternalTransaction externalTransaction;
 	@Mock
-	private BankAccount bankAccount;
-	
-	private ArrayList<ExternalTransaction> ExternalTransactionList;
+	private ArrayList<ExternalTransaction> externalTransactionList;
     
 	@BeforeEach
 	void beforeEach() {
 
 		externalTransactionService = new ExternalTransactionService();
 		ReflectionTestUtils.setField(externalTransactionService, "externalTransactionRepository", externalTransactionRepository);
-		ExternalTransactionList = new ArrayList<ExternalTransaction>();
 	}
 	
 	@Test
 	void test_addExternalTransaction_true() {
 
     	//GIVEN
-		String userEmailAddress = "userEmailAddress";
+		String emailAddress = "emailAddress";
 		String acountNumber = "acountNumber";
 		String swiftCode = "swiftCode";
-		String requestDateAndTime = "2021.00.00.00.00.0";
-		String transactionDateAndTime = "2021.00.00.00.01.0";
+		String description = "description";
+		float amount = 0.0f;
         
     	//WHEN
-		when(externalTransactionExecutingDto.getEmailAddress()).thenReturn(userEmailAddress);
+		when(externalTransactionExecutingDto.getEmailAddress()).thenReturn(emailAddress);
 		when(externalTransactionExecutingDto.getAccountNumber()).thenReturn(acountNumber);
 		when(externalTransactionExecutingDto.getSwiftCode()).thenReturn(swiftCode);
-		when(externalTransactionExecutingDto.getDateAndTime()).thenReturn(requestDateAndTime);
-		when(externalTransactionExecutingDto.getExternalTransactionList()).thenReturn(ExternalTransactionList);
-		when(externalTransaction.getDateAndTime()).thenReturn(transactionDateAndTime);
-		when(externalTransaction.getBankAccount()).thenReturn(bankAccount);
-		when(bankAccount.getAccountNumber()).thenReturn(acountNumber);
-		when(bankAccount.getSwiftCode()).thenReturn(swiftCode);
-		ExternalTransactionList.add(externalTransaction);
+		when(externalTransactionExecutingDto.getDescription()).thenReturn(description);
+		when(externalTransactionExecutingDto.getAmount()).thenReturn(amount);
 		
+		when(externalTransactionRepository.insertExternalTransaction(
+				externalTransactionExecutingDto.getEmailAddress(), 
+				externalTransactionExecutingDto.getAccountNumber(), 
+				externalTransactionExecutingDto.getSwiftCode(), 
+				externalTransactionExecutingDto.getDescription(),
+				externalTransactionExecutingDto.getAmount())).thenReturn(true);		
 		
 		externalTransactionService.executeExternalTransaction(externalTransactionExecutingDto);
 	    
@@ -77,24 +74,25 @@ class ExternalTransactionServiceTest {
 	void test_addExternalTransaction_false() {
 
     	//GIVEN
-		String userEmailAddress = "userEmailAddress";
+		String emailAddress = "emailAddress";
 		String acountNumber = "acountNumber";
 		String swiftCode = "swiftCode";
-		String requestDateAndTime = "2021.00.00.00.02.0";
-		String transactionDateAndTime = "2021.00.00.00.01.0";
+		String description = "description";
+		float amount = 0.0f;
         
     	//WHEN
-		when(externalTransactionExecutingDto.getEmailAddress()).thenReturn(userEmailAddress);
+		when(externalTransactionExecutingDto.getEmailAddress()).thenReturn(emailAddress);
 		when(externalTransactionExecutingDto.getAccountNumber()).thenReturn(acountNumber);
 		when(externalTransactionExecutingDto.getSwiftCode()).thenReturn(swiftCode);
-		when(externalTransactionExecutingDto.getDateAndTime()).thenReturn(requestDateAndTime);
-		when(externalTransactionExecutingDto.getExternalTransactionList()).thenReturn(ExternalTransactionList);
-		when(externalTransaction.getDateAndTime()).thenReturn(transactionDateAndTime);
-		when(externalTransaction.getBankAccount()).thenReturn(bankAccount);
-		when(bankAccount.getAccountNumber()).thenReturn(acountNumber);
-		when(bankAccount.getSwiftCode()).thenReturn(swiftCode);
-		ExternalTransactionList.add(externalTransaction);
+		when(externalTransactionExecutingDto.getDescription()).thenReturn(description);
+		when(externalTransactionExecutingDto.getAmount()).thenReturn(amount);
 		
+		when(externalTransactionRepository.insertExternalTransaction(
+				externalTransactionExecutingDto.getEmailAddress(), 
+				externalTransactionExecutingDto.getAccountNumber(), 
+				externalTransactionExecutingDto.getSwiftCode(), 
+				externalTransactionExecutingDto.getDescription(),
+				externalTransactionExecutingDto.getAmount())).thenReturn(false);		
 		
 		externalTransactionService.executeExternalTransaction(externalTransactionExecutingDto);
 	    
@@ -110,8 +108,11 @@ class ExternalTransactionServiceTest {
         
     	//WHEN
 		when(externalTransactionRetrievingDto.getEmailAddress()).thenReturn(emailAddress);
-		when(externalTransactionRetrievingDto.getExternalTransactionList()).thenReturn(ExternalTransactionList);
-		ExternalTransactionList.add(externalTransaction);
+		when(externalTransactionRetrievingDto.getExternalTransactionList()).thenReturn(externalTransactionList);
+
+		when(externalTransactionRepository.selectExternalTransaction(
+				externalTransactionRetrievingDto.getEmailAddress(), 
+				externalTransactionRetrievingDto.getExternalTransactionList())).thenReturn(true);
 		
 		externalTransactionService.retrieveExternalTransactionList(externalTransactionRetrievingDto);
 	    
@@ -127,7 +128,7 @@ class ExternalTransactionServiceTest {
         
     	//WHEN
 		when(externalTransactionRetrievingDto.getEmailAddress()).thenReturn(emailAddress);
-		when(externalTransactionRetrievingDto.getExternalTransactionList()).thenReturn(ExternalTransactionList);
+		when(externalTransactionRetrievingDto.getExternalTransactionList()).thenReturn(externalTransactionList);
 		
 		externalTransactionService.retrieveExternalTransactionList(externalTransactionRetrievingDto);
 	    

@@ -4,18 +4,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import com.paymybuddy.app.model.UserAccount;
 
 @SpringBootTest
 class UserAccountEditingDtoTest {
 
 	private UserAccountEditingDto userAccountEditingDto;
-	
-	@Mock
-	private UserAccount userAccount;
     
 	@BeforeEach
 	void beforeEach() {
@@ -73,18 +67,6 @@ class UserAccountEditingDtoTest {
     	
     	//THEN
         assertEquals(lastName, userAccountEditingDto.getLastName());
-	}
-    
-	@Test
-	void test_setAndGetUserAccount() {
-
-    	//GIVEN
-        
-    	//WHEN
-		userAccountEditingDto.setUserAccount(userAccount);
-    	
-    	//THEN
-        assertEquals(userAccount, userAccountEditingDto.getUserAccount());
 	}
 
 	@Test

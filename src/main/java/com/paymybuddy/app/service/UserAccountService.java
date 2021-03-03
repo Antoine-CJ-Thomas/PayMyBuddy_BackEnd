@@ -30,84 +30,46 @@ public class UserAccountService {
 	public UserAccountCreatingDto createUserAccount(UserAccountCreatingDto userAccountCreatingDto) {
         logger.info("createUserAccount(" + userAccountCreatingDto + ")");
                 
-        userAccountRepository.insertUserAccount(userAccountCreatingDto.getEmailAddress(), userAccountCreatingDto.getPassword(), userAccountCreatingDto.getFirstName(), userAccountCreatingDto.getLastName()); 		
-        userAccountRepository.selectUserAccount(userAccountCreatingDto.getEmailAddress(), userAccountCreatingDto.getUserAccount());
-        
-        if (userAccountCreatingDto.getUserAccount().getEmailAddress().equals(userAccountCreatingDto.getEmailAddress())) {
-
-        	userAccountCreatingDto.setDataValidated(true);
-		    logger.info("- Account created successfully");
-        }
-        
-        else {
-
-        	userAccountCreatingDto.setDataValidated(false);
-		    logger.info("- Account couldn't be created");
-        }
-        
+        userAccountCreatingDto.setDataValidated(
+        		userAccountRepository.insertUserAccount(
+        				userAccountCreatingDto.getEmailAddress(), 
+        				userAccountCreatingDto.getPassword(), 
+        				userAccountCreatingDto.getFirstName(), 
+        				userAccountCreatingDto.getLastName())); 	
+         
 		return userAccountCreatingDto;
 	}
 
 	public UserAccountDeletingDto deleteUserAccount(UserAccountDeletingDto userAccountDeletingDto) {
         logger.info("deleteUserAccount(" + userAccountDeletingDto +")");
                 
-        userAccountRepository.deleteUserAccount(userAccountDeletingDto.getEmailAddress());
-        userAccountRepository.selectUserAccount(userAccountDeletingDto.getEmailAddress(), userAccountDeletingDto.getUserAccount());
-		        		
-        if (userAccountDeletingDto.getUserAccount().getEmailAddress().equals("")) {
+        userAccountDeletingDto.setDataValidated(
+        		userAccountRepository.deleteUserAccount(
+        				userAccountDeletingDto.getEmailAddress()));
 
-        	userAccountDeletingDto.setDataValidated(true);
-		    logger.info("- Account deleted successfully");
-        }
-        
-        else {
-
-        	userAccountDeletingDto.setDataValidated(false);
-		    logger.info("- Account couldn't be deleted");
-        }
 		return userAccountDeletingDto;
 	}
 
 	public UserAccountEditingDto editUserAccount(UserAccountEditingDto userAccountEditingDto) {
         logger.info("editUserAccount(" + userAccountEditingDto + ")");
         
-        userAccountRepository.updateUserAccount(userAccountEditingDto.getEmailAddress(), userAccountEditingDto.getPassword(), userAccountEditingDto.getFirstName(), userAccountEditingDto.getLastName());
-        userAccountRepository.selectUserAccount(userAccountEditingDto.getEmailAddress(), userAccountEditingDto.getUserAccount());
-        		
-		
-        if (userAccountEditingDto.getPassword().equals(userAccountEditingDto.getUserAccount().getPassword()) 
-        		&& userAccountEditingDto.getFirstName().equals(userAccountEditingDto.getUserAccount().getFirstName()) 
-        		&& userAccountEditingDto.getLastName().equals(userAccountEditingDto.getUserAccount().getLastName())) {
+        userAccountEditingDto.setDataValidated(
+        		userAccountRepository.updateUserAccount(
+        				userAccountEditingDto.getEmailAddress(), 
+        				userAccountEditingDto.getPassword(), 
+        				userAccountEditingDto.getFirstName(), 
+        				userAccountEditingDto.getLastName()));
 
-        	userAccountEditingDto.setDataValidated(true);
-		    logger.info("- Account edited successfully");
-        }
-        
-        else {
-
-        	userAccountEditingDto.setDataValidated(false);
-		    logger.info("- Account couldn't be edited");
-        }
-        
 		return userAccountEditingDto;
 	}
 
 	public UserAccountLoginDto loginUserAccount(UserAccountLoginDto userAccountLoginDto) {
         logger.info("loginUserAccount(" + userAccountLoginDto +")");
 
-        userAccountRepository.selectUserAccount(userAccountLoginDto.getEmailAddress(), userAccountLoginDto.getUserAccount());
-        
-        if (userAccountLoginDto.getUserAccount().getPassword().equals(userAccountLoginDto.getPassword())) {
-
-        	userAccountLoginDto.setDataValidated(true);
-		    logger.info("- Connexion allowed");
-        }
-        
-        else {
-
-        	userAccountLoginDto.setDataValidated(false);
-		    logger.info("- Connexion prohibited");
-        }
+        userAccountLoginDto.setDataValidated(
+        		userAccountRepository.selectUserAccount(
+        				userAccountLoginDto.getEmailAddress(), 
+        				userAccountLoginDto.getUserAccount()));
 
 		return userAccountLoginDto;
 	}
@@ -115,20 +77,11 @@ public class UserAccountService {
 	public UserAccountRetrievingDto retrieveUserAccount(UserAccountRetrievingDto userAccountRetrievingDto) {
         logger.info("retrieveUserAccount(" + userAccountRetrievingDto + ")");
         
-        userAccountRepository.selectUserAccount(userAccountRetrievingDto.getEmailAddress(), userAccountRetrievingDto.getUserAccount());
-        
-        if (userAccountRetrievingDto.getUserAccount().getEmailAddress().equals(userAccountRetrievingDto.getEmailAddress())) {
-
-        	userAccountRetrievingDto.setDataValidated(true);
-		    logger.info("- Account found");
-        }
-        
-        else {
-
-        	userAccountRetrievingDto.setDataValidated(false);
-		    logger.info("- Acount couldn't be found");
-        }
-        
+        userAccountRetrievingDto.setDataValidated(
+        		userAccountRepository.selectUserAccount(
+        				userAccountRetrievingDto.getEmailAddress(), 
+        				userAccountRetrievingDto.getUserAccount()));
+          
 		return userAccountRetrievingDto;
 	}
 }

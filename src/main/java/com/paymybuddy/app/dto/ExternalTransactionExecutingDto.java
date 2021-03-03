@@ -1,9 +1,6 @@
 package com.paymybuddy.app.dto;
 
-import java.util.ArrayList;
 import org.springframework.stereotype.Component;
-
-import com.paymybuddy.app.model.ExternalTransaction;
 
 @Component
 public class ExternalTransactionExecutingDto {
@@ -15,7 +12,6 @@ public class ExternalTransactionExecutingDto {
 	private String description;
 	private float amount;
 	
-	private ArrayList<ExternalTransaction> externalTransactionList = new ArrayList<ExternalTransaction>();
 	private boolean dataValidated;
 	
 	public ExternalTransactionExecutingDto() {}
@@ -76,14 +72,6 @@ public class ExternalTransactionExecutingDto {
 
 	public void setAmount(float amount) {
 		this.amount = amount;
-	}
-
-	public ArrayList<ExternalTransaction> getExternalTransactionList() {
-		return externalTransactionList;
-	}
-
-	public void setExternalTransactionList(ArrayList<ExternalTransaction> externalTransactionList) {
-		this.externalTransactionList = externalTransactionList;
 	}
 
 	public boolean isDataValidated() {

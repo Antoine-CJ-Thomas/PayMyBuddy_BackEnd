@@ -4,18 +4,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import com.paymybuddy.app.model.UserAccount;
 
 @SpringBootTest
 class UserAccountDeletingDtoTest {
 
 	private UserAccountDeletingDto userAccountDeletingDto;
-	
-	@Mock
-	private UserAccount userAccount;
     
 	@BeforeEach
 	void beforeEach() {
@@ -47,18 +41,6 @@ class UserAccountDeletingDtoTest {
     	
     	//THEN
         assertEquals(password, userAccountDeletingDto.getPassword());
-	}
-    
-	@Test
-	void test_setAndGetUserAccount() {
-
-    	//GIVEN
-        
-    	//WHEN
-		userAccountDeletingDto.setUserAccount(userAccount);
-    	
-    	//THEN
-        assertEquals(userAccount, userAccountDeletingDto.getUserAccount());
 	}
 
 	@Test

@@ -1,5 +1,6 @@
 package com.paymybuddy.app.repository;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -28,10 +29,10 @@ public class InternalTransactionRepository {
     	dataBaseConfig = new PostgreConfig();
     }
 
-	public void insertInternalTransaction(String userEmailAddress, String contactEmailAddress, float amount, String description) {
-        logger.info("insertInternalTransaction(" + userEmailAddress + "," + contactEmailAddress + "," + amount + "," + description + ")");
+	public boolean insertInternalTransaction(String userEmailAddress, String contactEmailAddress, String description, float amount) {
+        logger.info("insertInternalTransaction(" + userEmailAddress + "," + contactEmailAddress + "," + description + "," + amount + ")");
 				
-		String request 	= "INSERT "
+		String query 	= "INSERT "
 						+ "INTO internal_transaction (user_id,contact_id,date_time,amount,description) "
 						+ "VALUES ("
 						
@@ -62,24 +63,30 @@ public class InternalTransactionRepository {
 							+ ")"
 							
 						+ ");";
+
+		dataBaseConfig.insertQuery(query);
 		
-		dataBaseConfig.openConnection();
-		dataBaseConfig.createStatement();
-		
-		dataBaseConfig.disableAutoCommit();
-		dataBaseConfig.executeUpdateStatement(request);
-		dataBaseConfig.commit();
-		
-		dataBaseConfig.closeStatement();
-		dataBaseConfig.closeConnection();
+		return dataBaseConfig.isQueryExecutedSuccessfully();
 	}
 
-	public void selectInternalTransactionFromUser(String emailAddress, ArrayList<InternalTransaction> internalTransactionList) {
+	public boolean selectInternalTransaction(String emailAddress, ArrayList<InternalTransaction> internalTransactionList) {
         logger.info("selectInternalTransactionFromUser(" + emailAddress + "," + internalTransactionList + ")");
 		
-		String request 	= "SELECT * "
+		String query 	= "SELECT "
+				
+							+ "internal_transaction.date_time, "
+							+ "user_table.email_address AS user_email_address, "
+							+ "user_table.first_name AS user_first_name, "
+							+ "user_table.last_name AS user_last_name, "
+							+ "contact_table.email_address AS contact_email_address, "
+							+ "contact_table.first_name AS contact_first_name,"
+							+ "contact_table.last_name AS contact_last_name,"
+							+ "internal_transaction.amount,"
+							+ "internal_transaction.description "
+						
 						+ "FROM internal_transaction "
-						+ "INNER JOIN user_account ON internal_transaction.contact_id = user_account.id "
+						+ "INNER JOIN user_account AS user_table ON internal_transaction.user_id = user_table.id "
+						+ "INNER JOIN user_account AS contact_table ON internal_transaction.contact_id = contact_table.id "
 						+ "WHERE "
 						
 							+ "internal_transaction.user_id = ("
@@ -89,42 +96,8 @@ public class InternalTransactionRepository {
 								+ "WHERE user_account.email_address = '" + emailAddress + "'"
 								
 							+ ")"
-						+ ";";
-		
-		dataBaseConfig.openConnection();
-		dataBaseConfig.createStatement();
-				
-		dataBaseConfig.createResult(request);
-				
-    	try {
-    		
-			while (dataBaseConfig.getResult().next()) {
-				
-				internalTransactionList.add(new InternalTransaction(
-						
-						new UserContact(dataBaseConfig.getResult().getString("email_address"), dataBaseConfig.getResult().getString("first_name"), dataBaseConfig.getResult().getString("last_name")), 
-						new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(dataBaseConfig.getResult().getTimestamp("date_time")), 
-						dataBaseConfig.getResult().getString("description"),
-						(dataBaseConfig.getResult().getFloat("amount")*(-1))));
-			}
-
-		} catch (SQLException e) {
-            logger.error("- ResultSet throw exception : " + e.getMessage());
-		} finally {
-			dataBaseConfig.closeResult();
-	    }
-		
-		dataBaseConfig.closeStatement();
-		dataBaseConfig.closeConnection();
-	}
-
-	public void selectInternalTransactionToUser(String emailAddress, ArrayList<InternalTransaction> internalTransactionList) {
-        logger.info("selectInternalTransactionToUser(" + emailAddress + "," + internalTransactionList + ")");
-		
-		String request 	= "SELECT * "
-						+ "FROM internal_transaction "
-						+ "INNER JOIN user_account ON internal_transaction.contact_id = user_account.id "
-						+ "WHERE "
+							
+							+ "OR "
 						
 							+ "internal_transaction.contact_id = ("
 							
@@ -133,34 +106,52 @@ public class InternalTransactionRepository {
 								+ "WHERE user_account.email_address = '" + emailAddress + "'"
 								
 							+ ")"
-						+ ";";
+							
+						+ "ORDER BY internal_transaction.date_time DESC";
+
+		ResultSet resultSet = dataBaseConfig.selectQuery(query);
 		
-		dataBaseConfig.openConnection();
-		dataBaseConfig.createStatement();
-				
-		dataBaseConfig.createResult(request);
-		
-		System.out.println(request);
-				
     	try {
     		
-			while (dataBaseConfig.getResult().next()) {
+			while (resultSet.next()) {
+								
+				if (resultSet.getString("user_email_address").equals(emailAddress)) {
+
+					internalTransactionList.add(new InternalTransaction(
+							
+							new UserContact(resultSet.getString("contact_email_address"), resultSet.getString("contact_first_name"), resultSet.getString("contact_last_name")), 
+							new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(resultSet.getTimestamp("date_time")), 
+							resultSet.getString("description"),
+							(resultSet.getFloat("amount")*(-1))));
+				}
 				
-				internalTransactionList.add(new InternalTransaction(
-						
-						new UserContact(dataBaseConfig.getResult().getString("email_address"), dataBaseConfig.getResult().getString("first_name"), dataBaseConfig.getResult().getString("last_name")), 
-						new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(dataBaseConfig.getResult().getTimestamp("date_time")), 
-						dataBaseConfig.getResult().getString("description"),
-						(dataBaseConfig.getResult().getFloat("amount"))));
+				else {
+
+					internalTransactionList.add(new InternalTransaction(
+							
+							new UserContact(resultSet.getString("user_email_address"), resultSet.getString("user_first_name"), resultSet.getString("user_last_name")), 
+							new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(resultSet.getTimestamp("date_time")), 
+							resultSet.getString("description"),
+							resultSet.getFloat("amount")));
+				}
 			}
 
 		} catch (SQLException e) {
-            logger.error("- ResultSet throw exception : " + e.getMessage());
+			e.printStackTrace();
+            
 		} finally {
-			dataBaseConfig.closeResult();
+			
+			try {
+				
+				if (resultSet != null) {
+					resultSet.close();
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 	    }
 		
-		dataBaseConfig.closeStatement();
-		dataBaseConfig.closeConnection();
+		return dataBaseConfig.isQueryExecutedSuccessfully();
 	}
 }

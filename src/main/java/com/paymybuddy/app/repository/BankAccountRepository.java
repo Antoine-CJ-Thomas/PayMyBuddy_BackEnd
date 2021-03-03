@@ -1,5 +1,6 @@
 package com.paymybuddy.app.repository;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -26,10 +27,10 @@ public class BankAccountRepository {
     	dataBaseConfig = new PostgreConfig();
     }
 
-	public void insertBankAccount(String userEmailAddress, String accountNumber, String swiftCode) {
+	public boolean insertBankAccount(String userEmailAddress, String accountNumber, String swiftCode) {
         logger.info("insertBankAccount(" + userEmailAddress + "," + accountNumber + "," + swiftCode + ")");
 				
-		String request 	= "INSERT "
+		String query 	= "INSERT "
 						+ "INTO bank_account (user_id,account_number,swift_code) "
 						+ "VALUES ("
 						
@@ -51,21 +52,15 @@ public class BankAccountRepository {
 							
 						+ ");";
         
-		dataBaseConfig.openConnection();
-		dataBaseConfig.createStatement();
+		dataBaseConfig.insertQuery(query);
 		
-		dataBaseConfig.disableAutoCommit();
-		dataBaseConfig.executeUpdateStatement(request);
-		dataBaseConfig.commit();
-		
-		dataBaseConfig.closeStatement();
-		dataBaseConfig.closeConnection();
+		return dataBaseConfig.isQueryExecutedSuccessfully();
 	}
 
-	public void selectBankAccountList(String emailAddress, ArrayList<BankAccount> bankAccountList) {
+	public boolean selectBankAccountList(String emailAddress, ArrayList<BankAccount> bankAccountList) {
         logger.info("selectBankAccountList(" + emailAddress + "," + bankAccountList + ")");
 		
-		String request 	= "SELECT * "
+		String query 	= "SELECT * "
 						+ "FROM bank_account "
 						+ "INNER JOIN user_account ON bank_account.user_id = user_account.id "
 						+ "WHERE "
@@ -78,35 +73,41 @@ public class BankAccountRepository {
 								
 							+ ")"
 						+ ";";
+
+		ResultSet resultSet = dataBaseConfig.selectQuery(query);
 		
-		dataBaseConfig.openConnection();
-		dataBaseConfig.createStatement();
-				
-		dataBaseConfig.createResult(request);
-				
     	try {
     		
-			while (dataBaseConfig.getResult().next()) {
+			while (resultSet.next()) {
 				
 				bankAccountList.add(new BankAccount(
-						dataBaseConfig.getResult().getString("account_number"), 
-						dataBaseConfig.getResult().getString("swift_code")));
+						resultSet.getString("account_number"), 
+						resultSet.getString("swift_code")));
 			}
 
 		} catch (SQLException e) {
-            logger.error("- ResultSet throw exception : " + e.getMessage());
+			e.printStackTrace();
+            
 		} finally {
-			dataBaseConfig.closeResult();
+			
+			try {
+				
+				if (resultSet != null) {
+					resultSet.close();
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 	    }
 		
-		dataBaseConfig.closeStatement();
-		dataBaseConfig.closeConnection();
+		return dataBaseConfig.isQueryExecutedSuccessfully();
 	}
 
-	public void deleteBankAccount(String userEmailAddress, String accountNumber, String swiftCode) {
+	public boolean deleteBankAccount(String userEmailAddress, String accountNumber, String swiftCode) {
         logger.info("deleteBankAccount(" + userEmailAddress + "," + accountNumber + "," + swiftCode + ")");
         
-		String request 	= "DELETE "
+		String query 	= "DELETE "
 						+ "FROM bank_account "
 						+ "WHERE "
 						
@@ -125,14 +126,8 @@ public class BankAccountRepository {
 								+ "bank_account.swift_code ='" + swiftCode + "'"
 						+ ";";
         
-		dataBaseConfig.openConnection();
-		dataBaseConfig.createStatement();
+		dataBaseConfig.deleteQuery(query);
 		
-		dataBaseConfig.disableAutoCommit();
-		dataBaseConfig.executeUpdateStatement(request);
-		dataBaseConfig.commit();
-		
-		dataBaseConfig.closeStatement();
-		dataBaseConfig.closeConnection();
+		return dataBaseConfig.isQueryExecutedSuccessfully();
 	}
 }

@@ -59,8 +59,12 @@ class UserAccountServiceTest {
 		when(userAccountCreatingDto.getPassword()).thenReturn(password);
 		when(userAccountCreatingDto.getFirstName()).thenReturn(firstName);
 		when(userAccountCreatingDto.getLastName()).thenReturn(lastName);
-		when(userAccountCreatingDto.getUserAccount()).thenReturn(userAccount);
-		when(userAccount.getEmailAddress()).thenReturn(emailAddress);
+		
+		when(userAccountRepository.insertUserAccount(
+				userAccountCreatingDto.getEmailAddress(), 
+				userAccountCreatingDto.getPassword(), 
+				userAccountCreatingDto.getFirstName(), 
+				userAccountCreatingDto.getLastName())).thenReturn(true);
 		
 		userAccountService.createUserAccount(userAccountCreatingDto);
 	    
@@ -73,7 +77,6 @@ class UserAccountServiceTest {
 
     	//GIVEN
 		String emailAddress = "emailAddress";
-		String differentEmailAddress = "differentEmailAddress";
 		String password = "password";
 		String firstName = "firstName";
 		String lastName = "lastName";
@@ -83,8 +86,12 @@ class UserAccountServiceTest {
 		when(userAccountCreatingDto.getPassword()).thenReturn(password);
 		when(userAccountCreatingDto.getFirstName()).thenReturn(firstName);
 		when(userAccountCreatingDto.getLastName()).thenReturn(lastName);
-		when(userAccountCreatingDto.getUserAccount()).thenReturn(userAccount);
-		when(userAccount.getEmailAddress()).thenReturn(differentEmailAddress);
+		
+		when(userAccountRepository.insertUserAccount(
+				userAccountCreatingDto.getEmailAddress(), 
+				userAccountCreatingDto.getPassword(), 
+				userAccountCreatingDto.getFirstName(), 
+				userAccountCreatingDto.getLastName())).thenReturn(false);
 		
 		userAccountService.createUserAccount(userAccountCreatingDto);
 	    
@@ -97,14 +104,14 @@ class UserAccountServiceTest {
 
     	//GIVEN
 		String emailAddress = "emailAddress";
-		String emptyEmailAddress = "";
 		String password = "password";
         
     	//WHEN
 		when(userAccountDeletingDto.getEmailAddress()).thenReturn(emailAddress);
 		when(userAccountDeletingDto.getPassword()).thenReturn(password);
-		when(userAccountDeletingDto.getUserAccount()).thenReturn(userAccount);
-		when(userAccount.getEmailAddress()).thenReturn(emptyEmailAddress);
+		
+		when(userAccountRepository.deleteUserAccount(
+				userAccountDeletingDto.getEmailAddress())).thenReturn(true);
 		
 		userAccountService.deleteUserAccount(userAccountDeletingDto);
 	    
@@ -117,14 +124,14 @@ class UserAccountServiceTest {
 
     	//GIVEN
 		String emailAddress = "emailAddress";
-		String differentEmailAddress = "differentEmailAddress";
 		String password = "password";
         
     	//WHEN
 		when(userAccountDeletingDto.getEmailAddress()).thenReturn(emailAddress);
 		when(userAccountDeletingDto.getPassword()).thenReturn(password);
-		when(userAccountDeletingDto.getUserAccount()).thenReturn(userAccount);
-		when(userAccount.getEmailAddress()).thenReturn(differentEmailAddress);
+		
+		when(userAccountRepository.deleteUserAccount(
+				userAccountDeletingDto.getEmailAddress())).thenReturn(false);
 		
 		userAccountService.deleteUserAccount(userAccountDeletingDto);
 	    
@@ -146,10 +153,12 @@ class UserAccountServiceTest {
 		when(userAccountEditingDto.getPassword()).thenReturn(password);
 		when(userAccountEditingDto.getFirstName()).thenReturn(firstName);
 		when(userAccountEditingDto.getLastName()).thenReturn(lastName);
-		when(userAccountEditingDto.getUserAccount()).thenReturn(userAccount);
-		when(userAccount.getPassword()).thenReturn(password);
-		when(userAccount.getFirstName()).thenReturn(firstName);
-		when(userAccount.getLastName()).thenReturn(lastName);
+		
+		when(userAccountRepository.updateUserAccount(
+				userAccountEditingDto.getEmailAddress(), 
+				userAccountEditingDto.getPassword(), 
+				userAccountEditingDto.getFirstName(), 
+				userAccountEditingDto.getLastName())).thenReturn(true);
 		
 		userAccountService.editUserAccount(userAccountEditingDto);
 	    
@@ -164,7 +173,6 @@ class UserAccountServiceTest {
 		String emailAddress = "emailAddress";
 		String password = "password";
 		String firstName = "firstName";
-		String differentFirstName = "differentFirstName";
 		String lastName = "lastName";
         
     	//WHEN
@@ -172,10 +180,12 @@ class UserAccountServiceTest {
 		when(userAccountEditingDto.getPassword()).thenReturn(password);
 		when(userAccountEditingDto.getFirstName()).thenReturn(firstName);
 		when(userAccountEditingDto.getLastName()).thenReturn(lastName);
-		when(userAccountEditingDto.getUserAccount()).thenReturn(userAccount);
-		when(userAccount.getPassword()).thenReturn(password);
-		when(userAccount.getFirstName()).thenReturn(differentFirstName);
-		when(userAccount.getLastName()).thenReturn(lastName);
+		
+		when(userAccountRepository.updateUserAccount(
+				userAccountEditingDto.getEmailAddress(), 
+				userAccountEditingDto.getPassword(), 
+				userAccountEditingDto.getFirstName(), 
+				userAccountEditingDto.getLastName())).thenReturn(false);
 		
 		userAccountService.editUserAccount(userAccountEditingDto);
 	    
@@ -193,8 +203,10 @@ class UserAccountServiceTest {
     	//WHEN
 		when(userAccountLoginDto.getEmailAddress()).thenReturn(emailAddress);
 		when(userAccountLoginDto.getPassword()).thenReturn(password);
-		when(userAccountLoginDto.getUserAccount()).thenReturn(userAccount);
-		when(userAccount.getPassword()).thenReturn(password);
+		
+		when(userAccountRepository.selectUserAccount(
+				userAccountLoginDto.getEmailAddress(), 
+				userAccountLoginDto.getUserAccount())).thenReturn(true);
 		
 		userAccountService.loginUserAccount(userAccountLoginDto);
 	    
@@ -208,13 +220,14 @@ class UserAccountServiceTest {
     	//GIVEN
 		String emailAddress = "emailAddress";
 		String password = "password";
-		String differentPassword = "differentPassword";
         
     	//WHEN
 		when(userAccountLoginDto.getEmailAddress()).thenReturn(emailAddress);
 		when(userAccountLoginDto.getPassword()).thenReturn(password);
-		when(userAccountLoginDto.getUserAccount()).thenReturn(userAccount);
-		when(userAccount.getPassword()).thenReturn(differentPassword);
+		
+		when(userAccountRepository.selectUserAccount(
+				userAccountLoginDto.getEmailAddress(), 
+				userAccountLoginDto.getUserAccount())).thenReturn(false);
 		
 		userAccountService.loginUserAccount(userAccountLoginDto);
 	    
@@ -231,7 +244,10 @@ class UserAccountServiceTest {
     	//WHEN
 		when(userAccountRetrievingDto.getEmailAddress()).thenReturn(emailAddress);
 		when(userAccountRetrievingDto.getUserAccount()).thenReturn(userAccount);
-		when(userAccount.getEmailAddress()).thenReturn(emailAddress);
+		
+		when(userAccountRepository.selectUserAccount(
+				userAccountRetrievingDto.getEmailAddress(), 
+				userAccountRetrievingDto.getUserAccount())).thenReturn(true);
 		
 		userAccountService.retrieveUserAccount(userAccountRetrievingDto);
 	    
@@ -244,12 +260,14 @@ class UserAccountServiceTest {
 
     	//GIVEN
 		String emailAddress = "emailAddress";
-		String differentEmailAddress = "differentEmailAddress";
         
     	//WHEN
 		when(userAccountRetrievingDto.getEmailAddress()).thenReturn(emailAddress);
 		when(userAccountRetrievingDto.getUserAccount()).thenReturn(userAccount);
-		when(userAccount.getEmailAddress()).thenReturn(differentEmailAddress);
+		
+		when(userAccountRepository.selectUserAccount(
+				userAccountRetrievingDto.getEmailAddress(), 
+				userAccountRetrievingDto.getUserAccount())).thenReturn(false);
 		
 		userAccountService.retrieveUserAccount(userAccountRetrievingDto);
 	    

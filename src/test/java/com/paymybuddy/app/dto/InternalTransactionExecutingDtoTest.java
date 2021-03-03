@@ -2,22 +2,14 @@ package com.paymybuddy.app.dto;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.ArrayList;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import com.paymybuddy.app.model.InternalTransaction;
 
 @SpringBootTest
 class InternalTransactionExecutingDtoTest {
 
 	private InternalTransactionExecutingDto internalTransactionExecutingDto;
-	
-	@Mock
-	private ArrayList<InternalTransaction> internalTransactionList = new ArrayList<InternalTransaction>();
     
 	@BeforeEach
 	void beforeEach() {
@@ -88,18 +80,6 @@ class InternalTransactionExecutingDtoTest {
     	
     	//THEN
         assertEquals(amount, internalTransactionExecutingDto.getAmount());
-	}
-	
-	@Test
-	void test_setAndGetInternalTransactionList() {
-
-    	//GIVEN
-        
-    	//WHEN
-		internalTransactionExecutingDto.setInternalTransactionList(internalTransactionList);
-    	
-    	//THEN
-        assertEquals(internalTransactionList, internalTransactionExecutingDto.getInternalTransactionList());
 	}
 
 	@Test

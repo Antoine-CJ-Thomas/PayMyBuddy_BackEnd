@@ -2,8 +2,6 @@ package com.paymybuddy.app.dto;
 
 import org.springframework.stereotype.Component;
 
-import com.paymybuddy.app.model.UserAccount;
-
 @Component
 public class UserAccountEditingDto {
 
@@ -12,7 +10,6 @@ public class UserAccountEditingDto {
 	private String firstName;
 	private String lastName;
 	
-	private UserAccount userAccount = new UserAccount();
 	private boolean dataValidated;
 	
 	public UserAccountEditingDto() {}
@@ -55,14 +52,6 @@ public class UserAccountEditingDto {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
-	}
-
-	public UserAccount getUserAccount() {
-		return userAccount;
-	}
-
-	public void setUserAccount(UserAccount userAccount) {
-		this.userAccount = userAccount;
 	}
 
 	public boolean isDataValidated() {

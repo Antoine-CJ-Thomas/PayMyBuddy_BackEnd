@@ -4,7 +4,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 import com.jsoniter.output.JsonStream;
 import com.paymybuddy.app.dto.BankAccountAddingDto;
 import com.paymybuddy.app.dto.BankAccountRemovingDto;
@@ -21,7 +20,6 @@ import com.paymybuddy.app.dto.UserAccountRetrievingDto;
 import com.paymybuddy.app.dto.UserContactAddingDto;
 import com.paymybuddy.app.dto.UserContactRemovingDto;
 import com.paymybuddy.app.dto.UserContactRetrievingDto;
-import com.paymybuddy.app.model.UserAccount;
 
 @SpringBootApplication
 public class App {
@@ -34,10 +32,6 @@ public class App {
 		SpringApplication.run(App.class, args);
 		
 		//PROVISOIRE
-		
-		System.out.println();
-		System.out.println("UserAccount : " + JsonStream.serialize(new UserAccount()));
-
 		System.out.println();
 		System.out.println("BankAccountAddingDto : " + JsonStream.serialize(new BankAccountAddingDto("userEmailAddress", "accountNumber", "swiftCode")));
 		System.out.println("BankAccountRemovingDto : " + JsonStream.serialize(new BankAccountRemovingDto("userEmailAddress", "accountNumber", "swiftCode")));

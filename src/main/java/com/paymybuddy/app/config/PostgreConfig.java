@@ -1,131 +1,241 @@
 package com.paymybuddy.app.config;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
+import java.util.Properties;
 
 /**
 *
 */
 @Component
-public class PostgreConfig implements DataBaseConfig{
+public class PostgreConfig implements DataBaseConfig {
 
-    private static final Logger logger = LogManager.getLogger("DataBaseConfig");
-    
-    private String url;
-    private String user;
-    private String password;
-    
-    private Connection connection;
-    private Statement statement;
-    private ResultSet resultSet;
-    
-    public PostgreConfig() {
-    	
-    	this.url = "jdbc:postgresql://localhost:5432/app";
-    	this.user = "usertest";
-    	this.password = "testuser";
-    }
+	private String url;
+	private String user;
+	private String password;
 
-	@Override
-	public void openConnection() {
-		
-        try {
-			connection = DriverManager.getConnection(url,user,password);
-		} catch (SQLException e) {
-            logger.error("- Open connection throw exception : " + e.getMessage());
+	private boolean queryExecutedSuccessfully;
+
+	public PostgreConfig() {
+
+		Properties properties = new Properties();
+
+		try {
+
+			InputStream inputStream = new FileInputStream("resources/jdbc.properties");
+
+			if (inputStream != null) {
+
+				properties.load(inputStream);
+
+				this.url = properties.getProperty("postgre.url");
+				this.user = properties.getProperty("postgre.user");
+				this.password = properties.getProperty("postgre.password");
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public void closeConnection() {
+	public void insertQuery(String query) {
 
-        if (connection != null) {
-        	try {
-        		connection.close();
-			} catch (SQLException e) {
-	            logger.error("- Close connection throw exception : " + e.getMessage());
+		Connection connection = null;
+		Statement statement = null;
+
+		try {
+
+			connection = DriverManager.getConnection(url, user, password);
+			statement = connection.createStatement();
+
+			connection.setAutoCommit(false);
+			statement.executeUpdate(query);
+			connection.commit();
+
+			statement.close();
+			connection.close();
+
+			queryExecutedSuccessfully = true;
+
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+
+			queryExecutedSuccessfully = false;
+			
+		} finally {
+
+			if (statement != null) {
+
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+			if (connection != null) {
+
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
-    }
+	}
 
 	@Override
-	public void createStatement() {
-		
-        try {
+	public ResultSet selectQuery(String query) {
+
+		Connection connection = null;
+		Statement statement = null;
+		ResultSet resultSet = null;
+
+		try {
+
+			connection = DriverManager.getConnection(url, user, password);
 			statement = connection.createStatement();
+
+			connection.setAutoCommit(false);
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(query);
+
+			statement.close();
+			connection.close();
+
+			queryExecutedSuccessfully = true;
+
 		} catch (SQLException e) {
-            logger.error("- Open statement throw exception : " + e.getMessage());
+
+			e.printStackTrace();
+
+			queryExecutedSuccessfully = false;
+			
+		} finally {
+
+			if (statement != null) {
+
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+			if (connection != null) {
+
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
-	}
-
-	@Override
-	public void executeUpdateStatement(String request) {
-
-        try {
-			statement.executeUpdate(request);
-		} catch (SQLException e) {
-            logger.error("- Execute statement throw exception : " + e.getMessage());
-		}
-	}
-
-	@Override
-	public void createResult(String request) {
 		
-        try {
-			resultSet = statement.executeQuery(request);
-		} catch (SQLException e) {
-            logger.error("- Open resultSet throw exception : " + e.getMessage());
-		}
-	}
-
-	@Override
-	public ResultSet getResult() {
 		return resultSet;
 	}
 
 	@Override
-	public void closeResult() {
+	public void updateQuery(String query) {
 
-        if (resultSet != null) {
-        	try {
-        		resultSet.close();
-			} catch (SQLException e) {
-	            logger.error("- Close resultSet throw exception : " + e.getMessage());
-			}
-		}
-    }
+		Connection connection = null;
+		Statement statement = null;
 
-	@Override
-	public void closeStatement() {
-    	
-        if (statement != null) {
-        	try {
-				statement.close();
-			} catch (SQLException e) {
-	            logger.error("- Close statement throw exception : " + e.getMessage());
-			}
-		}
-    }
+		try {
 
-	@Override
-	public void disableAutoCommit() {
+			connection = DriverManager.getConnection(url, user, password);
+			statement = connection.createStatement();
 
-        try {
 			connection.setAutoCommit(false);
+			statement.executeUpdate(query);
+			connection.commit();
+
+			statement.close();
+			connection.close();
+
+			queryExecutedSuccessfully = true;
+
 		} catch (SQLException e) {
-            logger.error("- Disable automatic commit throw exception : " + e.getMessage());
+
+			e.printStackTrace();
+
+			queryExecutedSuccessfully = false;
+			
+		} finally {
+
+			if (statement != null) {
+
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+			if (connection != null) {
+
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 
 	@Override
-	public void commit() {
+	public void deleteQuery(String query) {
 
-        try {
+		Connection connection = null;
+		Statement statement = null;
+
+		try {
+
+			connection = DriverManager.getConnection(url, user, password);
+			statement = connection.createStatement();
+
+			connection.setAutoCommit(false);
+			statement.executeUpdate(query);
 			connection.commit();
+
+			queryExecutedSuccessfully = true;
+
 		} catch (SQLException e) {
-            logger.error("- Commit throw exception : " + e.getMessage());
+
+			e.printStackTrace();
+
+			queryExecutedSuccessfully = false;
+			
+		} finally {
+
+			if (statement != null) {
+
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+			if (connection != null) {
+
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
+	}
+
+	@Override
+	public boolean isQueryExecutedSuccessfully() {
+		return queryExecutedSuccessfully;
 	}
 }

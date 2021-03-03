@@ -1,5 +1,6 @@
 package com.paymybuddy.app.repository;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -28,10 +29,10 @@ public class ExternalTransactionRepository {
     	dataBaseConfig = new PostgreConfig();
     }
 
-	public void insertExternalTransaction(String userEmailAddress, String accountNumber, String swiftCode, float amount, String description) {
-        logger.info("insertExternalTransaction(" + userEmailAddress + "," + accountNumber + "," + swiftCode + "," + amount + "," + description + ")");
+	public boolean insertExternalTransaction(String userEmailAddress, String accountNumber, String swiftCode, String description, float amount) {
+        logger.info("insertExternalTransaction(" + userEmailAddress + "," + accountNumber + "," + swiftCode + "," + description + "," + amount + ")");
 				
-		String request 	= "INSERT "
+		String query 	= "INSERT "
 						+ "INTO external_transaction (user_id,bank_id,date_time,amount,description) "
 						+ "VALUES ("
 						
@@ -77,21 +78,15 @@ public class ExternalTransactionRepository {
 							
 						+ ");";
 		
-		dataBaseConfig.openConnection();
-		dataBaseConfig.createStatement();
+		dataBaseConfig.insertQuery(query);
 		
-		dataBaseConfig.disableAutoCommit();
-		dataBaseConfig.executeUpdateStatement(request);
-		dataBaseConfig.commit();
-		
-		dataBaseConfig.closeStatement();
-		dataBaseConfig.closeConnection();
+		return dataBaseConfig.isQueryExecutedSuccessfully();
 	}
 
-	public void selectExternalTransaction(String emailAddress, ArrayList<ExternalTransaction> externalTransactionList) {
+	public boolean selectExternalTransaction(String emailAddress, ArrayList<ExternalTransaction> externalTransactionList) {
         logger.info("selectExternalTransactionFromUser(" + emailAddress + "," + externalTransactionList + ")");
 		
-		String request 	= "SELECT * "
+		String query 	= "SELECT * "
 						+ "FROM external_transaction "
 						+ "INNER JOIN bank_account ON external_transaction.bank_id = bank_account.id "
 						+ "WHERE "
@@ -104,31 +99,37 @@ public class ExternalTransactionRepository {
 								
 							+ ")"
 						+ ";";
+
+		ResultSet resultSet = dataBaseConfig.selectQuery(query);
 		
-		dataBaseConfig.openConnection();
-		dataBaseConfig.createStatement();
-				
-		dataBaseConfig.createResult(request);
-				
     	try {
     		
-			while (dataBaseConfig.getResult().next()) {
+			while (resultSet.next()) {
 				
 				externalTransactionList.add(new ExternalTransaction(
 						
-						new BankAccount(dataBaseConfig.getResult().getString("account_number"), dataBaseConfig.getResult().getString("swift_code")), 
-						new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(dataBaseConfig.getResult().getTimestamp("date_time")), 
-						dataBaseConfig.getResult().getString("description"),
-						(dataBaseConfig.getResult().getFloat("amount")*(-1))));
+						new BankAccount(resultSet.getString("account_number"), resultSet.getString("swift_code")), 
+						new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(resultSet.getTimestamp("date_time")), 
+						resultSet.getString("description"),
+						(resultSet.getFloat("amount")*(-1))));
 			}
 
 		} catch (SQLException e) {
-            logger.error("- ResultSet throw exception : " + e.getMessage());
+			e.printStackTrace();
+            
 		} finally {
-			dataBaseConfig.closeResult();
+			
+			try {
+				
+				if (resultSet != null) {
+					resultSet.close();
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 	    }
 		
-		dataBaseConfig.closeStatement();
-		dataBaseConfig.closeConnection();
+		return dataBaseConfig.isQueryExecutedSuccessfully();
 	}
 }

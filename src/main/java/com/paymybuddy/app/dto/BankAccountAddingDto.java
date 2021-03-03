@@ -1,10 +1,6 @@
 package com.paymybuddy.app.dto;
 
-import java.util.ArrayList;
-
 import org.springframework.stereotype.Component;
-
-import com.paymybuddy.app.model.BankAccount;
 
 @Component
 public class BankAccountAddingDto {
@@ -13,7 +9,6 @@ public class BankAccountAddingDto {
 	private String accountNumber;
 	private String swiftCode;
 	
-	private ArrayList<BankAccount> bankAccountList = new ArrayList<BankAccount>();
 	private boolean dataValidated;
 	
 	public BankAccountAddingDto() {}
@@ -47,14 +42,6 @@ public class BankAccountAddingDto {
 
 	public void setSwiftCode(String swiftCode) {
 		this.swiftCode = swiftCode;
-	}
-
-	public ArrayList<BankAccount> getBankAccountList() {
-		return bankAccountList;
-	}
-
-	public void setBankAccountList(ArrayList<BankAccount> bankAccountList) {
-		this.bankAccountList = bankAccountList;
 	}
 
 	public boolean isDataValidated() {

@@ -1,10 +1,6 @@
 package com.paymybuddy.app.dto;
 
-import java.util.ArrayList;
-
 import org.springframework.stereotype.Component;
-
-import com.paymybuddy.app.model.UserContact;
 
 @Component
 public class UserContactAddingDto {
@@ -12,7 +8,6 @@ public class UserContactAddingDto {
 	private String userEmailAddress;
 	private String contactEmailAddress;
 	
-	private ArrayList<UserContact> userContactList = new ArrayList<UserContact>();
 	private boolean dataValidated;
 	
 	public UserContactAddingDto() {}
@@ -37,14 +32,6 @@ public class UserContactAddingDto {
 
 	public void setContactEmailAddress(String contactEmailAddress) {
 		this.contactEmailAddress = contactEmailAddress;
-	}
-
-	public ArrayList<UserContact> getUserContactList() {
-		return userContactList;
-	}
-
-	public void setUserContactList(ArrayList<UserContact> userContactList) {
-		this.userContactList = userContactList;
 	}
 
 	public boolean isDataValidated() {

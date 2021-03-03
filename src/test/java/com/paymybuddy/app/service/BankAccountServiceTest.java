@@ -32,8 +32,6 @@ class bankAccountServiceTest {
 	@Mock
 	private BankAccountRepository bankAccountRepository;
 	@Mock
-	private BankAccount bankAccount;
-	
 	private ArrayList<BankAccount> bankAccountList;
     
 	@BeforeEach
@@ -41,7 +39,6 @@ class bankAccountServiceTest {
 
 		bankAccountService = new BankAccountService();
 		ReflectionTestUtils.setField(bankAccountService, "bankAccountRepository", bankAccountRepository);
-		bankAccountList = new ArrayList<BankAccount>();
 	}
 	
 	@Test
@@ -56,10 +53,11 @@ class bankAccountServiceTest {
 		when(bankAccountAddingDto.getEmailAddress()).thenReturn(emailAddress);
 		when(bankAccountAddingDto.getAccountNumber()).thenReturn(accountNumber);
 		when(bankAccountAddingDto.getSwiftCode()).thenReturn(swiftCode);
-		when(bankAccountAddingDto.getBankAccountList()).thenReturn(bankAccountList);
-		when(bankAccount.getAccountNumber()).thenReturn(accountNumber);
-		when(bankAccount.getSwiftCode()).thenReturn(swiftCode);
-		bankAccountList.add(bankAccount);
+		
+		when(bankAccountRepository.insertBankAccount(
+				bankAccountAddingDto.getEmailAddress(), 
+				bankAccountAddingDto.getAccountNumber(), 
+				bankAccountAddingDto.getSwiftCode())).thenReturn(true);
 		
 		bankAccountService.addBankAccount(bankAccountAddingDto);
 	    
@@ -73,18 +71,17 @@ class bankAccountServiceTest {
     	//GIVEN
 		String emailAddress = "emailAddress";
 		String accountNumber = "accountNumber";
-		String differentAccountNumber = "differentAccountNumber";
 		String swiftCode = "swiftCode";
-		String differentSwiftCode = "differentSwiftCode";
         
     	//WHEN
 		when(bankAccountAddingDto.getEmailAddress()).thenReturn(emailAddress);
 		when(bankAccountAddingDto.getAccountNumber()).thenReturn(accountNumber);
 		when(bankAccountAddingDto.getSwiftCode()).thenReturn(swiftCode);
-		when(bankAccountAddingDto.getBankAccountList()).thenReturn(bankAccountList);
-		when(bankAccount.getAccountNumber()).thenReturn(differentAccountNumber);
-		when(bankAccount.getSwiftCode()).thenReturn(differentSwiftCode);
-		bankAccountList.add(bankAccount);
+		
+		when(bankAccountRepository.insertBankAccount(
+				bankAccountAddingDto.getEmailAddress(), 
+				bankAccountAddingDto.getAccountNumber(), 
+				bankAccountAddingDto.getSwiftCode())).thenReturn(false);
 		
 		bankAccountService.addBankAccount(bankAccountAddingDto);
 	    
@@ -98,18 +95,17 @@ class bankAccountServiceTest {
     	//GIVEN
 		String emailAddress = "emailAddress";
 		String accountNumber = "accountNumber";
-		String differentAccountNumber = "differentAccountNumber";
 		String swiftCode = "swiftCode";
-		String differentSwiftCode = "differentSwiftCode";
         
     	//WHEN
 		when(bankAccountRemovingDto.getEmailAddress()).thenReturn(emailAddress);
 		when(bankAccountRemovingDto.getAccountNumber()).thenReturn(accountNumber);
 		when(bankAccountRemovingDto.getSwiftCode()).thenReturn(swiftCode);
-		when(bankAccountRemovingDto.getBankAccountList()).thenReturn(bankAccountList);
-		when(bankAccount.getAccountNumber()).thenReturn(differentAccountNumber);
-		when(bankAccount.getSwiftCode()).thenReturn(differentSwiftCode);
-		bankAccountList.add(bankAccount);
+		
+		when(bankAccountRepository.deleteBankAccount(
+				bankAccountRemovingDto.getEmailAddress(), 
+				bankAccountRemovingDto.getAccountNumber(), 
+				bankAccountRemovingDto.getSwiftCode())).thenReturn(true);
 		
 		bankAccountService.removeBankAccount(bankAccountRemovingDto);
 	    
@@ -129,10 +125,11 @@ class bankAccountServiceTest {
 		when(bankAccountRemovingDto.getEmailAddress()).thenReturn(emailAddress);
 		when(bankAccountRemovingDto.getAccountNumber()).thenReturn(accountNumber);
 		when(bankAccountRemovingDto.getSwiftCode()).thenReturn(swiftCode);
-		when(bankAccountRemovingDto.getBankAccountList()).thenReturn(bankAccountList);
-		when(bankAccount.getAccountNumber()).thenReturn(accountNumber);
-		when(bankAccount.getSwiftCode()).thenReturn(swiftCode);
-		bankAccountList.add(bankAccount);
+		
+		when(bankAccountRepository.deleteBankAccount(
+				bankAccountRemovingDto.getEmailAddress(), 
+				bankAccountRemovingDto.getAccountNumber(), 
+				bankAccountRemovingDto.getSwiftCode())).thenReturn(false);
 		
 		bankAccountService.removeBankAccount(bankAccountRemovingDto);
 	    
@@ -149,7 +146,10 @@ class bankAccountServiceTest {
     	//WHEN
 		when(bankAccountRetrievingDto.getEmailAddress()).thenReturn(emailAddress);
 		when(bankAccountRetrievingDto.getBankAccountList()).thenReturn(bankAccountList);
-		bankAccountList.add(bankAccount);
+		
+		when(bankAccountRepository.selectBankAccountList(
+				bankAccountRetrievingDto.getEmailAddress(), 
+				bankAccountRetrievingDto.getBankAccountList())).thenReturn(true);
 		
 		bankAccountService.retrieveBankAccountList(bankAccountRetrievingDto);
 	    
@@ -166,6 +166,10 @@ class bankAccountServiceTest {
     	//WHEN
 		when(bankAccountRetrievingDto.getEmailAddress()).thenReturn(emailAddress);
 		when(bankAccountRetrievingDto.getBankAccountList()).thenReturn(bankAccountList);
+		
+		when(bankAccountRepository.selectBankAccountList(
+				bankAccountRetrievingDto.getEmailAddress(), 
+				bankAccountRetrievingDto.getBankAccountList())).thenReturn(false);
 		
 		bankAccountService.retrieveBankAccountList(bankAccountRetrievingDto);
 	    
