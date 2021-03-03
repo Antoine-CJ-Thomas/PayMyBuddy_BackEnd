@@ -14,7 +14,7 @@ class ExternalTransactionExecutingDtoTest {
 	@BeforeEach
 	void beforeEach() {
 
-		externalTransactionExecutingDto = new ExternalTransactionExecutingDto(null, null, null, null, null, 0.0f);
+		externalTransactionExecutingDto = new ExternalTransactionExecutingDto(null, null, null, null, 0.0f);
 	}
 
 	@Test
@@ -54,19 +54,6 @@ class ExternalTransactionExecutingDtoTest {
     	
     	//THEN
         assertEquals(swiftCode, externalTransactionExecutingDto.getSwiftCode());
-	}
-    
-	@Test
-	void test_setAndGetDate() {
-
-    	//GIVEN
-		String dateAndTime = "dateAndTime";
-        
-    	//WHEN
-		externalTransactionExecutingDto.setDateAndTime(dateAndTime);
-    	
-    	//THEN
-        assertEquals(dateAndTime, externalTransactionExecutingDto.getDateAndTime());
 	}
     
 	@Test

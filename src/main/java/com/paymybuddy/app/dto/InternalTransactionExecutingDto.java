@@ -7,7 +7,6 @@ public class InternalTransactionExecutingDto {
 
 	private String userEmailAddress;
 	private String contactEmailAddress;
-	protected String dateAndTime;
 	private String description;
 	private float amount;
 	
@@ -15,11 +14,10 @@ public class InternalTransactionExecutingDto {
 	
 	public InternalTransactionExecutingDto() {}
 	
-	public InternalTransactionExecutingDto(String userEmailAddress, String contactEmailAddress, String dateAndTime, String description, float amount) {
+	public InternalTransactionExecutingDto(String userEmailAddress, String contactEmailAddress, String description, float amount) {
 
 		this.userEmailAddress = userEmailAddress;
 		this.contactEmailAddress = contactEmailAddress;
-		this.dateAndTime = dateAndTime;
 		this.description = description;
 		this.amount = amount;
 	}
@@ -54,14 +52,6 @@ public class InternalTransactionExecutingDto {
 
 	public void setAmount(float amount) {
 		this.amount = amount;
-	}
-	
-	public String getDateAndTime() {
-		return dateAndTime;
-	}
-
-	public void setDateAndTime(String dateAndTime) {
-		this.dateAndTime = dateAndTime;
 	}
 
 	public boolean isDataValidated() {

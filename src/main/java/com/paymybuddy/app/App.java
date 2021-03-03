@@ -38,11 +38,11 @@ public class App {
 		System.out.println("BankAccountRetrievingDto : " + JsonStream.serialize(new BankAccountRetrievingDto("emailAddress")));
 		
 		System.out.println();
-		System.out.println("ExternalTransactionExecutingDto : " + JsonStream.serialize(new ExternalTransactionExecutingDto("userEmailAddress", "accountNumber", "swiftCode", "dateAndTime", "description", 0)));
+		System.out.println("ExternalTransactionExecutingDto : " + JsonStream.serialize(new ExternalTransactionExecutingDto("userEmailAddress", "accountNumber", "swiftCode", "description", 0)));
 		System.out.println("ExternalTransactionRetrievingDto : " + JsonStream.serialize(new ExternalTransactionRetrievingDto("userEmailAddress")));
 		
 		System.out.println();
-		System.out.println("InternalTransactionExecutingDto : " + JsonStream.serialize(new InternalTransactionExecutingDto("userEmailAddress", "contactEmailAddress", "dateAndTime", "description", 0)));
+		System.out.println("InternalTransactionExecutingDto : " + JsonStream.serialize(new InternalTransactionExecutingDto("userEmailAddress", "contactEmailAddress", "description", 0)));
 		System.out.println("InternalTransactionRetrievingDto : " + JsonStream.serialize(new InternalTransactionRetrievingDto("userEmailAddress")));
 		
 		System.out.println();

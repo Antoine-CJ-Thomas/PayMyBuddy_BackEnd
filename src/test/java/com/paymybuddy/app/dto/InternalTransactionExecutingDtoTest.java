@@ -14,7 +14,7 @@ class InternalTransactionExecutingDtoTest {
 	@BeforeEach
 	void beforeEach() {
 
-		internalTransactionExecutingDto = new InternalTransactionExecutingDto(null, null, null, null, 0.0f);
+		internalTransactionExecutingDto = new InternalTransactionExecutingDto(null, null, null, 0.0f);
 	}
 
 	@Test
@@ -41,19 +41,6 @@ class InternalTransactionExecutingDtoTest {
     	
     	//THEN
         assertEquals(contactEmailAddress, internalTransactionExecutingDto.getContactEmailAddress());
-	}
-    
-	@Test
-	void test_setAndGetDate() {
-
-    	//GIVEN
-		String dateAndTime = "dateAndTime";
-        
-    	//WHEN
-		internalTransactionExecutingDto.setDateAndTime(dateAndTime);
-    	
-    	//THEN
-        assertEquals(dateAndTime, internalTransactionExecutingDto.getDateAndTime());
 	}
     
 	@Test

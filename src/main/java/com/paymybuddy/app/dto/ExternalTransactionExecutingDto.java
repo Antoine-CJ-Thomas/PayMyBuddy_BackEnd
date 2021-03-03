@@ -8,7 +8,6 @@ public class ExternalTransactionExecutingDto {
 	private String emailAddress;
 	private String accountNumber;
 	private String swiftCode;
-	protected String dateAndTime;
 	private String description;
 	private float amount;
 	
@@ -16,12 +15,11 @@ public class ExternalTransactionExecutingDto {
 	
 	public ExternalTransactionExecutingDto() {}
 	
-	public ExternalTransactionExecutingDto(String emailAddress, String accountNumber, String swiftCode, String dateAndTime, String description, float amount) {
+	public ExternalTransactionExecutingDto(String emailAddress, String accountNumber, String swiftCode, String description, float amount) {
 
 		this.emailAddress = emailAddress;
 		this.accountNumber = accountNumber;
 		this.swiftCode = swiftCode;
-		this.dateAndTime = dateAndTime;
 		this.description = description;
 		this.amount = amount;
 	}
@@ -48,14 +46,6 @@ public class ExternalTransactionExecutingDto {
 
 	public void setSwiftCode(String swiftCode) {
 		this.swiftCode = swiftCode;
-	}
-
-	public String getDateAndTime() {
-		return dateAndTime;
-	}
-
-	public void setDateAndTime(String dateAndTime) {
-		this.dateAndTime = dateAndTime;
 	}
 
 	public String getDescription() {
