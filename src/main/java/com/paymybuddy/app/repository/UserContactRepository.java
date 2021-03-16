@@ -55,7 +55,7 @@ public class UserContactRepository {
 	}
 
 	public boolean selectUserContactList(String emailAddress, ArrayList<UserContact> userContactList) {
-        logger.info("selectUserContact(" + emailAddress + "," + userContactList + ")");
+        logger.info("selectUserContactList(" + emailAddress + "," + userContactList + ")");
 		
 		String query 	= "SELECT * "
 						+ "FROM user_account "

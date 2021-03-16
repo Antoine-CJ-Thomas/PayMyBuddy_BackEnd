@@ -69,8 +69,8 @@ public class InternalTransactionRepository {
 		return dataBaseConfig.isQueryExecutedSuccessfully();
 	}
 
-	public boolean selectInternalTransaction(String emailAddress, ArrayList<InternalTransaction> internalTransactionList) {
-        logger.info("selectInternalTransactionFromUser(" + emailAddress + "," + internalTransactionList + ")");
+	public boolean selectInternalTransactionList(String emailAddress, ArrayList<InternalTransaction> internalTransactionList) {
+        logger.info("selectInternalTransactionList(" + emailAddress + "," + internalTransactionList + ")");
 		
 		String query 	= "SELECT "
 				

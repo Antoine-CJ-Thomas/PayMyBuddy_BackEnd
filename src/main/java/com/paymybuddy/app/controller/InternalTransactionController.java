@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.paymybuddy.app.dto.InternalTransactionExecutingDto;
@@ -35,8 +36,8 @@ public class InternalTransactionController {
 	}
 
 	@GetMapping("/transaction/internal")
-	public InternalTransactionRetrievingDto retrieveInternalTransactionList(@RequestBody InternalTransactionRetrievingDto internalTransactionRetrievingDto) {
+	public InternalTransactionRetrievingDto retrieveInternalTransactionList(@RequestParam String emailAddress) {
         logger.info("retrieveInternalTransactionList()");
-		return internalTransactionService.retrieveInternalTransactionList(internalTransactionRetrievingDto);
+		return internalTransactionService.retrieveInternalTransactionList(new InternalTransactionRetrievingDto(emailAddress));
 	}
 }

@@ -42,7 +42,7 @@ public class ExternalTransactionService {
         logger.info("retrieveExternalTransactionList(" + externalTransactionRetrievingDto + ")");
 
         externalTransactionRetrievingDto.setDataValidated(
-        		externalTransactionRepository.selectExternalTransaction(
+        		externalTransactionRepository.selectExternalTransactionList(
         				externalTransactionRetrievingDto.getEmailAddress(), 
         				externalTransactionRetrievingDto.getExternalTransactionList()));
                                 

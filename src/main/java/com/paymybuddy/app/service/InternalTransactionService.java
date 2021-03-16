@@ -41,7 +41,7 @@ public class InternalTransactionService {
         logger.info("retrieveInternalTransactionList(" + internalTransactionRetrievingDto + ")");
 
         internalTransactionRetrievingDto.setDataValidated(
-        		internalTransactionRepository.selectInternalTransaction(
+        		internalTransactionRepository.selectInternalTransactionList(
         				internalTransactionRetrievingDto.getEmailAddress(), 
         				internalTransactionRetrievingDto.getInternalTransactionList()));
         

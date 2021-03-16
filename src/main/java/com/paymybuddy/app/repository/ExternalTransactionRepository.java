@@ -83,8 +83,8 @@ public class ExternalTransactionRepository {
 		return dataBaseConfig.isQueryExecutedSuccessfully();
 	}
 
-	public boolean selectExternalTransaction(String emailAddress, ArrayList<ExternalTransaction> externalTransactionList) {
-        logger.info("selectExternalTransactionFromUser(" + emailAddress + "," + externalTransactionList + ")");
+	public boolean selectExternalTransactionList(String emailAddress, ArrayList<ExternalTransaction> externalTransactionList) {
+        logger.info("selectExternalTransactionList(" + emailAddress + "," + externalTransactionList + ")");
 		
 		String query 	= "SELECT * "
 						+ "FROM external_transaction "

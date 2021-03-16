@@ -104,7 +104,7 @@ class internalTransactionServiceTest {
 		when(internalTransactionRetrievingDto.getEmailAddress()).thenReturn(emailAddress);
 		when(internalTransactionRetrievingDto.getInternalTransactionList()).thenReturn(internalTransactionList);
 
-		when(internalTransactionRepository.selectInternalTransaction(
+		when(internalTransactionRepository.selectInternalTransactionList(
 				internalTransactionRetrievingDto.getEmailAddress(), 
 				internalTransactionRetrievingDto.getInternalTransactionList())).thenReturn(true);
 		
@@ -124,7 +124,7 @@ class internalTransactionServiceTest {
 		when(internalTransactionRetrievingDto.getEmailAddress()).thenReturn(emailAddress);
 		when(internalTransactionRetrievingDto.getInternalTransactionList()).thenReturn(internalTransactionList);
 
-		when(internalTransactionRepository.selectInternalTransaction(
+		when(internalTransactionRepository.selectInternalTransactionList(
 				internalTransactionRetrievingDto.getEmailAddress(), 
 				internalTransactionRetrievingDto.getInternalTransactionList())).thenReturn(false);
 		

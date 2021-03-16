@@ -11,7 +11,7 @@ public class UserContactRetrievingDto {
 
 	private String emailAddress;
 	
-	private ArrayList<UserContact> userContactList;
+	private ArrayList<UserContact> userContactList = new ArrayList<UserContact>();
 	private boolean dataValidated;
 	private String message;
 	

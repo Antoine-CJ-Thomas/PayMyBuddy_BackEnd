@@ -53,9 +53,9 @@ public class UserAccountController {
 	}
 
 	@GetMapping(value = "/user/account")
-	public UserAccountRetrievingDto retrieveUserAccount(@RequestParam UserAccountRetrievingDto userAccountRetrievingDto) {
+	public UserAccountRetrievingDto retrieveUserAccount(@RequestParam String emailAddress) {
         logger.info("retrieveUserAccount()");
-		return userAccountService.retrieveUserAccount(userAccountRetrievingDto);
+		return userAccountService.retrieveUserAccount(new UserAccountRetrievingDto(emailAddress));
 	}
 
 	@PostMapping(value = "/user/login")

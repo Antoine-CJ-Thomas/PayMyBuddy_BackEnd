@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.paymybuddy.app.dto.ExternalTransactionExecutingDto;
@@ -35,8 +36,8 @@ public class ExternalTransactionController {
 	}
 
 	@GetMapping("/transaction/external")
-	public ExternalTransactionRetrievingDto retrieveExternalTransactionList(@RequestBody ExternalTransactionRetrievingDto externalTransactionRetrievingDto) {
+	public ExternalTransactionRetrievingDto retrieveExternalTransactionList(@RequestParam String emailAddress) {
         logger.info("retrieveBankAccountList()");
-		return externalTransactionService.retrieveExternalTransactionList(externalTransactionRetrievingDto);
+		return externalTransactionService.retrieveExternalTransactionList(new ExternalTransactionRetrievingDto(emailAddress));
 	}
 }

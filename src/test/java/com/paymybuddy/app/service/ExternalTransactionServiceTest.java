@@ -110,7 +110,7 @@ class ExternalTransactionServiceTest {
 		when(externalTransactionRetrievingDto.getEmailAddress()).thenReturn(emailAddress);
 		when(externalTransactionRetrievingDto.getExternalTransactionList()).thenReturn(externalTransactionList);
 
-		when(externalTransactionRepository.selectExternalTransaction(
+		when(externalTransactionRepository.selectExternalTransactionList(
 				externalTransactionRetrievingDto.getEmailAddress(), 
 				externalTransactionRetrievingDto.getExternalTransactionList())).thenReturn(true);
 		
