@@ -9,6 +9,7 @@ public class UserContactAddingDto {
 	private String contactEmailAddress;
 	
 	private boolean dataValidated;
+	private String message;
 	
 	public UserContactAddingDto() {}
 	
@@ -40,5 +41,13 @@ public class UserContactAddingDto {
 
 	public void setDataValidated(boolean dataValidated) {
 		this.dataValidated = dataValidated;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 }

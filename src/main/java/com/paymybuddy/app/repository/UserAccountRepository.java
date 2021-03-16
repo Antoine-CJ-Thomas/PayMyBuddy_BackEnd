@@ -38,8 +38,53 @@ public class UserAccountRepository {
 		return dataBaseConfig.isQueryExecutedSuccessfully();
 	}
 
+	public boolean selectUserAccount(String emailAddress, String password) {
+        logger.info("selectUserAccount(" + emailAddress + "," + password + ")");
+		
+		String query 	= "SELECT * "
+						+ "FROM user_account " 
+						+ "WHERE "
+						
+							+ "user_account.email_address = '" + emailAddress + "'"
+							
+							+ "AND "
+						
+							+ "user_account.password = '" + password + "'"
+							
+						+ ";";
+
+		ResultSet resultSet = dataBaseConfig.selectQuery(query);
+			
+		boolean userAccountFound = false;
+		
+    	try {
+
+			if (resultSet.next()) {
+
+				userAccountFound = true;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+            
+		} finally {
+			
+			try {
+				
+				if (resultSet != null) {
+					resultSet.close();
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+	    }
+		
+		return (dataBaseConfig.isQueryExecutedSuccessfully() && userAccountFound);
+	}
+
 	public boolean selectUserAccount(String emailAddress, UserAccount userAccount) {
-        logger.info("selectUserAccount(" + emailAddress + ")");
+        logger.info("selectUserAccount(" + emailAddress + "," + userAccount + ")");
 		
 		String query 	= "SELECT * "
 						+ "FROM user_account " 

@@ -13,6 +13,7 @@ public class BankAccountRetrievingDto {
 	
 	private ArrayList<BankAccount> bankAccountList = new ArrayList<BankAccount>();
 	private boolean dataValidated;
+	private String message;
 	
 	public BankAccountRetrievingDto() {}
 	
@@ -43,5 +44,13 @@ public class BankAccountRetrievingDto {
 
 	public void setDataValidated(boolean dataValidated) {
 		this.dataValidated = dataValidated;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 }

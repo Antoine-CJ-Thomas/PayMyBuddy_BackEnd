@@ -13,6 +13,7 @@ public class InternalTransactionRetrievingDto {
 	
 	private ArrayList<InternalTransaction> internalTransactionList = new ArrayList<InternalTransaction>();
 	private boolean dataValidated;
+	private String message;
 	
 	public InternalTransactionRetrievingDto() {}
 	
@@ -43,5 +44,13 @@ public class InternalTransactionRetrievingDto {
 
 	public void setDataValidated(boolean dataValidated) {
 		this.dataValidated = dataValidated;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 }

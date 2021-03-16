@@ -69,7 +69,12 @@ public class UserAccountService {
         userAccountLoginDto.setDataValidated(
         		userAccountRepository.selectUserAccount(
         				userAccountLoginDto.getEmailAddress(), 
-        				userAccountLoginDto.getUserAccount()));
+        				userAccountLoginDto.getPassword()));
+        
+        if (userAccountLoginDto.isDataValidated() == false) {
+        	
+        	userAccountLoginDto.setMessage("Invalid email or password");
+        }
 
 		return userAccountLoginDto;
 	}

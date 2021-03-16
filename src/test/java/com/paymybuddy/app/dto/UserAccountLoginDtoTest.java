@@ -48,18 +48,6 @@ class UserAccountLoginDtoTest {
     	//THEN
         assertEquals(password, userAccountLoginDto.getPassword());
 	}
-    
-	@Test
-	void test_setAndGetUserAccount() {
-
-    	//GIVEN
-        
-    	//WHEN
-		userAccountLoginDto.setUserAccount(userAccount);
-    	
-    	//THEN
-        assertEquals(userAccount, userAccountLoginDto.getUserAccount());
-	}
 
 	@Test
 	void test_setAndGetDataValidated() {

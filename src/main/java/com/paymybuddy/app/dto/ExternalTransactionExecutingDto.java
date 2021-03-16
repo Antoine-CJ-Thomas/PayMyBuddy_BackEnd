@@ -12,6 +12,7 @@ public class ExternalTransactionExecutingDto {
 	private float amount;
 	
 	private boolean dataValidated;
+	private String message;
 	
 	public ExternalTransactionExecutingDto() {}
 	
@@ -70,5 +71,13 @@ public class ExternalTransactionExecutingDto {
 
 	public void setDataValidated(boolean dataValidated) {
 		this.dataValidated = dataValidated;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 }
