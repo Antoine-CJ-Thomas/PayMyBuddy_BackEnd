@@ -10,6 +10,7 @@ public class BankAccountAddingDto {
 	private String swiftCode;
 	
 	private boolean dataValidated;
+	private String message;
 	
 	public BankAccountAddingDto() {}
 	
@@ -50,5 +51,13 @@ public class BankAccountAddingDto {
 
 	public void setDataValidated(boolean dataValidated) {
 		this.dataValidated = dataValidated;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 }

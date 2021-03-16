@@ -11,6 +11,7 @@ public class InternalTransactionExecutingDto {
 	private float amount;
 	
 	private boolean dataValidated;
+	private String message;
 	
 	public InternalTransactionExecutingDto() {}
 	
@@ -60,5 +61,13 @@ public class InternalTransactionExecutingDto {
 
 	public void setDataValidated(boolean dataValidated) {
 		this.dataValidated = dataValidated;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 }

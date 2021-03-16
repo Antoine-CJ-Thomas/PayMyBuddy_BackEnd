@@ -13,6 +13,7 @@ public class ExternalTransactionRetrievingDto {
 	
 	private ArrayList<ExternalTransaction> externalTransactionList = new ArrayList<ExternalTransaction>();
 	private boolean dataValidated;
+	private String message;
 	
 	public ExternalTransactionRetrievingDto() {}
 	
@@ -43,5 +44,13 @@ public class ExternalTransactionRetrievingDto {
 
 	public void setDataValidated(boolean dataValidated) {
 		this.dataValidated = dataValidated;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 }

@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jsoniter.output.JsonStream;
 import com.paymybuddy.app.dto.ExternalTransactionExecutingDto;
 import com.paymybuddy.app.dto.ExternalTransactionRetrievingDto;
 import com.paymybuddy.app.service.ExternalTransactionService;
@@ -30,14 +29,14 @@ public class ExternalTransactionController {
 	}
 
 	@PostMapping("/transaction/external")
-	public String executeExternalTransaction(@RequestBody ExternalTransactionExecutingDto externalTransactionExecutingDto) {
+	public ExternalTransactionExecutingDto executeExternalTransaction(@RequestBody ExternalTransactionExecutingDto externalTransactionExecutingDto) {
         logger.info("executeExternalTransaction()");
-		return JsonStream.serialize(externalTransactionService.executeExternalTransaction(externalTransactionExecutingDto));
+		return externalTransactionService.executeExternalTransaction(externalTransactionExecutingDto);
 	}
 
 	@GetMapping("/transaction/external")
-	public String retrieveExternalTransactionList(@RequestBody ExternalTransactionRetrievingDto externalTransactionRetrievingDto) {
+	public ExternalTransactionRetrievingDto retrieveExternalTransactionList(@RequestBody ExternalTransactionRetrievingDto externalTransactionRetrievingDto) {
         logger.info("retrieveBankAccountList()");
-		return JsonStream.serialize(externalTransactionService.retrieveExternalTransactionList(externalTransactionRetrievingDto));
+		return externalTransactionService.retrieveExternalTransactionList(externalTransactionRetrievingDto);
 	}
 }

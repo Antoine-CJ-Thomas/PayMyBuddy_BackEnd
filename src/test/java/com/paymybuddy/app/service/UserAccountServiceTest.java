@@ -206,7 +206,7 @@ class UserAccountServiceTest {
 		
 		when(userAccountRepository.selectUserAccount(
 				userAccountLoginDto.getEmailAddress(), 
-				userAccountLoginDto.getUserAccount())).thenReturn(true);
+				userAccountLoginDto.getPassword())).thenReturn(true);
 		
 		userAccountService.loginUserAccount(userAccountLoginDto);
 	    
@@ -227,7 +227,7 @@ class UserAccountServiceTest {
 		
 		when(userAccountRepository.selectUserAccount(
 				userAccountLoginDto.getEmailAddress(), 
-				userAccountLoginDto.getUserAccount())).thenReturn(false);
+				userAccountLoginDto.getPassword())).thenReturn(false);
 		
 		userAccountService.loginUserAccount(userAccountLoginDto);
 	    

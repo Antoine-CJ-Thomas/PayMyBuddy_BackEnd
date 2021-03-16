@@ -13,6 +13,7 @@ public class UserContactRetrievingDto {
 	
 	private ArrayList<UserContact> userContactList;
 	private boolean dataValidated;
+	private String message;
 	
 	public UserContactRetrievingDto() {}
 	
@@ -43,5 +44,13 @@ public class UserContactRetrievingDto {
 
 	public void setDataValidated(boolean dataValidated) {
 		this.dataValidated = dataValidated;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 }

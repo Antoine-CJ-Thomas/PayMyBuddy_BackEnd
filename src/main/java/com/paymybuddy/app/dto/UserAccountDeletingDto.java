@@ -9,6 +9,7 @@ public class UserAccountDeletingDto {
 	private String password;
 	
 	private boolean dataValidated;
+	private String message;
 	
 	public UserAccountDeletingDto() {}
 	
@@ -40,5 +41,13 @@ public class UserAccountDeletingDto {
 
 	public void setDataValidated(boolean dataValidated) {
 		this.dataValidated = dataValidated;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 }

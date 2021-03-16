@@ -10,8 +10,8 @@ public class UserAccountLoginDto {
 	private String emailAddress;
 	private String password;
 
-	private UserAccount userAccount = new UserAccount();
 	private boolean dataValidated;
+	private String message;
 	
 	public UserAccountLoginDto() {}
 	
@@ -37,19 +37,19 @@ public class UserAccountLoginDto {
 		this.password = password;
 	}
 
-	public UserAccount getUserAccount() {
-		return userAccount;
-	}
-
-	public void setUserAccount(UserAccount userAccount) {
-		this.userAccount = userAccount;
-	}
-
 	public boolean isDataValidated() {
 		return dataValidated;
 	}
 
 	public void setDataValidated(boolean dataValidated) {
 		this.dataValidated = dataValidated;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 }

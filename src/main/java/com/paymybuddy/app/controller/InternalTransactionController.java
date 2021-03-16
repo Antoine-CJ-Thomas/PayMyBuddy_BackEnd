@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jsoniter.output.JsonStream;
 import com.paymybuddy.app.dto.InternalTransactionExecutingDto;
 import com.paymybuddy.app.dto.InternalTransactionRetrievingDto;
 import com.paymybuddy.app.service.InternalTransactionService;
@@ -30,14 +29,14 @@ public class InternalTransactionController {
 	}
 
 	@PostMapping("/transaction/internal")
-	public String executeInternalTransaction(@RequestBody InternalTransactionExecutingDto internalTransactionExecutingDto) {
+	public InternalTransactionExecutingDto executeInternalTransaction(@RequestBody InternalTransactionExecutingDto internalTransactionExecutingDto) {
         logger.info("executeInternalTransaction()");
-		return JsonStream.serialize(internalTransactionService.executeInternalTransaction(internalTransactionExecutingDto));
+		return internalTransactionService.executeInternalTransaction(internalTransactionExecutingDto);
 	}
 
 	@GetMapping("/transaction/internal")
-	public String retrieveInternalTransactionList(@RequestBody InternalTransactionRetrievingDto internalTransactionRetrievingDto) {
+	public InternalTransactionRetrievingDto retrieveInternalTransactionList(@RequestBody InternalTransactionRetrievingDto internalTransactionRetrievingDto) {
         logger.info("retrieveInternalTransactionList()");
-		return JsonStream.serialize(internalTransactionService.retrieveInternalTransactionList(internalTransactionRetrievingDto));
+		return internalTransactionService.retrieveInternalTransactionList(internalTransactionRetrievingDto);
 	}
 }

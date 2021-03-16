@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jsoniter.output.JsonStream;
 import com.paymybuddy.app.dto.UserContactAddingDto;
 import com.paymybuddy.app.dto.UserContactRemovingDto;
 import com.paymybuddy.app.dto.UserContactRetrievingDto;
@@ -32,20 +31,20 @@ public class UserContactController {
 	}
 
 	@PostMapping("/user/contact")
-	public String addUserContact(@RequestBody UserContactAddingDto userContactAddingDto) {
+	public UserContactAddingDto addUserContact(@RequestBody UserContactAddingDto userContactAddingDto) {
         logger.info("addUserContact()");
-		return JsonStream.serialize(userContactService.addUserContact(userContactAddingDto));
+		return userContactService.addUserContact(userContactAddingDto);
 	}
 
 	@DeleteMapping("/user/contact")
-	public String removeUserContact(@RequestBody UserContactRemovingDto userContactRemovingDto) {
+	public UserContactRemovingDto removeUserContact(@RequestBody UserContactRemovingDto userContactRemovingDto) {
         logger.info("removeUserContact()");
-		return JsonStream.serialize(userContactService.removeUserContact(userContactRemovingDto));
+		return userContactService.removeUserContact(userContactRemovingDto);
 	}
 
 	@GetMapping("/user/contact")
-	public String retrieveUserContactList(@RequestBody UserContactRetrievingDto userContactRetrievingDto) {
+	public UserContactRetrievingDto retrieveUserContactList(@RequestBody UserContactRetrievingDto userContactRetrievingDto) {
         logger.info("retrieveUserContactList()");
-		return JsonStream.serialize(userContactService.retrieveUserContactList(userContactRetrievingDto));
+		return userContactService.retrieveUserContactList(userContactRetrievingDto);
 	}
 }

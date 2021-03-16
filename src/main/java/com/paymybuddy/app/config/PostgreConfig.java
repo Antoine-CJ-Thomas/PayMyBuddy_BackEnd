@@ -26,7 +26,7 @@ public class PostgreConfig implements DataBaseConfig {
 
 		try {
 
-			InputStream inputStream = new FileInputStream("resources/jdbc.properties");
+			InputStream inputStream = new FileInputStream("src/main/resources/jdbc.properties");
 
 			if (inputStream != null) {
 

@@ -11,6 +11,7 @@ public class UserAccountCreatingDto {
 	private String lastName;
 
 	private boolean dataValidated;
+	private String message;
 	
 	public UserAccountCreatingDto() {}
 	
@@ -60,5 +61,13 @@ public class UserAccountCreatingDto {
 
 	public void setDataValidated(boolean dataValidated) {
 		this.dataValidated = dataValidated;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 }

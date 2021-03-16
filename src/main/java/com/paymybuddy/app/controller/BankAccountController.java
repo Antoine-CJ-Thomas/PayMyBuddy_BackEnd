@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jsoniter.output.JsonStream;
 import com.paymybuddy.app.dto.BankAccountRemovingDto;
 import com.paymybuddy.app.dto.BankAccountRetrievingDto;
 import com.paymybuddy.app.dto.BankAccountAddingDto;
@@ -32,20 +31,20 @@ public class BankAccountController {
 	}
 
 	@PostMapping("/user/bankaccount")
-	public String addBankAccount(@RequestBody BankAccountAddingDto bankAccountAddingDto) {
+	public BankAccountAddingDto addBankAccount(@RequestBody BankAccountAddingDto bankAccountAddingDto) {
         logger.info("addBankAccount()");
-		return JsonStream.serialize(bankAccountService.addBankAccount(bankAccountAddingDto));
+		return bankAccountService.addBankAccount(bankAccountAddingDto);
 	}
 
 	@DeleteMapping("/user/bankaccount")
-	public String removeBankAccount(@RequestBody BankAccountRemovingDto bankAccountRemovingDto) {
+	public BankAccountRemovingDto removeBankAccount(@RequestBody BankAccountRemovingDto bankAccountRemovingDto) {
         logger.info("removeBankAccount()");
-		return JsonStream.serialize(bankAccountService.removeBankAccount(bankAccountRemovingDto));
+		return bankAccountService.removeBankAccount(bankAccountRemovingDto);
 	}
 
 	@GetMapping("/user/bankaccount")
-	public String retrieveBankAccountList(@RequestBody BankAccountRetrievingDto bankAccountRetrievingDto) {
+	public BankAccountRetrievingDto retrieveBankAccountList(@RequestBody BankAccountRetrievingDto bankAccountRetrievingDto) {
         logger.info("retrieveBankAccountList()");
-		return JsonStream.serialize(bankAccountService.retrieveBankAccountList(bankAccountRetrievingDto));
+		return bankAccountService.retrieveBankAccountList(bankAccountRetrievingDto);
 	}
 }
