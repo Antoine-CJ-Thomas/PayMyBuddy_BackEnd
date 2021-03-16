@@ -30,31 +30,19 @@ public class BankAccountController {
         logger.info("BankAccountController()");
 	}
 
-<<<<<<< HEAD
 	@PostMapping("/bank/account")
-=======
-	@PostMapping("/user/bankaccount")
->>>>>>> refs/remotes/origin/develop
 	public BankAccountAddingDto addBankAccount(@RequestBody BankAccountAddingDto bankAccountAddingDto) {
         logger.info("addBankAccount()");
 		return bankAccountService.addBankAccount(bankAccountAddingDto);
 	}
 
-<<<<<<< HEAD
 	@DeleteMapping("/bank/account")
-=======
-	@DeleteMapping("/user/bankaccount")
->>>>>>> refs/remotes/origin/develop
 	public BankAccountRemovingDto removeBankAccount(@RequestBody BankAccountRemovingDto bankAccountRemovingDto) {
         logger.info("removeBankAccount()");
 		return bankAccountService.removeBankAccount(bankAccountRemovingDto);
 	}
 
-<<<<<<< HEAD
 	@GetMapping("/bank/account")
-=======
-	@GetMapping("/user/bankaccount")
->>>>>>> refs/remotes/origin/develop
 	public BankAccountRetrievingDto retrieveBankAccountList(@RequestBody BankAccountRetrievingDto bankAccountRetrievingDto) {
         logger.info("retrieveBankAccountList()");
 		return bankAccountService.retrieveBankAccountList(bankAccountRetrievingDto);
