@@ -111,7 +111,8 @@ class UserAccountServiceTest {
 		when(userAccountDeletingDto.getPassword()).thenReturn(password);
 		
 		when(userAccountRepository.deleteUserAccount(
-				userAccountDeletingDto.getEmailAddress())).thenReturn(true);
+				userAccountDeletingDto.getEmailAddress(),
+				userAccountDeletingDto.getPassword())).thenReturn(true);
 		
 		userAccountService.deleteUserAccount(userAccountDeletingDto);
 	    
@@ -131,7 +132,8 @@ class UserAccountServiceTest {
 		when(userAccountDeletingDto.getPassword()).thenReturn(password);
 		
 		when(userAccountRepository.deleteUserAccount(
-				userAccountDeletingDto.getEmailAddress())).thenReturn(false);
+				userAccountDeletingDto.getEmailAddress(),
+				userAccountDeletingDto.getPassword())).thenReturn(false);
 		
 		userAccountService.deleteUserAccount(userAccountDeletingDto);
 	    

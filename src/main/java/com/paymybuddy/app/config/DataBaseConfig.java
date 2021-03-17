@@ -4,9 +4,9 @@ import java.sql.ResultSet;
 
 public interface DataBaseConfig {
 	
-    public void insertQuery(String query);
+    public int insertQuery(String query);
     public ResultSet selectQuery(String query);
-    public void updateQuery(String query);
-    public void deleteQuery(String query);
+    public int updateQuery(String query);
+    public int deleteQuery(String query);
     public boolean isQueryExecutedSuccessfully();
  }

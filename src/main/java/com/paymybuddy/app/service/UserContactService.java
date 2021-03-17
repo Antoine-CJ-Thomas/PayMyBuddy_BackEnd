@@ -28,10 +28,27 @@ public class UserContactService {
 	public UserContactAddingDto addUserContact(UserContactAddingDto userContactAddingDto) {
         logger.info("addUserContact(" + userContactAddingDto + ")");
         
-        userContactAddingDto.setDataValidated(
-        		userContactRepository.insertUserContact(
-        				userContactAddingDto.getUserEmailAddress(), 
-        				userContactAddingDto.getContactEmailAddress()));
+        if (userContactAddingDto.getContactEmailAddress() == null || (userContactAddingDto.getContactEmailAddress().length() == 0)) {
+        	
+        	userContactAddingDto.setDataValidated(false);
+        	userContactAddingDto.setMessage("Email address field must be completed");
+        }
+        
+        else {
+            
+        	if (userContactRepository.insertUserContact(
+        			userContactAddingDto.getUserEmailAddress(), 
+    				userContactAddingDto.getContactEmailAddress()) == false) {
+
+    			userContactAddingDto.setDataValidated(false);
+	           	userContactAddingDto.setMessage("Contact couldn't be added");
+        	}
+        	
+        	else {
+
+        		userContactAddingDto.setDataValidated(true); 	
+        	}
+        }
                 
 		return userContactAddingDto;
 	}
@@ -39,10 +56,27 @@ public class UserContactService {
 	public UserContactRemovingDto removeUserContact(UserContactRemovingDto userContactRemovingDto) {
         logger.info("removeUserContact(" + userContactRemovingDto +")");
         
-        userContactRemovingDto.setDataValidated(
-        		userContactRepository.deleteUserContact(
-        				userContactRemovingDto.getUserEmailAddress(), 
-        				userContactRemovingDto.getContactEmailAddress()));
+        if (userContactRemovingDto.getContactEmailAddress() == null || (userContactRemovingDto.getContactEmailAddress().length() == 0)) {
+        	
+        	userContactRemovingDto.setDataValidated(false);
+        	userContactRemovingDto.setMessage("A contact must be selected");
+        }
+        
+        else {
+            
+        	if (userContactRepository.insertUserContact(
+        			userContactRemovingDto.getUserEmailAddress(), 
+        			userContactRemovingDto.getContactEmailAddress()) == false) {
+
+        		userContactRemovingDto.setDataValidated(false);
+    			userContactRemovingDto.setMessage("Contact couldn't be removed");
+        	}
+        	
+        	else {
+
+        		userContactRemovingDto.setDataValidated(true); 	
+        	}
+        }
         
 		return userContactRemovingDto;
 	}

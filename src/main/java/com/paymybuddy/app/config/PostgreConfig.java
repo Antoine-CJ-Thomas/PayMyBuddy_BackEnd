@@ -43,10 +43,12 @@ public class PostgreConfig implements DataBaseConfig {
 	}
 
 	@Override
-	public void insertQuery(String query) {
+	public int insertQuery(String query) {
 
 		Connection connection = null;
 		Statement statement = null;
+		
+		int executeReturn = 0;
 
 		try {
 
@@ -54,7 +56,7 @@ public class PostgreConfig implements DataBaseConfig {
 			statement = connection.createStatement();
 
 			connection.setAutoCommit(false);
-			statement.executeUpdate(query);
+			executeReturn = statement.executeUpdate(query);
 			connection.commit();
 
 			statement.close();
@@ -88,6 +90,7 @@ public class PostgreConfig implements DataBaseConfig {
 				}
 			}
 		}
+		return executeReturn;
 	}
 
 	@Override
@@ -142,10 +145,12 @@ public class PostgreConfig implements DataBaseConfig {
 	}
 
 	@Override
-	public void updateQuery(String query) {
+	public int updateQuery(String query) {
 
 		Connection connection = null;
 		Statement statement = null;
+		
+		int executeReturn = 0;
 
 		try {
 
@@ -153,7 +158,7 @@ public class PostgreConfig implements DataBaseConfig {
 			statement = connection.createStatement();
 
 			connection.setAutoCommit(false);
-			statement.executeUpdate(query);
+			executeReturn = statement.executeUpdate(query);
 			connection.commit();
 
 			statement.close();
@@ -187,13 +192,17 @@ public class PostgreConfig implements DataBaseConfig {
 				}
 			}
 		}
+
+		return executeReturn;
 	}
 
 	@Override
-	public void deleteQuery(String query) {
+	public int deleteQuery(String query) {
 
 		Connection connection = null;
 		Statement statement = null;
+		
+		int executeReturn = 0;
 
 		try {
 
@@ -201,7 +210,7 @@ public class PostgreConfig implements DataBaseConfig {
 			statement = connection.createStatement();
 
 			connection.setAutoCommit(false);
-			statement.executeUpdate(query);
+			executeReturn = statement.executeUpdate(query);
 			connection.commit();
 
 			queryExecutedSuccessfully = true;
@@ -232,6 +241,8 @@ public class PostgreConfig implements DataBaseConfig {
 				}
 			}
 		}
+		
+		return executeReturn;
 	}
 
 	@Override
