@@ -108,7 +108,7 @@ public class ExternalTransactionRepository {
 				
 				externalTransactionList.add(new ExternalTransaction(
 						
-						new BankAccount(resultSet.getString("account_number"), resultSet.getString("swift_code")), 
+						new BankAccount(resultSet.getString("account_name"), resultSet.getString("account_number"), resultSet.getString("swift_code")), 
 						new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(resultSet.getTimestamp("date_time")), 
 						resultSet.getString("description"),
 						(resultSet.getFloat("amount")*(-1))));

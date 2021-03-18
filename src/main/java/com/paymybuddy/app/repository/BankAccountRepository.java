@@ -27,11 +27,11 @@ public class BankAccountRepository {
     	dataBaseConfig = new PostgreConfig();
     }
 
-	public boolean insertBankAccount(String userEmailAddress, String accountNumber, String swiftCode) {
+	public boolean insertBankAccount(String userEmailAddress, String accountName, String accountNumber, String swiftCode) {
         logger.info("insertBankAccount(" + userEmailAddress + "," + accountNumber + "," + swiftCode + ")");
 				
 		String query 	= "INSERT "
-						+ "INTO bank_account (user_id,account_number,swift_code) "
+						+ "INTO bank_account (user_id,account_name,account_number,swift_code) "
 						+ "VALUES ("
 						
 							+ "("
@@ -39,6 +39,10 @@ public class BankAccountRepository {
 								+ "SELECT user_account.id "
 								+ "FROM user_account "
 								+ "WHERE user_account.email_address = '" + userEmailAddress + "'"
+								
+							+ "),("
+							
+								+ "'" + accountName + "'"
 								
 							+ "),("
 							
@@ -81,6 +85,7 @@ public class BankAccountRepository {
 			while (resultSet.next()) {
 				
 				bankAccountList.add(new BankAccount(
+						resultSet.getString("account_name"), 
 						resultSet.getString("account_number"), 
 						resultSet.getString("swift_code")));
 			}
@@ -104,8 +109,8 @@ public class BankAccountRepository {
 		return dataBaseConfig.isQueryExecutedSuccessfully();
 	}
 
-	public boolean deleteBankAccount(String userEmailAddress, String accountNumber, String swiftCode) {
-        logger.info("deleteBankAccount(" + userEmailAddress + "," + accountNumber + "," + swiftCode + ")");
+	public boolean deleteBankAccount(String userEmailAddress, String accountName) {
+        logger.info("deleteBankAccount(" + userEmailAddress + "," + accountName + ")");
         
 		String query 	= "DELETE "
 						+ "FROM bank_account "
@@ -119,11 +124,7 @@ public class BankAccountRepository {
 								
 							+ "AND "
 							
-								+ "bank_account.account_number ='" + accountNumber + "' "
-								
-							+ "AND "
-							
-								+ "bank_account.swift_code ='" + swiftCode + "'"
+								+ "bank_account.account_name ='" + accountName + "'"
 						+ ";";
         
 		dataBaseConfig.deleteQuery(query);

@@ -6,19 +6,17 @@ import org.springframework.stereotype.Component;
 public class BankAccountRemovingDto {
 
 	private String emailAddress;
-	private String accountNumber;
-	private String swiftCode;
+	private String accountName;
 	
 	private boolean dataValidated;
 	private String message;
 	
 	public BankAccountRemovingDto() {}
 	
-	public BankAccountRemovingDto(String emailAddress, String accountNumber, String swiftCode) {
+	public BankAccountRemovingDto(String emailAddress, String accountName) {
 		
 		this.emailAddress = emailAddress;
-		this.accountNumber = accountNumber;
-		this.swiftCode = swiftCode;
+		this.accountName = accountName;
 	}
 
 	public String getEmailAddress() {
@@ -29,20 +27,12 @@ public class BankAccountRemovingDto {
 		this.emailAddress = emailAddress;
 	}
 
-	public String getAccountNumber() {
-		return accountNumber;
+	public String getAccountName() {
+		return accountName;
 	}
 
-	public void setAccountNumber(String accountNumber) {
-		this.accountNumber = accountNumber;
-	}
-
-	public String getSwiftCode() {
-		return swiftCode;
-	}
-
-	public void setSwiftCode(String swiftCode) {
-		this.swiftCode = swiftCode;
+	public void setAccountName(String accountName) {
+		this.accountName = accountName;
 	}
 
 	public boolean isDataValidated() {

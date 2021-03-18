@@ -64,7 +64,7 @@ public class UserContactService {
         
         else {
             
-        	if (userContactRepository.insertUserContact(
+        	if (userContactRepository.deleteUserContact(
         			userContactRemovingDto.getUserEmailAddress(), 
         			userContactRemovingDto.getContactEmailAddress()) == false) {
 

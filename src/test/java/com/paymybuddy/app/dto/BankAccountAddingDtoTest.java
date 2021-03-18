@@ -14,7 +14,7 @@ class BankAccountAddingDtoTest {
 	@BeforeEach
 	void beforeEach() {
 
-		bankAccountAddingDto = new BankAccountAddingDto(null, null, null);
+		bankAccountAddingDto = new BankAccountAddingDto(null, null, null, null);
 	}
 
 	@Test
@@ -31,16 +31,29 @@ class BankAccountAddingDtoTest {
 	}
 
 	@Test
+	void test_setAndGetAccountName() {
+
+    	//GIVEN
+		String accountName = "accountName";
+        
+    	//WHEN
+		bankAccountAddingDto.setAccountName(accountName);
+    	
+    	//THEN
+        assertEquals(accountName, bankAccountAddingDto.getAccountName());
+	}
+
+	@Test
 	void test_setAndGetAccountNumber() {
 
     	//GIVEN
-		String AccountNumber = "AccountNumber";
+		String accountNumber = "accountNumber";
         
     	//WHEN
-		bankAccountAddingDto.setAccountNumber(AccountNumber);
+		bankAccountAddingDto.setAccountNumber(accountNumber);
     	
     	//THEN
-        assertEquals(AccountNumber, bankAccountAddingDto.getAccountNumber());
+        assertEquals(accountNumber, bankAccountAddingDto.getAccountNumber());
 	}
 
 	@Test

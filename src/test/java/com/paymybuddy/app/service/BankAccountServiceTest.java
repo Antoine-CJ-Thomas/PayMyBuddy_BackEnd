@@ -46,16 +46,19 @@ class bankAccountServiceTest {
 
     	//GIVEN
 		String emailAddress = "emailAddress";
+		String accountName = "accountName";
 		String accountNumber = "accountNumber";
 		String swiftCode = "swiftCode";
         
     	//WHEN
 		when(bankAccountAddingDto.getEmailAddress()).thenReturn(emailAddress);
+		when(bankAccountAddingDto.getAccountName()).thenReturn(accountName);
 		when(bankAccountAddingDto.getAccountNumber()).thenReturn(accountNumber);
 		when(bankAccountAddingDto.getSwiftCode()).thenReturn(swiftCode);
 		
 		when(bankAccountRepository.insertBankAccount(
 				bankAccountAddingDto.getEmailAddress(), 
+				bankAccountAddingDto.getAccountName(), 
 				bankAccountAddingDto.getAccountNumber(), 
 				bankAccountAddingDto.getSwiftCode())).thenReturn(true);
 		
@@ -70,16 +73,19 @@ class bankAccountServiceTest {
 
     	//GIVEN
 		String emailAddress = "emailAddress";
+		String accountName = "accountName";
 		String accountNumber = "accountNumber";
 		String swiftCode = "swiftCode";
         
     	//WHEN
 		when(bankAccountAddingDto.getEmailAddress()).thenReturn(emailAddress);
+		when(bankAccountAddingDto.getAccountName()).thenReturn(accountName);
 		when(bankAccountAddingDto.getAccountNumber()).thenReturn(accountNumber);
 		when(bankAccountAddingDto.getSwiftCode()).thenReturn(swiftCode);
 		
 		when(bankAccountRepository.insertBankAccount(
 				bankAccountAddingDto.getEmailAddress(), 
+				bankAccountAddingDto.getAccountName(), 
 				bankAccountAddingDto.getAccountNumber(), 
 				bankAccountAddingDto.getSwiftCode())).thenReturn(false);
 		
@@ -94,18 +100,15 @@ class bankAccountServiceTest {
 
     	//GIVEN
 		String emailAddress = "emailAddress";
-		String accountNumber = "accountNumber";
-		String swiftCode = "swiftCode";
+		String accountName = "accountName";
         
     	//WHEN
 		when(bankAccountRemovingDto.getEmailAddress()).thenReturn(emailAddress);
-		when(bankAccountRemovingDto.getAccountNumber()).thenReturn(accountNumber);
-		when(bankAccountRemovingDto.getSwiftCode()).thenReturn(swiftCode);
+		when(bankAccountRemovingDto.getAccountName()).thenReturn(accountName);
 		
 		when(bankAccountRepository.deleteBankAccount(
 				bankAccountRemovingDto.getEmailAddress(), 
-				bankAccountRemovingDto.getAccountNumber(), 
-				bankAccountRemovingDto.getSwiftCode())).thenReturn(true);
+				bankAccountRemovingDto.getAccountName())).thenReturn(true);
 		
 		bankAccountService.removeBankAccount(bankAccountRemovingDto);
 	    
@@ -118,18 +121,15 @@ class bankAccountServiceTest {
 
     	//GIVEN
 		String emailAddress = "emailAddress";
-		String accountNumber = "accountNumber";
-		String swiftCode = "swiftCode";
+		String accountName = "accountName";
         
     	//WHEN
 		when(bankAccountRemovingDto.getEmailAddress()).thenReturn(emailAddress);
-		when(bankAccountRemovingDto.getAccountNumber()).thenReturn(accountNumber);
-		when(bankAccountRemovingDto.getSwiftCode()).thenReturn(swiftCode);
+		when(bankAccountRemovingDto.getAccountName()).thenReturn(accountName);
 		
 		when(bankAccountRepository.deleteBankAccount(
 				bankAccountRemovingDto.getEmailAddress(), 
-				bankAccountRemovingDto.getAccountNumber(), 
-				bankAccountRemovingDto.getSwiftCode())).thenReturn(false);
+				bankAccountRemovingDto.getAccountName())).thenReturn(false);
 		
 		bankAccountService.removeBankAccount(bankAccountRemovingDto);
 	    

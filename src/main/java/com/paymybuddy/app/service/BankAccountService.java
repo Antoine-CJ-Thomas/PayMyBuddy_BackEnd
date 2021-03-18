@@ -28,11 +28,31 @@ public class BankAccountService {
 	public BankAccountAddingDto addBankAccount(BankAccountAddingDto bankAccountAddingDto) {
         logger.info("addBankAccount(" + bankAccountAddingDto + ")");
         
-		bankAccountAddingDto.setDataValidated(
-				bankAccountRepository.insertBankAccount(
-						bankAccountAddingDto.getEmailAddress(), 
-						bankAccountAddingDto.getAccountNumber(), 
-						bankAccountAddingDto.getSwiftCode()));
+        if (bankAccountAddingDto.getAccountName() == null || (bankAccountAddingDto.getAccountName().length() == 0) ||
+        		bankAccountAddingDto.getAccountNumber() == null || (bankAccountAddingDto.getAccountNumber().length() == 0) ||
+        		bankAccountAddingDto.getSwiftCode() == null || (bankAccountAddingDto.getSwiftCode().length() == 0)) {
+        	
+        	bankAccountAddingDto.setDataValidated(false);
+        	bankAccountAddingDto.setMessage("All fields must be completed");
+        }
+        
+        else {
+            
+        	if (bankAccountRepository.insertBankAccount(
+        			bankAccountAddingDto.getEmailAddress(), 
+        			bankAccountAddingDto.getAccountName(), 
+        			bankAccountAddingDto.getAccountNumber(), 
+        			bankAccountAddingDto.getSwiftCode()) == false) {
+
+        		bankAccountAddingDto.setDataValidated(false);
+    			bankAccountAddingDto.setMessage("Account couldn't be added");
+        	}
+        	
+        	else {
+
+        		bankAccountAddingDto.setDataValidated(true); 	
+        	}
+        }
         
 		return bankAccountAddingDto;
 	}
@@ -40,11 +60,27 @@ public class BankAccountService {
 	public BankAccountRemovingDto removeBankAccount(BankAccountRemovingDto bankAccountRemovingDto) {
         logger.info("removeBankAccount(" + bankAccountRemovingDto +")");
         
-        bankAccountRemovingDto.setDataValidated(
-				bankAccountRepository.deleteBankAccount(
-						bankAccountRemovingDto.getEmailAddress(), 
-						bankAccountRemovingDto.getAccountNumber(), 
-						bankAccountRemovingDto.getSwiftCode()));
+        if (bankAccountRemovingDto.getAccountName() == null || (bankAccountRemovingDto.getAccountName().length() == 0)) {
+        	
+        	bankAccountRemovingDto.setDataValidated(false);
+        	bankAccountRemovingDto.setMessage("An account must be selected");
+        }
+        
+        else {
+            
+        	if (bankAccountRepository.deleteBankAccount(
+        			bankAccountRemovingDto.getEmailAddress(), 
+        			bankAccountRemovingDto.getAccountName()) == false) {
+
+        		bankAccountRemovingDto.setDataValidated(false);
+        		bankAccountRemovingDto.setMessage("Account couldn't be removed");
+        	}
+        	
+        	else {
+
+        		bankAccountRemovingDto.setDataValidated(true); 	
+        	}
+        }
         
 		return bankAccountRemovingDto;
 	}

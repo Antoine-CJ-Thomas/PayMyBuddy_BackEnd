@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 public class BankAccountAddingDto {
 
 	private String emailAddress;
+	private String accountName;
 	private String accountNumber;
 	private String swiftCode;
 	
@@ -14,9 +15,10 @@ public class BankAccountAddingDto {
 	
 	public BankAccountAddingDto() {}
 	
-	public BankAccountAddingDto(String emailAddress, String accountNumber, String swiftCode) {
+	public BankAccountAddingDto(String emailAddress, String accountName, String accountNumber, String swiftCode) {
 		
 		this.emailAddress = emailAddress;
+		this.accountName = accountName;
 		this.accountNumber = accountNumber;
 		this.swiftCode = swiftCode;
 	}
@@ -27,6 +29,14 @@ public class BankAccountAddingDto {
 
 	public void setEmailAddress(String emailAddress) {
 		this.emailAddress = emailAddress;
+	}
+
+	public String getAccountName() {
+		return accountName;
+	}
+
+	public void setAccountName(String accountName) {
+		this.accountName = accountName;
 	}
 
 	public String getAccountNumber() {
