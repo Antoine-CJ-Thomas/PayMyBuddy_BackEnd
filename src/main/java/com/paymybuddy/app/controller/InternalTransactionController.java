@@ -29,13 +29,13 @@ public class InternalTransactionController {
         logger.info("InternalTransactionController()");
 	}
 
-	@PostMapping("/transaction/internal")
+	@PostMapping(value = "/transaction/internal")
 	public InternalTransactionExecutingDto executeInternalTransaction(@RequestBody InternalTransactionExecutingDto internalTransactionExecutingDto) {
         logger.info("executeInternalTransaction()");
 		return internalTransactionService.executeInternalTransaction(internalTransactionExecutingDto);
 	}
 
-	@GetMapping("/transaction/internal")
+	@GetMapping(value = "/transaction/internal")
 	public InternalTransactionRetrievingDto retrieveInternalTransactionList(@RequestParam String emailAddress) {
         logger.info("retrieveInternalTransactionList()");
 		return internalTransactionService.retrieveInternalTransactionList(new InternalTransactionRetrievingDto(emailAddress));

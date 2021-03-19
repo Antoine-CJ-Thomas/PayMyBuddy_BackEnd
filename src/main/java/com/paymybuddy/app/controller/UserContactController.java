@@ -31,19 +31,19 @@ public class UserContactController {
         logger.info("UserContactController()");
 	}
 
-	@PostMapping("/user/contact")
+	@PostMapping(value = "/user/contact")
 	public UserContactAddingDto addUserContact(@RequestBody UserContactAddingDto userContactAddingDto) {
         logger.info("addUserContact()");
 		return userContactService.addUserContact(userContactAddingDto);
 	}
 
-	@DeleteMapping("/user/contact")
+	@DeleteMapping(value = "/user/contact")
 	public UserContactRemovingDto removeUserContact(@RequestBody UserContactRemovingDto userContactRemovingDto) {
         logger.info("removeUserContact()");
 		return userContactService.removeUserContact(userContactRemovingDto);
 	}
 
-	@GetMapping("/user/contact")
+	@GetMapping(value = "/user/contact")
 	public UserContactRetrievingDto retrieveUserContactList(@RequestParam String emailAddress) {
         logger.info("retrieveUserContactList()");
 		return userContactService.retrieveUserContactList(new UserContactRetrievingDto(emailAddress));

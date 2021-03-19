@@ -31,19 +31,19 @@ public class BankAccountController {
         logger.info("BankAccountController()");
 	}
 
-	@PostMapping("/bank/account")
+	@PostMapping(value = "/bank/account")
 	public BankAccountAddingDto addBankAccount(@RequestBody BankAccountAddingDto bankAccountAddingDto) {
         logger.info("addBankAccount()");
 		return bankAccountService.addBankAccount(bankAccountAddingDto);
 	}
 
-	@DeleteMapping("/bank/account")
+	@DeleteMapping(value = "/bank/account")
 	public BankAccountRemovingDto removeBankAccount(@RequestBody BankAccountRemovingDto bankAccountRemovingDto) {
         logger.info("removeBankAccount()");
 		return bankAccountService.removeBankAccount(bankAccountRemovingDto);
 	}
 
-	@GetMapping("/bank/account")
+	@GetMapping(value = "/bank/account")
 	public BankAccountRetrievingDto retrieveBankAccountList(@RequestParam String emailAddress) {
         logger.info("retrieveBankAccountList()");
 		return bankAccountService.retrieveBankAccountList(new BankAccountRetrievingDto(emailAddress));

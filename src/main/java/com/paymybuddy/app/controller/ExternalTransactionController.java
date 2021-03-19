@@ -29,13 +29,13 @@ public class ExternalTransactionController {
         logger.info("ExternalTransactionController()");
 	}
 
-	@PostMapping("/transaction/external")
+	@PostMapping(value = "/transaction/external")
 	public ExternalTransactionExecutingDto executeExternalTransaction(@RequestBody ExternalTransactionExecutingDto externalTransactionExecutingDto) {
         logger.info("executeExternalTransaction()");
 		return externalTransactionService.executeExternalTransaction(externalTransactionExecutingDto);
 	}
 
-	@GetMapping("/transaction/external")
+	@GetMapping(value = "/transaction/external")
 	public ExternalTransactionRetrievingDto retrieveExternalTransactionList(@RequestParam String emailAddress) {
         logger.info("retrieveBankAccountList()");
 		return externalTransactionService.retrieveExternalTransactionList(new ExternalTransactionRetrievingDto(emailAddress));
