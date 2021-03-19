@@ -27,12 +27,20 @@ public class ExternalTransactionService {
 	public ExternalTransactionExecutingDto executeExternalTransaction(ExternalTransactionExecutingDto externalTransactionExecutingDto) {
         logger.info("executeExternalTransaction(" + externalTransactionExecutingDto + ")");
         
-        externalTransactionExecutingDto.setDataValidated(
-        		externalTransactionRepository.insertExternalTransaction(
-        				externalTransactionExecutingDto.getEmailAddress(), 
-        				externalTransactionExecutingDto.getAccountName(), 
-        				externalTransactionExecutingDto.getDescription(),
-        				externalTransactionExecutingDto.getAmount()));
+    	if (externalTransactionRepository.insertExternalTransaction(
+				externalTransactionExecutingDto.getEmailAddress(), 
+				externalTransactionExecutingDto.getAccountName(), 
+				externalTransactionExecutingDto.getDescription(),
+				externalTransactionExecutingDto.getAmount()) == false) {
+
+    		externalTransactionExecutingDto.setDataValidated(false);
+    		externalTransactionExecutingDto.setMessage("Transaction couldn't be executed");
+    	}
+    	
+    	else {
+
+    		externalTransactionExecutingDto.setDataValidated(true); 	
+    	}
         
 		return externalTransactionExecutingDto;
 	}
