@@ -27,12 +27,20 @@ public class InternalTransactionService {
 	public InternalTransactionExecutingDto executeInternalTransaction(InternalTransactionExecutingDto internalTransactionExecutingDto) {
         logger.info("executeInternalTransaction(" + internalTransactionExecutingDto + ")");
         
-        internalTransactionExecutingDto.setDataValidated(
-        		internalTransactionRepository.insertInternalTransaction(
-        				internalTransactionExecutingDto.getUserEmailAddress(), 
-        				internalTransactionExecutingDto.getContactEmailAddress(), 
-        				internalTransactionExecutingDto.getDescription(),
-        				internalTransactionExecutingDto.getAmount()));
+    	if (internalTransactionRepository.insertInternalTransaction(
+				internalTransactionExecutingDto.getUserEmailAddress(), 
+				internalTransactionExecutingDto.getContactEmailAddress(), 
+				internalTransactionExecutingDto.getDescription(),
+				internalTransactionExecutingDto.getAmount()) == false) {
+
+    		internalTransactionExecutingDto.setDataValidated(false);
+           	internalTransactionExecutingDto.setMessage("Transaction couldn't be executed");
+    	}
+    	
+    	else {
+
+    		internalTransactionExecutingDto.setDataValidated(true); 	
+    	}
                 
 		return internalTransactionExecutingDto;
 	}
