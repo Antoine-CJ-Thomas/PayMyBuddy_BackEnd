@@ -30,8 +30,7 @@ public class ExternalTransactionService {
         externalTransactionExecutingDto.setDataValidated(
         		externalTransactionRepository.insertExternalTransaction(
         				externalTransactionExecutingDto.getEmailAddress(), 
-        				externalTransactionExecutingDto.getAccountNumber(), 
-        				externalTransactionExecutingDto.getSwiftCode(), 
+        				externalTransactionExecutingDto.getAccountName(), 
         				externalTransactionExecutingDto.getDescription(),
         				externalTransactionExecutingDto.getAmount()));
         

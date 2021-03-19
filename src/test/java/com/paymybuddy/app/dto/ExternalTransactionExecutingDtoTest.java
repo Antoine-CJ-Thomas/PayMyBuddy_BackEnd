@@ -14,7 +14,7 @@ class ExternalTransactionExecutingDtoTest {
 	@BeforeEach
 	void beforeEach() {
 
-		externalTransactionExecutingDto = new ExternalTransactionExecutingDto(null, null, null, null, 0.0f);
+		externalTransactionExecutingDto = new ExternalTransactionExecutingDto(null, null, null, 0.0f);
 	}
 
 	@Test
@@ -31,29 +31,16 @@ class ExternalTransactionExecutingDtoTest {
 	}
 
 	@Test
-	void test_setAndGetAccountNumber() {
+	void test_setAndGetAccountName() {
 
     	//GIVEN
-		String accountNumber = "accountNumber";
+		String accountName = "accountName";
         
     	//WHEN
-		externalTransactionExecutingDto.setAccountNumber(accountNumber);
+		externalTransactionExecutingDto.setAccountName(accountName);
     	
     	//THEN
-        assertEquals(accountNumber, externalTransactionExecutingDto.getAccountNumber());
-	}
-
-	@Test
-	void test_setAndGetSwiftCode() {
-
-    	//GIVEN
-		String swiftCode = "swiftCode";
-        
-    	//WHEN
-		externalTransactionExecutingDto.setSwiftCode(swiftCode);
-    	
-    	//THEN
-        assertEquals(swiftCode, externalTransactionExecutingDto.getSwiftCode());
+        assertEquals(accountName, externalTransactionExecutingDto.getAccountName());
 	}
     
 	@Test

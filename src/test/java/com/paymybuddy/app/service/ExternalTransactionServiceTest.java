@@ -45,22 +45,19 @@ class ExternalTransactionServiceTest {
 
     	//GIVEN
 		String emailAddress = "emailAddress";
-		String acountNumber = "acountNumber";
-		String swiftCode = "swiftCode";
+		String acountName = "acountName";
 		String description = "description";
 		float amount = 0.0f;
         
     	//WHEN
 		when(externalTransactionExecutingDto.getEmailAddress()).thenReturn(emailAddress);
-		when(externalTransactionExecutingDto.getAccountNumber()).thenReturn(acountNumber);
-		when(externalTransactionExecutingDto.getSwiftCode()).thenReturn(swiftCode);
+		when(externalTransactionExecutingDto.getAccountName()).thenReturn(acountName);
 		when(externalTransactionExecutingDto.getDescription()).thenReturn(description);
 		when(externalTransactionExecutingDto.getAmount()).thenReturn(amount);
 		
 		when(externalTransactionRepository.insertExternalTransaction(
 				externalTransactionExecutingDto.getEmailAddress(), 
-				externalTransactionExecutingDto.getAccountNumber(), 
-				externalTransactionExecutingDto.getSwiftCode(), 
+				externalTransactionExecutingDto.getAccountName(), 
 				externalTransactionExecutingDto.getDescription(),
 				externalTransactionExecutingDto.getAmount())).thenReturn(true);		
 		
@@ -75,22 +72,19 @@ class ExternalTransactionServiceTest {
 
     	//GIVEN
 		String emailAddress = "emailAddress";
-		String acountNumber = "acountNumber";
-		String swiftCode = "swiftCode";
+		String acountName = "acountName";
 		String description = "description";
 		float amount = 0.0f;
         
     	//WHEN
 		when(externalTransactionExecutingDto.getEmailAddress()).thenReturn(emailAddress);
-		when(externalTransactionExecutingDto.getAccountNumber()).thenReturn(acountNumber);
-		when(externalTransactionExecutingDto.getSwiftCode()).thenReturn(swiftCode);
+		when(externalTransactionExecutingDto.getAccountName()).thenReturn(acountName);
 		when(externalTransactionExecutingDto.getDescription()).thenReturn(description);
 		when(externalTransactionExecutingDto.getAmount()).thenReturn(amount);
 		
 		when(externalTransactionRepository.insertExternalTransaction(
 				externalTransactionExecutingDto.getEmailAddress(), 
-				externalTransactionExecutingDto.getAccountNumber(), 
-				externalTransactionExecutingDto.getSwiftCode(), 
+				externalTransactionExecutingDto.getAccountName(), 
 				externalTransactionExecutingDto.getDescription(),
 				externalTransactionExecutingDto.getAmount())).thenReturn(false);		
 		

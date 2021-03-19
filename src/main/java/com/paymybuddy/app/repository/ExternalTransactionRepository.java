@@ -29,8 +29,8 @@ public class ExternalTransactionRepository {
     	dataBaseConfig = new PostgreConfig();
     }
 
-	public boolean insertExternalTransaction(String userEmailAddress, String accountNumber, String swiftCode, String description, float amount) {
-        logger.info("insertExternalTransaction(" + userEmailAddress + "," + accountNumber + "," + swiftCode + "," + description + "," + amount + ")");
+	public boolean insertExternalTransaction(String userEmailAddress, String accountName, String description, float amount) {
+        logger.info("insertExternalTransaction(" + userEmailAddress + "," + accountName + "," + description + "," + amount + ")");
 				
 		String query 	= "INSERT "
 						+ "INTO external_transaction (user_id,bank_id,date_time,amount,description) "
@@ -48,9 +48,7 @@ public class ExternalTransactionRepository {
 								+ "FROM bank_account "
 								+ "WHERE ("
 								
-									+ "bank_account.account_number = '" + accountNumber + "'"
-									+ "AND "
-									+ "bank_account.swift_code = '" + swiftCode + "'"
+									+ "bank_account.account_name = '" + accountName + "'"
 									+ "AND "						
 									+ "bank_account.user_id = ("
 							
