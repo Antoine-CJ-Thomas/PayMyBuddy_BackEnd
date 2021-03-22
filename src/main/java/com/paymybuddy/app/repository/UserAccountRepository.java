@@ -2,6 +2,7 @@ package com.paymybuddy.app.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,25 +27,26 @@ public class UserAccountRepository {
     	dataBaseConfig = new PostgreConfig();
     }
 
-	public boolean insertUserAccount(String emailAddress, String password, String firstName, String lastName) {
+	public String insertUserAccount(String emailAddress, String password, String firstName, String lastName) {
         logger.info("insertUserAccount(" + emailAddress + "," + password + "," + firstName + "," + lastName + ")");
+        
+        ArrayList<String> queryList = new ArrayList<String>();
 		
 		String query 	= "INSERT "
 						+ "INTO user_account (email_address,password,first_name,last_name,balance) " 
 						+ "VALUES ('" + emailAddress + "','" + password + "','" + firstName + "','" + lastName + "'," + 0.00 + ");";
 
-		boolean successfullyInserted = false;
+		queryList.add(query);
+
+		dataBaseConfig.insertQuery(queryList);
 		
-		if (dataBaseConfig.insertQuery(query) > 0) {
-			
-			successfullyInserted = true;
-		}
-		
-		return (dataBaseConfig.isQueryExecutedSuccessfully() && successfullyInserted);
+		return dataBaseConfig.getSQLExceptionState();
 	}
 
-	public boolean selectUserAccount(String emailAddress, String password) {
+	public String selectUserAccount(String emailAddress, String password) {
         logger.info("selectUserAccount(" + emailAddress + "," + password + ")");
+        
+        ArrayList<String> queryList = new ArrayList<String>();
 		
 		String query 	= "SELECT * "
 						+ "FROM user_account " 
@@ -57,10 +59,12 @@ public class UserAccountRepository {
 							+ "user_account.password = '" + password + "'"
 							
 						+ ";";
+
+		queryList.add(query);
 		
 		boolean successfullySelected = false;
 
-		ResultSet resultSet = dataBaseConfig.selectQuery(query);
+		ResultSet resultSet = dataBaseConfig.selectQuery(queryList);
 		
     	try {
 
@@ -85,19 +89,21 @@ public class UserAccountRepository {
 			}
 	    }
 		
-		return (dataBaseConfig.isQueryExecutedSuccessfully() && successfullySelected);
+		return dataBaseConfig.getSQLExceptionState();
 	}
 
-	public boolean selectUserAccount(String emailAddress, UserAccount userAccount) {
+	public String selectUserAccount(String emailAddress, UserAccount userAccount) {
         logger.info("selectUserAccount(" + emailAddress + "," + userAccount + ")");
+        
+        ArrayList<String> queryList = new ArrayList<String>();
 		
 		String query 	= "SELECT * "
 						+ "FROM user_account " 
 						+ "WHERE email_address='" + emailAddress + "';";
-		
-		boolean successfullySelected = false;
 
-		ResultSet resultSet = dataBaseConfig.selectQuery(query);
+		queryList.add(query);
+
+		ResultSet resultSet = dataBaseConfig.selectQuery(queryList);
 				
     	try {
 
@@ -108,8 +114,6 @@ public class UserAccountRepository {
 				userAccount.setFirstName(resultSet.getString("first_name"));
 				userAccount.setLastName(resultSet.getString("last_name"));
 				userAccount.setBalanceAmount(resultSet.getFloat("balance"));
-				
-				successfullySelected = true;
 			}
 
 		} catch (SQLException e) {
@@ -128,29 +132,30 @@ public class UserAccountRepository {
 			}
 	    }
 		
-		return (dataBaseConfig.isQueryExecutedSuccessfully() && successfullySelected);
+		return dataBaseConfig.getSQLExceptionState();
 	}
 
-	public boolean updateUserAccount(String emailAddress, String password, String firstName, String lastName) {
-        logger.info("updateUserAccount(" + emailAddress + "," + password + "," + firstName + "," + lastName + ")");        
+	public String updateUserAccount(String emailAddress, String password, String firstName, String lastName) {
+        logger.info("updateUserAccount(" + emailAddress + "," + password + "," + firstName + "," + lastName + ")");     
+        
+        ArrayList<String> queryList = new ArrayList<String>();   
 		
 		String query 	= "UPDATE user_account "
 						+ "SET password='" + password + "'," + "first_name='" + firstName + "'," + "last_name='" + lastName + "'" 
 						+ "WHERE email_address='" + emailAddress + "';";
 
-		boolean successfullyUpdated = false;
+		queryList.add(query);
 		
-		if (dataBaseConfig.updateQuery(query) > 0) {
-			
-			successfullyUpdated = true;
-		}
+		dataBaseConfig.updateQuery(queryList);
 		
-		return (dataBaseConfig.isQueryExecutedSuccessfully() && successfullyUpdated);
+		return dataBaseConfig.getSQLExceptionState();
 	
 	}
 
-	public boolean deleteUserAccount(String emailAddress, String password) {
+	public String deleteUserAccount(String emailAddress, String password) {
         logger.info("deleteUserAccount(" + emailAddress + "," + password + ")");
+        
+        ArrayList<String> queryList = new ArrayList<String>();
 	
 		String query 	= "DELETE "
 						+ "FROM user_account " 
@@ -164,13 +169,10 @@ public class UserAccountRepository {
 							
 						+ ";";
 
-		boolean successfullyDeleted = false;
+		queryList.add(query);
 		
-		if (dataBaseConfig.deleteQuery(query) > 0) {
-			
-			successfullyDeleted = true;
-		}
+		dataBaseConfig.deleteQuery(queryList);
 		
-		return (dataBaseConfig.isQueryExecutedSuccessfully() && successfullyDeleted);
+		return dataBaseConfig.getSQLExceptionState();
 	}
 }

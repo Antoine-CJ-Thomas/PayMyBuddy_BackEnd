@@ -16,63 +16,75 @@ import com.paymybuddy.app.repository.BankAccountRepository;
 @Service
 public class BankAccountService {
 
-    private static final Logger logger = LogManager.getLogger("BankAccountService");
+	private static final Logger logger = LogManager.getLogger("BankAccountService");
 
-    @Autowired
+	@Autowired
 	private BankAccountRepository bankAccountRepository;
-	
+
 	public BankAccountService() {
-        logger.info("bankAccountService()");
+		logger.info("bankAccountService()");
 	}
-	
+
 	public BankAccountAddingDto addBankAccount(BankAccountAddingDto bankAccountAddingDto) {
-        logger.info("addBankAccount(" + bankAccountAddingDto + ")");
-        
-    	if (bankAccountRepository.insertBankAccount(
-    			bankAccountAddingDto.getEmailAddress(), 
-    			bankAccountAddingDto.getAccountName(), 
-    			bankAccountAddingDto.getAccountNumber(), 
-    			bankAccountAddingDto.getSwiftCode()) == false) {
+		logger.info("addBankAccount(" + bankAccountAddingDto + ")");
 
-    		bankAccountAddingDto.setDataValidated(false);
+		switch (bankAccountRepository.insertBankAccount(bankAccountAddingDto.getEmailAddress(),
+				bankAccountAddingDto.getAccountName(), bankAccountAddingDto.getAccountNumber(),
+				bankAccountAddingDto.getSwiftCode())) {
+
+		case ("00"):
+
+			bankAccountAddingDto.setDataValidated(true);
+			break;
+
+		default:
+
+			bankAccountAddingDto.setDataValidated(false);
 			bankAccountAddingDto.setMessage("Account couldn't be added");
-    	}
-    	
-    	else {
+			break;
+		}
 
-    		bankAccountAddingDto.setDataValidated(true); 	
-    	}
-        
 		return bankAccountAddingDto;
 	}
 
 	public BankAccountRemovingDto removeBankAccount(BankAccountRemovingDto bankAccountRemovingDto) {
-        logger.info("removeBankAccount(" + bankAccountRemovingDto +")");
-        
-    	if (bankAccountRepository.deleteBankAccount(
-    			bankAccountRemovingDto.getEmailAddress(), 
-    			bankAccountRemovingDto.getAccountName()) == false) {
+		logger.info("removeBankAccount(" + bankAccountRemovingDto + ")");
 
-    		bankAccountRemovingDto.setDataValidated(false);
-    		bankAccountRemovingDto.setMessage("Account couldn't be removed");
-    	}
-    	
-    	else {
+		switch (bankAccountRepository.deleteBankAccount(bankAccountRemovingDto.getEmailAddress(),
+				bankAccountRemovingDto.getAccountName())) {
 
-    		bankAccountRemovingDto.setDataValidated(true); 	
-    	}
-        
+		case ("00"):
+
+			bankAccountRemovingDto.setDataValidated(true);
+			break;
+
+		default:
+
+			bankAccountRemovingDto.setDataValidated(false);
+			bankAccountRemovingDto.setMessage("Account couldn't be removed");
+			break;
+		}
+
 		return bankAccountRemovingDto;
 	}
 
 	public BankAccountRetrievingDto retrieveBankAccountList(BankAccountRetrievingDto bankAccountRetrievingDto) {
-        logger.info("retrieveBankAccountList(" + bankAccountRetrievingDto + ")");
-        
-        bankAccountRetrievingDto.setDataValidated(
-        		bankAccountRepository.selectBankAccountList(
-        				bankAccountRetrievingDto.getEmailAddress(), 
-        				bankAccountRetrievingDto.getBankAccountList()));
-                        
+		logger.info("retrieveBankAccountList(" + bankAccountRetrievingDto + ")");
+
+		switch (bankAccountRepository.selectBankAccountList(bankAccountRetrievingDto.getEmailAddress(),
+				bankAccountRetrievingDto.getBankAccountList())) {
+
+		case ("00"):
+
+			bankAccountRetrievingDto.setDataValidated(true);
+			break;
+
+		default:
+
+			bankAccountRetrievingDto.setDataValidated(false);
+			break;
+		}
+
 		return bankAccountRetrievingDto;
 	}
 }

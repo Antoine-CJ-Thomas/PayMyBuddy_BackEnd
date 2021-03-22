@@ -15,44 +15,58 @@ import com.paymybuddy.app.repository.InternalTransactionRepository;
 @Service
 public class InternalTransactionService {
 
-    private static final Logger logger = LogManager.getLogger("InternalTransactionService");
+	private static final Logger logger = LogManager.getLogger("InternalTransactionService");
 
-    @Autowired
+	@Autowired
 	private InternalTransactionRepository internalTransactionRepository;
-	
+
 	public InternalTransactionService() {
-        logger.info("InternalTransactionService()");
+		logger.info("InternalTransactionService()");
 	}
-	
-	public InternalTransactionExecutingDto executeInternalTransaction(InternalTransactionExecutingDto internalTransactionExecutingDto) {
-        logger.info("executeInternalTransaction(" + internalTransactionExecutingDto + ")");
-        
-    	if (internalTransactionRepository.insertInternalTransaction(
-				internalTransactionExecutingDto.getUserEmailAddress(), 
-				internalTransactionExecutingDto.getContactEmailAddress(), 
-				internalTransactionExecutingDto.getDescription(),
-				internalTransactionExecutingDto.getAmount()) == false) {
 
-    		internalTransactionExecutingDto.setDataValidated(false);
-           	internalTransactionExecutingDto.setMessage("Transaction couldn't be executed");
-    	}
-    	
-    	else {
+	public InternalTransactionExecutingDto executeInternalTransaction(
+			InternalTransactionExecutingDto internalTransactionExecutingDto) {
+		logger.info("executeInternalTransaction(" + internalTransactionExecutingDto + ")");
 
-    		internalTransactionExecutingDto.setDataValidated(true); 	
-    	}
-                
+		switch (internalTransactionRepository.insertInternalTransaction(
+				internalTransactionExecutingDto.getUserEmailAddress(),
+				internalTransactionExecutingDto.getContactEmailAddress(),
+				internalTransactionExecutingDto.getDescription(), internalTransactionExecutingDto.getAmount())) {
+
+		case ("00"):
+
+			internalTransactionExecutingDto.setDataValidated(true);
+			break;
+
+		default:
+
+			internalTransactionExecutingDto.setDataValidated(false);
+			internalTransactionExecutingDto.setMessage("Transaction couldn't be executed");
+			break;
+		}
+
 		return internalTransactionExecutingDto;
 	}
 
-	public InternalTransactionRetrievingDto retrieveInternalTransactionList(InternalTransactionRetrievingDto internalTransactionRetrievingDto) {
-        logger.info("retrieveInternalTransactionList(" + internalTransactionRetrievingDto + ")");
+	public InternalTransactionRetrievingDto retrieveInternalTransactionList(
+			InternalTransactionRetrievingDto internalTransactionRetrievingDto) {
+		logger.info("retrieveInternalTransactionList(" + internalTransactionRetrievingDto + ")");
 
-        internalTransactionRetrievingDto.setDataValidated(
-        		internalTransactionRepository.selectInternalTransactionList(
-        				internalTransactionRetrievingDto.getEmailAddress(), 
-        				internalTransactionRetrievingDto.getInternalTransactionList()));
-        
+		switch (internalTransactionRepository.selectInternalTransactionList(
+				internalTransactionRetrievingDto.getEmailAddress(),
+				internalTransactionRetrievingDto.getInternalTransactionList())) {
+
+		case ("00"):
+
+			internalTransactionRetrievingDto.setDataValidated(true);
+			break;
+
+		default:
+
+			internalTransactionRetrievingDto.setDataValidated(false);
+			break;
+		}
+
 		return internalTransactionRetrievingDto;
 	}
 }

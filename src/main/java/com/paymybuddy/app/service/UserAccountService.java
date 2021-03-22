@@ -18,103 +18,125 @@ import com.paymybuddy.app.repository.UserAccountRepository;
 @Service
 public class UserAccountService {
 
-    private static final Logger logger = LogManager.getLogger("UserAccountService");
+	private static final Logger logger = LogManager.getLogger("UserAccountService");
 
-    @Autowired
+	@Autowired
 	private UserAccountRepository userAccountRepository;
-    
+
 	public UserAccountService() {
-        logger.info("UserAccountService()");
+		logger.info("UserAccountService()");
 	}
-	
+
 	public UserAccountCreatingDto createUserAccount(UserAccountCreatingDto userAccountCreatingDto) {
-        logger.info("createUserAccount(" + userAccountCreatingDto + ")");
-        
-    	if (userAccountRepository.insertUserAccount(
-				userAccountCreatingDto.getEmailAddress(), 
-				userAccountCreatingDto.getPassword(), 
-				userAccountCreatingDto.getFirstName(), 
-				userAccountCreatingDto.getLastName()) == false) {
+		logger.info("createUserAccount(" + userAccountCreatingDto + ")");
 
-           	 userAccountCreatingDto.setDataValidated(false);
-           	 userAccountCreatingDto.setMessage("Account couldn't be created");
-    	}
-    	
-    	else {
+		switch (userAccountRepository.insertUserAccount(userAccountCreatingDto.getEmailAddress(),
+				userAccountCreatingDto.getPassword(), userAccountCreatingDto.getFirstName(),
+				userAccountCreatingDto.getLastName())) {
 
-		    userAccountCreatingDto.setDataValidated(true); 	
-    	}
-         
+		case ("00"):
+
+			userAccountCreatingDto.setDataValidated(true);
+			break;
+
+		case ("23505"):
+
+			userAccountCreatingDto.setDataValidated(false);
+			userAccountCreatingDto.setMessage("This email address is already used");
+			break;
+
+		default:
+
+			userAccountCreatingDto.setDataValidated(false);
+			userAccountCreatingDto.setMessage("Account couldn't be created");
+			break;
+
+		}
+
 		return userAccountCreatingDto;
 	}
 
 	public UserAccountDeletingDto deleteUserAccount(UserAccountDeletingDto userAccountDeletingDto) {
-        logger.info("deleteUserAccount(" + userAccountDeletingDto +")");
-        
-    	if (userAccountRepository.deleteUserAccount(
-    			userAccountDeletingDto.getEmailAddress(),
-    			userAccountDeletingDto.getPassword()) == false) {
+		logger.info("deleteUserAccount(" + userAccountDeletingDto + ")");
 
-    		userAccountDeletingDto.setDataValidated(false);
-    		userAccountDeletingDto.setMessage("Account couldn't be deleted");
-    	}
-    	
-    	else {
-    		
-        	userAccountDeletingDto.setDataValidated(true); 	
-    	}
+		switch (userAccountRepository.deleteUserAccount(userAccountDeletingDto.getEmailAddress(),
+				userAccountDeletingDto.getPassword())) {
+
+		case ("00"):
+
+			userAccountDeletingDto.setDataValidated(true);
+			break;
+
+		default:
+
+			userAccountDeletingDto.setDataValidated(false);
+			userAccountDeletingDto.setMessage("Account couldn't be deleted");
+			break;
+		}
 
 		return userAccountDeletingDto;
 	}
 
 	public UserAccountEditingDto editUserAccount(UserAccountEditingDto userAccountEditingDto) {
-        logger.info("editUserAccount(" + userAccountEditingDto + ")");
-        
-    	if (userAccountRepository.updateUserAccount(
-				userAccountEditingDto.getEmailAddress(), 
-				userAccountEditingDto.getPassword(), 
-				userAccountEditingDto.getFirstName(), 
-				userAccountEditingDto.getLastName()) == false) {
+		logger.info("editUserAccount(" + userAccountEditingDto + ")");
 
-    		userAccountEditingDto.setDataValidated(false);
-           	userAccountEditingDto.setMessage("Account couldn't be edited");
-    	}
-    	
-    	else {
+		switch (userAccountRepository.updateUserAccount(userAccountEditingDto.getEmailAddress(),
+				userAccountEditingDto.getPassword(), userAccountEditingDto.getFirstName(),
+				userAccountEditingDto.getLastName())) {
 
-    		userAccountEditingDto.setDataValidated(true); 	
-    	}
+		case ("00"):
+
+			userAccountEditingDto.setDataValidated(true);
+			break;
+
+		default:
+
+			userAccountEditingDto.setDataValidated(false);
+			userAccountEditingDto.setMessage("Account couldn't be edited");
+			break;
+		}
 
 		return userAccountEditingDto;
 	}
 
 	public UserAccountLoginDto loginUserAccount(UserAccountLoginDto userAccountLoginDto) {
-        logger.info("loginUserAccount(" + userAccountLoginDto +")");
-        
-    	if (userAccountRepository.selectUserAccount(
-    			userAccountLoginDto.getEmailAddress(),
-				userAccountLoginDto.getPassword()) == false) {
+		logger.info("loginUserAccount(" + userAccountLoginDto + ")");
 
-    		userAccountLoginDto.setDataValidated(false);
-        	userAccountLoginDto.setMessage("Invalid email or password");
-    	}
-    	
-    	else {
+		switch (userAccountRepository.selectUserAccount(userAccountLoginDto.getEmailAddress(),
+				userAccountLoginDto.getPassword())) {
 
-    		userAccountLoginDto.setDataValidated(true); 	
-    	}
+		case ("00"):
+
+			userAccountLoginDto.setDataValidated(true);
+			break;
+
+		default:
+
+			userAccountLoginDto.setDataValidated(false);
+			userAccountLoginDto.setMessage("Invalid email or password");
+			break;
+		}
 
 		return userAccountLoginDto;
 	}
 
 	public UserAccountRetrievingDto retrieveUserAccount(UserAccountRetrievingDto userAccountRetrievingDto) {
-        logger.info("retrieveUserAccount(" + userAccountRetrievingDto + ")");
-        
-        userAccountRetrievingDto.setDataValidated(
-        		userAccountRepository.selectUserAccount(
-        				userAccountRetrievingDto.getEmailAddress(), 
-        				userAccountRetrievingDto.getUserAccount()));
-          
+		logger.info("retrieveUserAccount(" + userAccountRetrievingDto + ")");
+
+		switch (userAccountRepository.selectUserAccount(userAccountRetrievingDto.getEmailAddress(),
+				userAccountRetrievingDto.getUserAccount())) {
+
+		case ("00"):
+
+			userAccountRetrievingDto.setDataValidated(true);
+			break;
+
+		default:
+
+			userAccountRetrievingDto.setDataValidated(false);
+			break;
+		}
+
 		return userAccountRetrievingDto;
 	}
 }

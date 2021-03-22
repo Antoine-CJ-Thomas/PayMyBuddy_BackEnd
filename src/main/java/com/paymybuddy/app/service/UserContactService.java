@@ -16,61 +16,74 @@ import com.paymybuddy.app.repository.UserContactRepository;
 @Service
 public class UserContactService {
 
-    private static final Logger logger = LogManager.getLogger("UserContactService");
+	private static final Logger logger = LogManager.getLogger("UserContactService");
 
-    @Autowired
+	@Autowired
 	private UserContactRepository userContactRepository;
-	
+
 	public UserContactService() {
-        logger.info("UserContactService()");
+		logger.info("UserContactService()");
 	}
-	
+
 	public UserContactAddingDto addUserContact(UserContactAddingDto userContactAddingDto) {
-        logger.info("addUserContact(" + userContactAddingDto + ")");
-        
-    	if (userContactRepository.insertUserContact(
-    			userContactAddingDto.getUserEmailAddress(), 
-				userContactAddingDto.getContactEmailAddress()) == false) {
+		logger.info("addUserContact(" + userContactAddingDto + ")");
+
+		switch (userContactRepository.insertUserContact(userContactAddingDto.getUserEmailAddress(),
+				userContactAddingDto.getContactEmailAddress())) {
+
+		case ("00"):
+
+			userContactAddingDto.setDataValidated(true);
+			break;
+
+		default:
 
 			userContactAddingDto.setDataValidated(false);
-           	userContactAddingDto.setMessage("Contact couldn't be added");
-    	}
-    	
-    	else {
+			userContactAddingDto.setMessage("Contact couldn't be added");
+			break;
+		}
 
-    		userContactAddingDto.setDataValidated(true); 	
-    	}
-    	
 		return userContactAddingDto;
 	}
 
 	public UserContactRemovingDto removeUserContact(UserContactRemovingDto userContactRemovingDto) {
-        logger.info("removeUserContact(" + userContactRemovingDto +")");
-        
-    	if (userContactRepository.deleteUserContact(
-    			userContactRemovingDto.getUserEmailAddress(), 
-    			userContactRemovingDto.getContactEmailAddress()) == false) {
+		logger.info("removeUserContact(" + userContactRemovingDto + ")");
 
-    		userContactRemovingDto.setDataValidated(false);
+		switch (userContactRepository.deleteUserContact(userContactRemovingDto.getUserEmailAddress(),
+				userContactRemovingDto.getContactEmailAddress())) {
+
+		case ("00"):
+
+			userContactRemovingDto.setDataValidated(true);
+			break;
+
+		default:
+
+			userContactRemovingDto.setDataValidated(false);
 			userContactRemovingDto.setMessage("Contact couldn't be removed");
-    	}
-    	
-    	else {
+			break;
+		}
 
-    		userContactRemovingDto.setDataValidated(true); 	
-    	}
-        
 		return userContactRemovingDto;
 	}
 
 	public UserContactRetrievingDto retrieveUserContactList(UserContactRetrievingDto userContactRetrievingDto) {
-        logger.info("retrieveUserContactList(" + userContactRetrievingDto + ")");
-        
-        userContactRetrievingDto.setDataValidated(
-        		userContactRepository.selectUserContactList(
-        				userContactRetrievingDto.getEmailAddress(), 
-        				userContactRetrievingDto.getUserContactList()));
-                        
+		logger.info("retrieveUserContactList(" + userContactRetrievingDto + ")");
+
+		switch (userContactRepository.selectUserContactList(userContactRetrievingDto.getEmailAddress(),
+				userContactRetrievingDto.getUserContactList())) {
+
+		case ("00"):
+
+			userContactRetrievingDto.setDataValidated(true);
+			break;
+
+		default:
+
+			userContactRetrievingDto.setDataValidated(false);
+			break;
+		}
+
 		return userContactRetrievingDto;
 	}
 }

@@ -1,12 +1,13 @@
 package com.paymybuddy.app.config;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 public interface DataBaseConfig {
 	
-    public int insertQuery(String query);
-    public ResultSet selectQuery(String query);
-    public int updateQuery(String query);
-    public int deleteQuery(String query);
-    public boolean isQueryExecutedSuccessfully();
+    public void insertQuery(ArrayList<String> queryList);
+    public ResultSet selectQuery(ArrayList<String> queryList);
+    public void updateQuery(ArrayList<String> queryList);
+    public void deleteQuery(ArrayList<String> queryList);
+    public String getSQLExceptionState();
  }

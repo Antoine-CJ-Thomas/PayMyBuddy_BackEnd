@@ -27,8 +27,10 @@ public class BankAccountRepository {
     	dataBaseConfig = new PostgreConfig();
     }
 
-	public boolean insertBankAccount(String userEmailAddress, String accountName, String accountNumber, String swiftCode) {
+	public String insertBankAccount(String userEmailAddress, String accountName, String accountNumber, String swiftCode) {
         logger.info("insertBankAccount(" + userEmailAddress + "," + accountNumber + "," + swiftCode + ")");
+        
+        ArrayList<String> queryList = new ArrayList<String>();
 				
 		String query 	= "INSERT "
 						+ "INTO bank_account (user_id,account_name,account_number,swift_code) "
@@ -55,14 +57,18 @@ public class BankAccountRepository {
 							+ ")"
 							
 						+ ");";
+
+		queryList.add(query);
         
-		dataBaseConfig.insertQuery(query);
+		dataBaseConfig.insertQuery(queryList);
 		
-		return dataBaseConfig.isQueryExecutedSuccessfully();
+		return dataBaseConfig.getSQLExceptionState();
 	}
 
-	public boolean selectBankAccountList(String emailAddress, ArrayList<BankAccount> bankAccountList) {
+	public String selectBankAccountList(String emailAddress, ArrayList<BankAccount> bankAccountList) {
         logger.info("selectBankAccountList(" + emailAddress + "," + bankAccountList + ")");
+        
+        ArrayList<String> queryList = new ArrayList<String>();
 		
 		String query 	= "SELECT * "
 						+ "FROM bank_account "
@@ -78,7 +84,9 @@ public class BankAccountRepository {
 							+ ")"
 						+ ";";
 
-		ResultSet resultSet = dataBaseConfig.selectQuery(query);
+		queryList.add(query);
+
+		ResultSet resultSet = dataBaseConfig.selectQuery(queryList);
 		
     	try {
     		
@@ -106,11 +114,13 @@ public class BankAccountRepository {
 			}
 	    }
 		
-		return dataBaseConfig.isQueryExecutedSuccessfully();
+		return dataBaseConfig.getSQLExceptionState();
 	}
 
-	public boolean deleteBankAccount(String userEmailAddress, String accountName) {
+	public String deleteBankAccount(String userEmailAddress, String accountName) {
         logger.info("deleteBankAccount(" + userEmailAddress + "," + accountName + ")");
+        
+        ArrayList<String> queryList = new ArrayList<String>();
         
 		String query 	= "DELETE "
 						+ "FROM bank_account "
@@ -126,9 +136,11 @@ public class BankAccountRepository {
 							
 								+ "bank_account.account_name ='" + accountName + "'"
 						+ ";";
+
+		queryList.add(query);
         
-		dataBaseConfig.deleteQuery(query);
+		dataBaseConfig.deleteQuery(queryList);
 		
-		return dataBaseConfig.isQueryExecutedSuccessfully();
+		return dataBaseConfig.getSQLExceptionState();
 	}
 }

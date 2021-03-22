@@ -27,8 +27,10 @@ public class UserContactRepository {
     	dataBaseConfig = new PostgreConfig();
     }
 
-	public boolean insertUserContact(String userEmailAddress, String contactEmailAddress) {
+	public String insertUserContact(String userEmailAddress, String contactEmailAddress) {
         logger.info("insertUserContact(" + userEmailAddress + "," + contactEmailAddress + ")");
+        
+        ArrayList<String> queryList = new ArrayList<String>();
 				
 		String query 	= "INSERT "
 						+ "INTO user_contact (user_id,contact_id) "
@@ -49,13 +51,17 @@ public class UserContactRepository {
 							
 						+ ");";
 
-		dataBaseConfig.insertQuery(query);
+		queryList.add(query);
 		
-		return dataBaseConfig.isQueryExecutedSuccessfully();
+		dataBaseConfig.insertQuery(queryList);
+		
+		return dataBaseConfig.getSQLExceptionState();
 	}
 
-	public boolean selectUserContactList(String emailAddress, ArrayList<UserContact> userContactList) {
+	public String selectUserContactList(String emailAddress, ArrayList<UserContact> userContactList) {
         logger.info("selectUserContactList(" + emailAddress + "," + userContactList + ")");
+        
+        ArrayList<String> queryList = new ArrayList<String>();
 		
 		String query 	= "SELECT * "
 						+ "FROM user_account "
@@ -71,7 +77,9 @@ public class UserContactRepository {
 							+ ")"
 						+ ";";
 
-		ResultSet resultSet = dataBaseConfig.selectQuery(query);
+		queryList.add(query);
+
+		ResultSet resultSet = dataBaseConfig.selectQuery(queryList);
 		
     	try {
     		
@@ -99,11 +107,13 @@ public class UserContactRepository {
 			}
 	    }
 		
-		return dataBaseConfig.isQueryExecutedSuccessfully();
+		return dataBaseConfig.getSQLExceptionState();
     }
 
-	public boolean deleteUserContact(String userEmailAddress, String contactEmailAddress) {
+	public String deleteUserContact(String userEmailAddress, String contactEmailAddress) {
         logger.info("deleteUserContact(" + userEmailAddress + "," + contactEmailAddress + ")");
+        
+        ArrayList<String> queryList = new ArrayList<String>();
         
 		String query 	= "DELETE "
 						+ "FROM user_contact "
@@ -123,9 +133,11 @@ public class UserContactRepository {
 								+ "WHERE user_account.email_address = '" + contactEmailAddress + "'"
 							+ ")"
 						+ ";";
+
+		queryList.add(query);
         
-		dataBaseConfig.deleteQuery(query);
+		dataBaseConfig.deleteQuery(queryList);
 		
-		return dataBaseConfig.isQueryExecutedSuccessfully();
+		return dataBaseConfig.getSQLExceptionState();
 	}
 }

@@ -59,7 +59,7 @@ class internalTransactionServiceTest {
 				internalTransactionExecutingDto.getUserEmailAddress(), 
 				internalTransactionExecutingDto.getContactEmailAddress(), 
 				internalTransactionExecutingDto.getDescription(),
-				internalTransactionExecutingDto.getAmount())).thenReturn(true);
+				internalTransactionExecutingDto.getAmount())).thenReturn("00");
 		
 		internalTransactionService.executeInternalTransaction(internalTransactionExecutingDto);
 	    
@@ -86,7 +86,7 @@ class internalTransactionServiceTest {
 				internalTransactionExecutingDto.getUserEmailAddress(), 
 				internalTransactionExecutingDto.getContactEmailAddress(), 
 				internalTransactionExecutingDto.getDescription(),
-				internalTransactionExecutingDto.getAmount())).thenReturn(false);
+				internalTransactionExecutingDto.getAmount())).thenReturn("");
 		
 		internalTransactionService.executeInternalTransaction(internalTransactionExecutingDto);
 	    
@@ -106,7 +106,7 @@ class internalTransactionServiceTest {
 
 		when(internalTransactionRepository.selectInternalTransactionList(
 				internalTransactionRetrievingDto.getEmailAddress(), 
-				internalTransactionRetrievingDto.getInternalTransactionList())).thenReturn(true);
+				internalTransactionRetrievingDto.getInternalTransactionList())).thenReturn("00");
 		
 		internalTransactionService.retrieveInternalTransactionList(internalTransactionRetrievingDto);
 	    
@@ -126,7 +126,7 @@ class internalTransactionServiceTest {
 
 		when(internalTransactionRepository.selectInternalTransactionList(
 				internalTransactionRetrievingDto.getEmailAddress(), 
-				internalTransactionRetrievingDto.getInternalTransactionList())).thenReturn(false);
+				internalTransactionRetrievingDto.getInternalTransactionList())).thenReturn("");
 		
 		internalTransactionService.retrieveInternalTransactionList(internalTransactionRetrievingDto);
 	    

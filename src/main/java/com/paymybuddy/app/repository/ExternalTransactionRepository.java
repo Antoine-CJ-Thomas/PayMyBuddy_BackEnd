@@ -29,8 +29,10 @@ public class ExternalTransactionRepository {
     	dataBaseConfig = new PostgreConfig();
     }
 
-	public boolean insertExternalTransaction(String userEmailAddress, String accountName, String description, float amount) {
+	public String insertExternalTransaction(String userEmailAddress, String accountName, String description, float amount) {
         logger.info("insertExternalTransaction(" + userEmailAddress + "," + accountName + "," + description + "," + amount + ")");
+        
+        ArrayList<String> queryList = new ArrayList<String>();
 				
 		String query 	= "INSERT "
 						+ "INTO external_transaction (user_id,bank_id,date_time,amount,description) "
@@ -75,14 +77,18 @@ public class ExternalTransactionRepository {
 							+ ")"
 							
 						+ ");";
+
+		queryList.add(query);
 		
-		dataBaseConfig.insertQuery(query);
+		dataBaseConfig.insertQuery(queryList);
 		
-		return dataBaseConfig.isQueryExecutedSuccessfully();
+		return dataBaseConfig.getSQLExceptionState();
 	}
 
-	public boolean selectExternalTransactionList(String emailAddress, ArrayList<ExternalTransaction> externalTransactionList) {
+	public String selectExternalTransactionList(String emailAddress, ArrayList<ExternalTransaction> externalTransactionList) {
         logger.info("selectExternalTransactionList(" + emailAddress + "," + externalTransactionList + ")");
+        
+        ArrayList<String> queryList = new ArrayList<String>();
 		
 		String query 	= "SELECT * "
 						+ "FROM external_transaction "
@@ -98,7 +104,9 @@ public class ExternalTransactionRepository {
 							+ ")"
 						+ ";";
 
-		ResultSet resultSet = dataBaseConfig.selectQuery(query);
+		queryList.add(query);
+
+		ResultSet resultSet = dataBaseConfig.selectQuery(queryList);
 		
     	try {
     		
@@ -128,6 +136,6 @@ public class ExternalTransactionRepository {
 			}
 	    }
 		
-		return dataBaseConfig.isQueryExecutedSuccessfully();
+		return dataBaseConfig.getSQLExceptionState();
 	}
 }

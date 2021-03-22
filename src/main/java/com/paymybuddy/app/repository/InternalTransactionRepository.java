@@ -29,8 +29,10 @@ public class InternalTransactionRepository {
     	dataBaseConfig = new PostgreConfig();
     }
 
-	public boolean insertInternalTransaction(String userEmailAddress, String contactEmailAddress, String description, float amount) {
+	public String insertInternalTransaction(String userEmailAddress, String contactEmailAddress, String description, float amount) {
         logger.info("insertInternalTransaction(" + userEmailAddress + "," + contactEmailAddress + "," + description + "," + amount + ")");
+        
+        ArrayList<String> queryList = new ArrayList<String>();
 				
 		String query 	= "INSERT "
 						+ "INTO internal_transaction (user_id,contact_id,date_time,amount,description) "
@@ -64,13 +66,17 @@ public class InternalTransactionRepository {
 							
 						+ ");";
 
-		dataBaseConfig.insertQuery(query);
+		queryList.add(query);
+
+		dataBaseConfig.insertQuery(queryList);
 		
-		return dataBaseConfig.isQueryExecutedSuccessfully();
+		return dataBaseConfig.getSQLExceptionState();
 	}
 
-	public boolean selectInternalTransactionList(String emailAddress, ArrayList<InternalTransaction> internalTransactionList) {
+	public String selectInternalTransactionList(String emailAddress, ArrayList<InternalTransaction> internalTransactionList) {
         logger.info("selectInternalTransactionList(" + emailAddress + "," + internalTransactionList + ")");
+        
+        ArrayList<String> queryList = new ArrayList<String>();
 		
 		String query 	= "SELECT "
 				
@@ -109,7 +115,9 @@ public class InternalTransactionRepository {
 							
 						+ "ORDER BY internal_transaction.date_time DESC";
 
-		ResultSet resultSet = dataBaseConfig.selectQuery(query);
+		queryList.add(query);
+
+		ResultSet resultSet = dataBaseConfig.selectQuery(queryList);
 		
     	try {
     		
@@ -152,6 +160,6 @@ public class InternalTransactionRepository {
 			}
 	    }
 		
-		return dataBaseConfig.isQueryExecutedSuccessfully();
+		return dataBaseConfig.getSQLExceptionState();
 	}
 }

@@ -1,11 +1,14 @@
 package com.paymybuddy.app.config;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Properties;
 
 /**
@@ -14,11 +17,13 @@ import java.util.Properties;
 @Component
 public class PostgreConfig implements DataBaseConfig {
 
+    private static final Logger logger = LogManager.getLogger("PostgreConfig");
+
 	private String url;
 	private String user;
 	private String password;
 
-	private boolean queryExecutedSuccessfully;
+	private String sqlExceptionState;
 
 	public PostgreConfig() {
 
@@ -43,12 +48,12 @@ public class PostgreConfig implements DataBaseConfig {
 	}
 
 	@Override
-	public int insertQuery(String query) {
+	public void insertQuery(ArrayList<String> queryList) {
 
 		Connection connection = null;
 		Statement statement = null;
 		
-		int executeReturn = 0;
+		sqlExceptionState = "00";
 
 		try {
 
@@ -56,49 +61,37 @@ public class PostgreConfig implements DataBaseConfig {
 			statement = connection.createStatement();
 
 			connection.setAutoCommit(false);
-			executeReturn = statement.executeUpdate(query);
+			
+			for (String query : queryList) {
+
+				statement.executeUpdate(query);
+			}
+			
 			connection.commit();
 
-			statement.close();
-			connection.close();
-
-			queryExecutedSuccessfully = true;
-
 		} catch (SQLException e) {
-
-			e.printStackTrace();
-
-			queryExecutedSuccessfully = false;
+			
+	        logger.error(e);
+	        
+	        sqlExceptionState = e.getSQLState();
+	        
+			rollbackTransaction(connection);
 			
 		} finally {
-
-			if (statement != null) {
-
-				try {
-					statement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-
-			if (connection != null) {
-
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			
+			closeStatement(statement);
+			closeConnection(connection);
 		}
-		return executeReturn;
 	}
 
 	@Override
-	public ResultSet selectQuery(String query) {
+	public ResultSet selectQuery(ArrayList<String> queryList) {
 
 		Connection connection = null;
 		Statement statement = null;
 		ResultSet resultSet = null;
+		
+		sqlExceptionState = "00";
 
 		try {
 
@@ -106,51 +99,36 @@ public class PostgreConfig implements DataBaseConfig {
 			statement = connection.createStatement();
 
 			connection.setAutoCommit(false);
-			statement = connection.createStatement();
-			resultSet = statement.executeQuery(query);
+			
+			for (String query : queryList) {
 
-			statement.close();
-			connection.close();
-
-			queryExecutedSuccessfully = true;
+				resultSet = statement.executeQuery(query);
+			}
 
 		} catch (SQLException e) {
-
-			e.printStackTrace();
-
-			queryExecutedSuccessfully = false;
+			
+	        logger.error(e);
+	        
+	        sqlExceptionState = e.getSQLState();
+	        
+			rollbackTransaction(connection);
 			
 		} finally {
-
-			if (statement != null) {
-
-				try {
-					statement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-
-			if (connection != null) {
-
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			
+			closeStatement(statement);
+			closeConnection(connection);
 		}
 		
 		return resultSet;
 	}
 
 	@Override
-	public int updateQuery(String query) {
+	public void updateQuery(ArrayList<String> queryList) {
 
 		Connection connection = null;
 		Statement statement = null;
 		
-		int executeReturn = 0;
+		sqlExceptionState = "00";
 
 		try {
 
@@ -158,51 +136,36 @@ public class PostgreConfig implements DataBaseConfig {
 			statement = connection.createStatement();
 
 			connection.setAutoCommit(false);
-			executeReturn = statement.executeUpdate(query);
+			
+			for (String query : queryList) {
+
+				statement.executeUpdate(query);
+			}
+			
 			connection.commit();
 
-			statement.close();
-			connection.close();
-
-			queryExecutedSuccessfully = true;
-
 		} catch (SQLException e) {
-
-			e.printStackTrace();
-
-			queryExecutedSuccessfully = false;
+			
+	        logger.error(e);
+	        
+	        sqlExceptionState = e.getSQLState();
+	        
+			rollbackTransaction(connection);
 			
 		} finally {
-
-			if (statement != null) {
-
-				try {
-					statement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-
-			if (connection != null) {
-
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			
+			closeStatement(statement);
+			closeConnection(connection);
 		}
-
-		return executeReturn;
 	}
 
 	@Override
-	public int deleteQuery(String query) {
+	public void deleteQuery(ArrayList<String> queryList) {
 
 		Connection connection = null;
 		Statement statement = null;
 		
-		int executeReturn = 0;
+		sqlExceptionState = "00";
 
 		try {
 
@@ -210,43 +173,67 @@ public class PostgreConfig implements DataBaseConfig {
 			statement = connection.createStatement();
 
 			connection.setAutoCommit(false);
-			executeReturn = statement.executeUpdate(query);
+			
+			for (String query : queryList) {
+
+				statement.executeUpdate(query);
+			}
+			
 			connection.commit();
 
-			queryExecutedSuccessfully = true;
-
 		} catch (SQLException e) {
-
-			e.printStackTrace();
-
-			queryExecutedSuccessfully = false;
+			
+	        logger.error(e);
+	        
+	        sqlExceptionState = e.getSQLState();
+	        
+			rollbackTransaction(connection);
 			
 		} finally {
-
-			if (statement != null) {
-
-				try {
-					statement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-
-			if (connection != null) {
-
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			
+			closeStatement(statement);
+			closeConnection(connection);
 		}
-		
-		return executeReturn;
 	}
 
 	@Override
-	public boolean isQueryExecutedSuccessfully() {
-		return queryExecutedSuccessfully;
+	public String getSQLExceptionState() {
+		return sqlExceptionState;
+	}
+	
+	private void rollbackTransaction(Connection connection) {
+
+		if (connection != null) {
+
+			try {
+				connection.rollback();
+			} catch (SQLException e) {
+		        logger.error(e);
+			}
+		}
+	}
+	
+	private void closeStatement(Statement statement) {
+
+		if (statement != null) {
+
+			try {
+				statement.close();
+			} catch (SQLException e) {
+		        logger.error(e);
+			}
+		}
+	}
+	
+	private void closeConnection(Connection connection) {
+
+		if (connection != null) {
+
+			try {
+				connection.close();
+			} catch (SQLException e) {
+		        logger.error(e);
+			}
+		}
 	}
 }

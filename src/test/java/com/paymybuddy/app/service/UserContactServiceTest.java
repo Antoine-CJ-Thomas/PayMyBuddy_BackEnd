@@ -55,7 +55,7 @@ class UserContactServiceTest {
 		
 		when(userContactRepository.insertUserContact(
 				userContactAddingDto.getUserEmailAddress(), 
-				userContactAddingDto.getContactEmailAddress())).thenReturn(true);
+				userContactAddingDto.getContactEmailAddress())).thenReturn("00");
 		
 		userContactService.addUserContact(userContactAddingDto);
 	    
@@ -76,7 +76,7 @@ class UserContactServiceTest {
 		
 		when(userContactRepository.insertUserContact(
 				userContactAddingDto.getUserEmailAddress(), 
-				userContactAddingDto.getContactEmailAddress())).thenReturn(false);
+				userContactAddingDto.getContactEmailAddress())).thenReturn("");
 		
 		userContactService.addUserContact(userContactAddingDto);
 	    
@@ -97,7 +97,7 @@ class UserContactServiceTest {
 		
 		when(userContactRepository.deleteUserContact(
 				userContactRemovingDto.getUserEmailAddress(), 
-				userContactRemovingDto.getContactEmailAddress())).thenReturn(true);
+				userContactRemovingDto.getContactEmailAddress())).thenReturn("00");
 		
 		userContactService.removeUserContact(userContactRemovingDto);
 	    
@@ -118,7 +118,7 @@ class UserContactServiceTest {
 		
 		when(userContactRepository.deleteUserContact(
 				userContactRemovingDto.getUserEmailAddress(), 
-				userContactRemovingDto.getContactEmailAddress())).thenReturn(false);
+				userContactRemovingDto.getContactEmailAddress())).thenReturn("");
 		
 		userContactService.removeUserContact(userContactRemovingDto);
 	    
@@ -138,7 +138,7 @@ class UserContactServiceTest {
 		
 		when(userContactRepository.selectUserContactList(
 				userContactRetrievingDto.getEmailAddress(), 
-				userContactRetrievingDto.getUserContactList())).thenReturn(true);
+				userContactRetrievingDto.getUserContactList())).thenReturn("00");
 		
 		userContactService.retrieveUserContactList(userContactRetrievingDto);
 	    
@@ -158,7 +158,7 @@ class UserContactServiceTest {
 		
 		when(userContactRepository.selectUserContactList(
 				userContactRetrievingDto.getEmailAddress(), 
-				userContactRetrievingDto.getUserContactList())).thenReturn(false);
+				userContactRetrievingDto.getUserContactList())).thenReturn("");
 		
 		userContactService.retrieveUserContactList(userContactRetrievingDto);
 	    

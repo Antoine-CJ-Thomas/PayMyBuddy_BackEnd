@@ -64,7 +64,7 @@ class UserAccountServiceTest {
 				userAccountCreatingDto.getEmailAddress(), 
 				userAccountCreatingDto.getPassword(), 
 				userAccountCreatingDto.getFirstName(), 
-				userAccountCreatingDto.getLastName())).thenReturn(true);
+				userAccountCreatingDto.getLastName())).thenReturn("00");
 		
 		userAccountService.createUserAccount(userAccountCreatingDto);
 	    
@@ -91,7 +91,7 @@ class UserAccountServiceTest {
 				userAccountCreatingDto.getEmailAddress(), 
 				userAccountCreatingDto.getPassword(), 
 				userAccountCreatingDto.getFirstName(), 
-				userAccountCreatingDto.getLastName())).thenReturn(false);
+				userAccountCreatingDto.getLastName())).thenReturn("");
 		
 		userAccountService.createUserAccount(userAccountCreatingDto);
 	    
@@ -112,7 +112,7 @@ class UserAccountServiceTest {
 		
 		when(userAccountRepository.deleteUserAccount(
 				userAccountDeletingDto.getEmailAddress(),
-				userAccountDeletingDto.getPassword())).thenReturn(true);
+				userAccountDeletingDto.getPassword())).thenReturn("00");
 		
 		userAccountService.deleteUserAccount(userAccountDeletingDto);
 	    
@@ -133,7 +133,7 @@ class UserAccountServiceTest {
 		
 		when(userAccountRepository.deleteUserAccount(
 				userAccountDeletingDto.getEmailAddress(),
-				userAccountDeletingDto.getPassword())).thenReturn(false);
+				userAccountDeletingDto.getPassword())).thenReturn("");
 		
 		userAccountService.deleteUserAccount(userAccountDeletingDto);
 	    
@@ -160,7 +160,7 @@ class UserAccountServiceTest {
 				userAccountEditingDto.getEmailAddress(), 
 				userAccountEditingDto.getPassword(), 
 				userAccountEditingDto.getFirstName(), 
-				userAccountEditingDto.getLastName())).thenReturn(true);
+				userAccountEditingDto.getLastName())).thenReturn("00");
 		
 		userAccountService.editUserAccount(userAccountEditingDto);
 	    
@@ -187,7 +187,7 @@ class UserAccountServiceTest {
 				userAccountEditingDto.getEmailAddress(), 
 				userAccountEditingDto.getPassword(), 
 				userAccountEditingDto.getFirstName(), 
-				userAccountEditingDto.getLastName())).thenReturn(false);
+				userAccountEditingDto.getLastName())).thenReturn("");
 		
 		userAccountService.editUserAccount(userAccountEditingDto);
 	    
@@ -208,7 +208,7 @@ class UserAccountServiceTest {
 		
 		when(userAccountRepository.selectUserAccount(
 				userAccountLoginDto.getEmailAddress(), 
-				userAccountLoginDto.getPassword())).thenReturn(true);
+				userAccountLoginDto.getPassword())).thenReturn("00");
 		
 		userAccountService.loginUserAccount(userAccountLoginDto);
 	    
@@ -229,7 +229,7 @@ class UserAccountServiceTest {
 		
 		when(userAccountRepository.selectUserAccount(
 				userAccountLoginDto.getEmailAddress(), 
-				userAccountLoginDto.getPassword())).thenReturn(false);
+				userAccountLoginDto.getPassword())).thenReturn("");
 		
 		userAccountService.loginUserAccount(userAccountLoginDto);
 	    
@@ -249,7 +249,7 @@ class UserAccountServiceTest {
 		
 		when(userAccountRepository.selectUserAccount(
 				userAccountRetrievingDto.getEmailAddress(), 
-				userAccountRetrievingDto.getUserAccount())).thenReturn(true);
+				userAccountRetrievingDto.getUserAccount())).thenReturn("00");
 		
 		userAccountService.retrieveUserAccount(userAccountRetrievingDto);
 	    
@@ -269,7 +269,7 @@ class UserAccountServiceTest {
 		
 		when(userAccountRepository.selectUserAccount(
 				userAccountRetrievingDto.getEmailAddress(), 
-				userAccountRetrievingDto.getUserAccount())).thenReturn(false);
+				userAccountRetrievingDto.getUserAccount())).thenReturn("");
 		
 		userAccountService.retrieveUserAccount(userAccountRetrievingDto);
 	    

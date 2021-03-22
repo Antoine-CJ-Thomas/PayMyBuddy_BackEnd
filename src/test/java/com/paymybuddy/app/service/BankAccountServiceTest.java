@@ -60,7 +60,7 @@ class bankAccountServiceTest {
 				bankAccountAddingDto.getEmailAddress(), 
 				bankAccountAddingDto.getAccountName(), 
 				bankAccountAddingDto.getAccountNumber(), 
-				bankAccountAddingDto.getSwiftCode())).thenReturn(true);
+				bankAccountAddingDto.getSwiftCode())).thenReturn("00");
 		
 		bankAccountService.addBankAccount(bankAccountAddingDto);
 	    
@@ -87,7 +87,7 @@ class bankAccountServiceTest {
 				bankAccountAddingDto.getEmailAddress(), 
 				bankAccountAddingDto.getAccountName(), 
 				bankAccountAddingDto.getAccountNumber(), 
-				bankAccountAddingDto.getSwiftCode())).thenReturn(false);
+				bankAccountAddingDto.getSwiftCode())).thenReturn("");
 		
 		bankAccountService.addBankAccount(bankAccountAddingDto);
 	    
@@ -108,7 +108,7 @@ class bankAccountServiceTest {
 		
 		when(bankAccountRepository.deleteBankAccount(
 				bankAccountRemovingDto.getEmailAddress(), 
-				bankAccountRemovingDto.getAccountName())).thenReturn(true);
+				bankAccountRemovingDto.getAccountName())).thenReturn("00");
 		
 		bankAccountService.removeBankAccount(bankAccountRemovingDto);
 	    
@@ -129,7 +129,7 @@ class bankAccountServiceTest {
 		
 		when(bankAccountRepository.deleteBankAccount(
 				bankAccountRemovingDto.getEmailAddress(), 
-				bankAccountRemovingDto.getAccountName())).thenReturn(false);
+				bankAccountRemovingDto.getAccountName())).thenReturn("");
 		
 		bankAccountService.removeBankAccount(bankAccountRemovingDto);
 	    
@@ -149,7 +149,7 @@ class bankAccountServiceTest {
 		
 		when(bankAccountRepository.selectBankAccountList(
 				bankAccountRetrievingDto.getEmailAddress(), 
-				bankAccountRetrievingDto.getBankAccountList())).thenReturn(true);
+				bankAccountRetrievingDto.getBankAccountList())).thenReturn("00");
 		
 		bankAccountService.retrieveBankAccountList(bankAccountRetrievingDto);
 	    
@@ -169,7 +169,7 @@ class bankAccountServiceTest {
 		
 		when(bankAccountRepository.selectBankAccountList(
 				bankAccountRetrievingDto.getEmailAddress(), 
-				bankAccountRetrievingDto.getBankAccountList())).thenReturn(false);
+				bankAccountRetrievingDto.getBankAccountList())).thenReturn("");
 		
 		bankAccountService.retrieveBankAccountList(bankAccountRetrievingDto);
 	    
