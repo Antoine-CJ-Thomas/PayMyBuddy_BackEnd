@@ -33,7 +33,7 @@ public class InternalTransactionService {
 				internalTransactionExecutingDto.getContactEmailAddress(),
 				internalTransactionExecutingDto.getDescription(), internalTransactionExecutingDto.getAmount())) {
 
-		case ("00"):
+		case ("00000"):
 
 			internalTransactionExecutingDto.setDataValidated(true);
 			break;
@@ -56,7 +56,7 @@ public class InternalTransactionService {
 				internalTransactionRetrievingDto.getEmailAddress(),
 				internalTransactionRetrievingDto.getInternalTransactionList())) {
 
-		case ("00"):
+		case ("00000"):
 
 			internalTransactionRetrievingDto.setDataValidated(true);
 			break;

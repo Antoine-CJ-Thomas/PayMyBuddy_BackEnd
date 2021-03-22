@@ -32,7 +32,7 @@ public class ExternalTransactionService {
 				externalTransactionExecutingDto.getEmailAddress(), externalTransactionExecutingDto.getAccountName(),
 				externalTransactionExecutingDto.getDescription(), externalTransactionExecutingDto.getAmount())) {
 
-		case ("00"):
+		case ("00000"):
 
 			externalTransactionExecutingDto.setDataValidated(true);
 			break;
@@ -55,7 +55,7 @@ public class ExternalTransactionService {
 				externalTransactionRetrievingDto.getEmailAddress(),
 				externalTransactionRetrievingDto.getExternalTransactionList())) {
 
-		case ("00"):
+		case ("00000"):
 
 			externalTransactionRetrievingDto.setDataValidated(true);
 			break;

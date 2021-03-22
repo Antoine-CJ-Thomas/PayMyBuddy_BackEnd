@@ -34,7 +34,7 @@ public class UserAccountService {
 				userAccountCreatingDto.getPassword(), userAccountCreatingDto.getFirstName(),
 				userAccountCreatingDto.getLastName())) {
 
-		case ("00"):
+		case ("00000"):
 
 			userAccountCreatingDto.setDataValidated(true);
 			break;
@@ -62,7 +62,7 @@ public class UserAccountService {
 		switch (userAccountRepository.deleteUserAccount(userAccountDeletingDto.getEmailAddress(),
 				userAccountDeletingDto.getPassword())) {
 
-		case ("00"):
+		case ("00000"):
 
 			userAccountDeletingDto.setDataValidated(true);
 			break;
@@ -84,7 +84,7 @@ public class UserAccountService {
 				userAccountEditingDto.getPassword(), userAccountEditingDto.getFirstName(),
 				userAccountEditingDto.getLastName())) {
 
-		case ("00"):
+		case ("00000"):
 
 			userAccountEditingDto.setDataValidated(true);
 			break;
@@ -105,7 +105,7 @@ public class UserAccountService {
 		switch (userAccountRepository.selectUserAccount(userAccountLoginDto.getEmailAddress(),
 				userAccountLoginDto.getPassword())) {
 
-		case ("00"):
+		case ("00000"):
 
 			userAccountLoginDto.setDataValidated(true);
 			break;
@@ -126,7 +126,7 @@ public class UserAccountService {
 		switch (userAccountRepository.selectUserAccount(userAccountRetrievingDto.getEmailAddress(),
 				userAccountRetrievingDto.getUserAccount())) {
 
-		case ("00"):
+		case ("00000"):
 
 			userAccountRetrievingDto.setDataValidated(true);
 			break;

@@ -32,7 +32,7 @@ public class BankAccountService {
 				bankAccountAddingDto.getAccountName(), bankAccountAddingDto.getAccountNumber(),
 				bankAccountAddingDto.getSwiftCode())) {
 
-		case ("00"):
+		case ("00000"):
 
 			bankAccountAddingDto.setDataValidated(true);
 			break;
@@ -53,7 +53,7 @@ public class BankAccountService {
 		switch (bankAccountRepository.deleteBankAccount(bankAccountRemovingDto.getEmailAddress(),
 				bankAccountRemovingDto.getAccountName())) {
 
-		case ("00"):
+		case ("00000"):
 
 			bankAccountRemovingDto.setDataValidated(true);
 			break;
@@ -74,7 +74,7 @@ public class BankAccountService {
 		switch (bankAccountRepository.selectBankAccountList(bankAccountRetrievingDto.getEmailAddress(),
 				bankAccountRetrievingDto.getBankAccountList())) {
 
-		case ("00"):
+		case ("00000"):
 
 			bankAccountRetrievingDto.setDataValidated(true);
 			break;

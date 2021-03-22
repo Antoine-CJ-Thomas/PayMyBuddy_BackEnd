@@ -31,7 +31,7 @@ public class UserContactService {
 		switch (userContactRepository.insertUserContact(userContactAddingDto.getUserEmailAddress(),
 				userContactAddingDto.getContactEmailAddress())) {
 
-		case ("00"):
+		case ("00000"):
 
 			userContactAddingDto.setDataValidated(true);
 			break;
@@ -52,7 +52,7 @@ public class UserContactService {
 		switch (userContactRepository.deleteUserContact(userContactRemovingDto.getUserEmailAddress(),
 				userContactRemovingDto.getContactEmailAddress())) {
 
-		case ("00"):
+		case ("00000"):
 
 			userContactRemovingDto.setDataValidated(true);
 			break;
@@ -73,7 +73,7 @@ public class UserContactService {
 		switch (userContactRepository.selectUserContactList(userContactRetrievingDto.getEmailAddress(),
 				userContactRetrievingDto.getUserContactList())) {
 
-		case ("00"):
+		case ("00000"):
 
 			userContactRetrievingDto.setDataValidated(true);
 			break;

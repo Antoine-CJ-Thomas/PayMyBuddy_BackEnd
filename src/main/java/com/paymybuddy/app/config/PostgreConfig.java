@@ -53,7 +53,7 @@ public class PostgreConfig implements DataBaseConfig {
 		Connection connection = null;
 		Statement statement = null;
 		
-		sqlExceptionState = "00";
+		sqlExceptionState = "00000";
 
 		try {
 
@@ -91,7 +91,7 @@ public class PostgreConfig implements DataBaseConfig {
 		Statement statement = null;
 		ResultSet resultSet = null;
 		
-		sqlExceptionState = "00";
+		sqlExceptionState = "00000";
 
 		try {
 
@@ -128,7 +128,7 @@ public class PostgreConfig implements DataBaseConfig {
 		Connection connection = null;
 		Statement statement = null;
 		
-		sqlExceptionState = "00";
+		sqlExceptionState = "00000";
 
 		try {
 
@@ -165,7 +165,7 @@ public class PostgreConfig implements DataBaseConfig {
 		Connection connection = null;
 		Statement statement = null;
 		
-		sqlExceptionState = "00";
+		sqlExceptionState = "00000";
 
 		try {
 
