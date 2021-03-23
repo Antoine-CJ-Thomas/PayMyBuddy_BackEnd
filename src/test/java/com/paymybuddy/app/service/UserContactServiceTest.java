@@ -55,7 +55,7 @@ class UserContactServiceTest {
 		
 		when(userContactRepository.insertUserContact(
 				userContactAddingDto.getUserEmailAddress(), 
-				userContactAddingDto.getContactEmailAddress())).thenReturn("00");
+				userContactAddingDto.getContactEmailAddress())).thenReturn("00000");
 		
 		userContactService.addUserContact(userContactAddingDto);
 	    
@@ -97,7 +97,7 @@ class UserContactServiceTest {
 		
 		when(userContactRepository.deleteUserContact(
 				userContactRemovingDto.getUserEmailAddress(), 
-				userContactRemovingDto.getContactEmailAddress())).thenReturn("00");
+				userContactRemovingDto.getContactEmailAddress())).thenReturn("00000");
 		
 		userContactService.removeUserContact(userContactRemovingDto);
 	    
@@ -138,7 +138,7 @@ class UserContactServiceTest {
 		
 		when(userContactRepository.selectUserContactList(
 				userContactRetrievingDto.getEmailAddress(), 
-				userContactRetrievingDto.getUserContactList())).thenReturn("00");
+				userContactRetrievingDto.getUserContactList())).thenReturn("00000");
 		
 		userContactService.retrieveUserContactList(userContactRetrievingDto);
 	    

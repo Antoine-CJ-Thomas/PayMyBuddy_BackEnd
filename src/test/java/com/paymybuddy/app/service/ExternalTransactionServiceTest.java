@@ -59,7 +59,7 @@ class ExternalTransactionServiceTest {
 				externalTransactionExecutingDto.getEmailAddress(), 
 				externalTransactionExecutingDto.getAccountName(), 
 				externalTransactionExecutingDto.getDescription(),
-				externalTransactionExecutingDto.getAmount())).thenReturn("00");		
+				externalTransactionExecutingDto.getAmount())).thenReturn("00000");		
 		
 		externalTransactionService.executeExternalTransaction(externalTransactionExecutingDto);
 	    
@@ -106,7 +106,7 @@ class ExternalTransactionServiceTest {
 
 		when(externalTransactionRepository.selectExternalTransactionList(
 				externalTransactionRetrievingDto.getEmailAddress(), 
-				externalTransactionRetrievingDto.getExternalTransactionList())).thenReturn("00");
+				externalTransactionRetrievingDto.getExternalTransactionList())).thenReturn("00000");
 		
 		externalTransactionService.retrieveExternalTransactionList(externalTransactionRetrievingDto);
 	    

@@ -60,7 +60,7 @@ class bankAccountServiceTest {
 				bankAccountAddingDto.getEmailAddress(), 
 				bankAccountAddingDto.getAccountName(), 
 				bankAccountAddingDto.getAccountNumber(), 
-				bankAccountAddingDto.getSwiftCode())).thenReturn("00");
+				bankAccountAddingDto.getSwiftCode())).thenReturn("00000");
 		
 		bankAccountService.addBankAccount(bankAccountAddingDto);
 	    
@@ -108,7 +108,7 @@ class bankAccountServiceTest {
 		
 		when(bankAccountRepository.deleteBankAccount(
 				bankAccountRemovingDto.getEmailAddress(), 
-				bankAccountRemovingDto.getAccountName())).thenReturn("00");
+				bankAccountRemovingDto.getAccountName())).thenReturn("00000");
 		
 		bankAccountService.removeBankAccount(bankAccountRemovingDto);
 	    
@@ -149,7 +149,7 @@ class bankAccountServiceTest {
 		
 		when(bankAccountRepository.selectBankAccountList(
 				bankAccountRetrievingDto.getEmailAddress(), 
-				bankAccountRetrievingDto.getBankAccountList())).thenReturn("00");
+				bankAccountRetrievingDto.getBankAccountList())).thenReturn("00000");
 		
 		bankAccountService.retrieveBankAccountList(bankAccountRetrievingDto);
 	    
