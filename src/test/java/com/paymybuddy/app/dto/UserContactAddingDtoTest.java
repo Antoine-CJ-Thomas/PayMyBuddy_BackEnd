@@ -55,4 +55,17 @@ class UserContactAddingDtoTest {
     	//THEN
         assertEquals(dataValidated, userContactAddingDto.isDataValidated());
 	}
+
+	@Test
+	void test_setAndGetMessage() {
+
+    	//GIVEN
+		String message = "message";
+        
+    	//WHEN
+		userContactAddingDto.setMessage(message);
+    	
+    	//THEN
+        assertEquals(message, userContactAddingDto.getMessage());
+	}
 }

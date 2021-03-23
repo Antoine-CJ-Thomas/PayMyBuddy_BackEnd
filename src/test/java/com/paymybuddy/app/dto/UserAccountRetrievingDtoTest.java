@@ -60,4 +60,17 @@ class UserAccountRetrievingDtoTest {
     	//THEN
         assertEquals(dataValidated, userAccountRetrievingDto.isDataValidated());
 	}
+
+	@Test
+	void test_setAndGetMessage() {
+
+    	//GIVEN
+		String message = "message";
+        
+    	//WHEN
+		userAccountRetrievingDto.setMessage(message);
+    	
+    	//THEN
+        assertEquals(message, userAccountRetrievingDto.getMessage());
+	}
 }

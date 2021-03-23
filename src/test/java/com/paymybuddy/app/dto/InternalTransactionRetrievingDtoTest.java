@@ -62,4 +62,17 @@ class InternalTransactionRetrievingDtoTest {
     	//THEN
         assertEquals(dataValidated, internalTransactionRetrievingDto.isDataValidated());
 	}
+
+	@Test
+	void test_setAndGetMessage() {
+
+    	//GIVEN
+		String message = "message";
+        
+    	//WHEN
+		internalTransactionRetrievingDto.setMessage(message);
+    	
+    	//THEN
+        assertEquals(message, internalTransactionRetrievingDto.getMessage());
+	}
 }

@@ -62,4 +62,17 @@ class BankAccountRetrievingDtoTest {
     	//THEN
         assertEquals(dataValidated, bankAccountRetrievingDto.isDataValidated());
 	}
+
+	@Test
+	void test_setAndGetMessage() {
+
+    	//GIVEN
+		String message = "message";
+        
+    	//WHEN
+		bankAccountRetrievingDto.setMessage(message);
+    	
+    	//THEN
+        assertEquals(message, bankAccountRetrievingDto.getMessage());
+	}
 }

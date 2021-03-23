@@ -81,4 +81,17 @@ class UserAccountCreatingDtoTest {
     	//THEN
         assertEquals(dataValidated, userAccountCreatingDto.isDataValidated());
 	}
+
+	@Test
+	void test_setAndGetMessage() {
+
+    	//GIVEN
+		String message = "message";
+        
+    	//WHEN
+		userAccountCreatingDto.setMessage(message);
+    	
+    	//THEN
+        assertEquals(message, userAccountCreatingDto.getMessage());
+	}
 }

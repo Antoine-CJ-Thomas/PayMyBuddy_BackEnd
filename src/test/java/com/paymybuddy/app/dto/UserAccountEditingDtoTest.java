@@ -81,4 +81,17 @@ class UserAccountEditingDtoTest {
     	//THEN
         assertEquals(dataValidated, userAccountEditingDto.isDataValidated());
 	}
+
+	@Test
+	void test_setAndGetMessage() {
+
+    	//GIVEN
+		String message = "message";
+        
+    	//WHEN
+		userAccountEditingDto.setMessage(message);
+    	
+    	//THEN
+        assertEquals(message, userAccountEditingDto.getMessage());
+	}
 }

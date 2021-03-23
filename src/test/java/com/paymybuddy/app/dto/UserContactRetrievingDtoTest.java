@@ -62,4 +62,17 @@ class UserContactRetrievingDtoTest {
     	//THEN
         assertEquals(dataValidated, userContactRetrievingDto.isDataValidated());
 	}
+
+	@Test
+	void test_setAndGetMessage() {
+
+    	//GIVEN
+		String message = "message";
+        
+    	//WHEN
+		userContactRetrievingDto.setMessage(message);
+    	
+    	//THEN
+        assertEquals(message, userContactRetrievingDto.getMessage());
+	}
 }

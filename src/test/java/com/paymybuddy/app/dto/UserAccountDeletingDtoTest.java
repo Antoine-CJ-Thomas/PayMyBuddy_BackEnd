@@ -55,4 +55,17 @@ class UserAccountDeletingDtoTest {
     	//THEN
         assertEquals(dataValidated, userAccountDeletingDto.isDataValidated());
 	}
+
+	@Test
+	void test_setAndGetMessage() {
+
+    	//GIVEN
+		String message = "message";
+        
+    	//WHEN
+		userAccountDeletingDto.setMessage(message);
+    	
+    	//THEN
+        assertEquals(message, userAccountDeletingDto.getMessage());
+	}
 }

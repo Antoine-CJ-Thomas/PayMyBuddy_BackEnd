@@ -81,4 +81,17 @@ class ExternalTransactionExecutingDtoTest {
     	//THEN
         assertEquals(dataValidated, externalTransactionExecutingDto.isDataValidated());
 	}
+
+	@Test
+	void test_setAndGetMessage() {
+
+    	//GIVEN
+		String message = "message";
+        
+    	//WHEN
+		externalTransactionExecutingDto.setMessage(message);
+    	
+    	//THEN
+        assertEquals(message, externalTransactionExecutingDto.getMessage());
+	}
 }

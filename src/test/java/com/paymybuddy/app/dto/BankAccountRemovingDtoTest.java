@@ -55,4 +55,17 @@ class BankAccountRemovingDtoTest {
     	//THEN
         assertEquals(dataValidated, bankAccountRemovingDto.isDataValidated());
 	}
+
+	@Test
+	void test_setAndGetMessage() {
+
+    	//GIVEN
+		String message = "message";
+        
+    	//WHEN
+		bankAccountRemovingDto.setMessage(message);
+    	
+    	//THEN
+        assertEquals(message, bankAccountRemovingDto.getMessage());
+	}
 }

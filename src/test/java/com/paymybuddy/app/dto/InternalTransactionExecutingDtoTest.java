@@ -81,4 +81,17 @@ class InternalTransactionExecutingDtoTest {
     	//THEN
         assertEquals(dataValidated, internalTransactionExecutingDto.isDataValidated());
 	}
+
+	@Test
+	void test_setAndGetMessage() {
+
+    	//GIVEN
+		String message = "message";
+        
+    	//WHEN
+		internalTransactionExecutingDto.setMessage(message);
+    	
+    	//THEN
+        assertEquals(message, internalTransactionExecutingDto.getMessage());
+	}
 }
