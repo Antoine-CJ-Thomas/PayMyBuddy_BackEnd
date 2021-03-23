@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.paymybuddy.app.dto.UserAccountCreatingDto;
 import com.paymybuddy.app.dto.UserAccountDeletingDto;
 import com.paymybuddy.app.dto.UserAccountEditingDto;
-import com.paymybuddy.app.dto.UserAccountLoginDto;
 import com.paymybuddy.app.dto.UserAccountRetrievingDto;
 import com.paymybuddy.app.repository.UserAccountRepository;
 
@@ -97,27 +96,6 @@ public class UserAccountService {
 		}
 
 		return userAccountEditingDto;
-	}
-
-	public UserAccountLoginDto loginUserAccount(UserAccountLoginDto userAccountLoginDto) {
-		logger.info("loginUserAccount(" + userAccountLoginDto + ")");
-
-		switch (userAccountRepository.selectUserAccount(userAccountLoginDto.getEmailAddress(),
-				userAccountLoginDto.getPassword())) {
-
-		case ("00000"):
-
-			userAccountLoginDto.setDataValidated(true);
-			break;
-
-		default:
-
-			userAccountLoginDto.setDataValidated(false);
-			userAccountLoginDto.setMessage("Invalid email or password");
-			break;
-		}
-
-		return userAccountLoginDto;
 	}
 
 	public UserAccountRetrievingDto retrieveUserAccount(UserAccountRetrievingDto userAccountRetrievingDto) {

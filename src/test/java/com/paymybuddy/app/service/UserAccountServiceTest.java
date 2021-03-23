@@ -13,7 +13,6 @@ import org.springframework.test.util.ReflectionTestUtils;
 import com.paymybuddy.app.dto.UserAccountCreatingDto;
 import com.paymybuddy.app.dto.UserAccountDeletingDto;
 import com.paymybuddy.app.dto.UserAccountEditingDto;
-import com.paymybuddy.app.dto.UserAccountLoginDto;
 import com.paymybuddy.app.dto.UserAccountRetrievingDto;
 import com.paymybuddy.app.model.UserAccount;
 import com.paymybuddy.app.repository.UserAccountRepository;
@@ -29,8 +28,6 @@ class UserAccountServiceTest {
 	private UserAccountDeletingDto userAccountDeletingDto;
 	@Mock
 	private UserAccountEditingDto userAccountEditingDto;
-	@Mock
-	private UserAccountLoginDto userAccountLoginDto;
 	@Mock
 	private UserAccountRetrievingDto userAccountRetrievingDto;
 	@Mock
@@ -193,48 +190,6 @@ class UserAccountServiceTest {
 	    
     	//THEN
         verify(userAccountEditingDto, Mockito.times(1)).setDataValidated(false);
-	}
-	
-	@Test
-	void test_loginUserAccount_true() {
-
-    	//GIVEN
-		String emailAddress = "emailAddress";
-		String password = "password";
-        
-    	//WHEN
-		when(userAccountLoginDto.getEmailAddress()).thenReturn(emailAddress);
-		when(userAccountLoginDto.getPassword()).thenReturn(password);
-		
-		when(userAccountRepository.selectUserAccount(
-				userAccountLoginDto.getEmailAddress(), 
-				userAccountLoginDto.getPassword())).thenReturn("00");
-		
-		userAccountService.loginUserAccount(userAccountLoginDto);
-	    
-    	//THEN
-        verify(userAccountLoginDto, Mockito.times(1)).setDataValidated(true);		
-	}
-	
-	@Test
-	void test_loginUserAccount_false() {
-
-    	//GIVEN
-		String emailAddress = "emailAddress";
-		String password = "password";
-        
-    	//WHEN
-		when(userAccountLoginDto.getEmailAddress()).thenReturn(emailAddress);
-		when(userAccountLoginDto.getPassword()).thenReturn(password);
-		
-		when(userAccountRepository.selectUserAccount(
-				userAccountLoginDto.getEmailAddress(), 
-				userAccountLoginDto.getPassword())).thenReturn("");
-		
-		userAccountService.loginUserAccount(userAccountLoginDto);
-	    
-    	//THEN
-        verify(userAccountLoginDto, Mockito.times(1)).setDataValidated(false);			
 	}
 
 	@Test

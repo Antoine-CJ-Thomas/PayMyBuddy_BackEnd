@@ -43,55 +43,6 @@ public class UserAccountRepository {
 		return dataBaseConfig.getSQLExceptionState();
 	}
 
-	public String selectUserAccount(String emailAddress, String password) {
-        logger.info("selectUserAccount(" + emailAddress + "," + password + ")");
-        
-        ArrayList<String> queryList = new ArrayList<String>();
-		
-		String query 	= "SELECT * "
-						+ "FROM user_account " 
-						+ "WHERE "
-						
-							+ "user_account.email_address = '" + emailAddress + "'"
-							
-							+ "AND "
-						
-							+ "user_account.password = '" + password + "'"
-							
-						+ ";";
-
-		queryList.add(query);
-		
-		boolean successfullySelected = false;
-
-		ResultSet resultSet = dataBaseConfig.selectQuery(queryList);
-		
-    	try {
-
-			if (resultSet.next()) {
-
-				successfullySelected = true;
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-            
-		} finally {
-			
-			try {
-				
-				if (resultSet != null) {
-					resultSet.close();
-				}
-				
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-	    }
-		
-		return dataBaseConfig.getSQLExceptionState();
-	}
-
 	public String selectUserAccount(String emailAddress, UserAccount userAccount) {
         logger.info("selectUserAccount(" + emailAddress + "," + userAccount + ")");
         

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.paymybuddy.app.dto.UserAccountCreatingDto;
 import com.paymybuddy.app.dto.UserAccountDeletingDto;
 import com.paymybuddy.app.dto.UserAccountEditingDto;
-import com.paymybuddy.app.dto.UserAccountLoginDto;
 import com.paymybuddy.app.dto.UserAccountRetrievingDto;
 import com.paymybuddy.app.service.UserAccountService;
 
@@ -56,11 +55,5 @@ public class UserAccountController {
 	public UserAccountRetrievingDto retrieveUserAccount(@RequestParam String emailAddress) {
         logger.info("retrieveUserAccount()");
 		return userAccountService.retrieveUserAccount(new UserAccountRetrievingDto(emailAddress));
-	}
-
-	@PostMapping(value = "/user/login")
-	public UserAccountLoginDto loginUserAccount(@RequestBody UserAccountLoginDto userAccountLoginDto) {
-        logger.info("loginUserAccount()");
-		return userAccountService.loginUserAccount(userAccountLoginDto);
 	}
 }
