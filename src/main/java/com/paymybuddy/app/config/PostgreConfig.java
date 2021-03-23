@@ -43,7 +43,8 @@ public class PostgreConfig implements DataBaseConfig {
 			}
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			
+	        logger.error(e);
 		}
 	}
 
