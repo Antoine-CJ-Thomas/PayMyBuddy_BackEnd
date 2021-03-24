@@ -58,8 +58,7 @@ public class UserAccountService {
 	public UserAccountDeletingDto deleteUserAccount(UserAccountDeletingDto userAccountDeletingDto) {
 		logger.info("deleteUserAccount(" + userAccountDeletingDto + ")");
 
-		switch (userAccountRepository.deleteUserAccount(userAccountDeletingDto.getEmailAddress(),
-				userAccountDeletingDto.getPassword())) {
+		switch (userAccountRepository.deleteUserAccount(userAccountDeletingDto.getEmailAddress())) {
 
 		case ("00000"):
 

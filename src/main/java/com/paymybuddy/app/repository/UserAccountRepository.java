@@ -115,8 +115,8 @@ public class UserAccountRepository {
 	
 	}
 
-	public String deleteUserAccount(String emailAddress, String password) {
-        logger.info("deleteUserAccount(" + emailAddress + "," + password + ")");
+	public String deleteUserAccount(String emailAddress) {
+        logger.info("deleteUserAccount(" + emailAddress + ")");
         
         ArrayList<String> queryList = new ArrayList<String>();
 	
@@ -124,8 +124,7 @@ public class UserAccountRepository {
 		
 			= "DELETE FROM user_account WHERE "
 
-				+ "user_account.email_address = '" + emailAddress + "' AND "
-				+ "user_account.password = '" + password + "';";
+				+ "user_account.email_address = '" + emailAddress + "';";
 
 		queryList.add(deleteUserAccountQuery);
 		

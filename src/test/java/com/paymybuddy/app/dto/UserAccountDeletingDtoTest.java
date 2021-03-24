@@ -14,7 +14,7 @@ class UserAccountDeletingDtoTest {
 	@BeforeEach
 	void beforeEach() {
 
-		userAccountDeletingDto = new UserAccountDeletingDto(null, null);
+		userAccountDeletingDto = new UserAccountDeletingDto(null);
 	}
 
 	@Test
@@ -28,19 +28,6 @@ class UserAccountDeletingDtoTest {
     	
     	//THEN
         assertEquals(emailAddress, userAccountDeletingDto.getEmailAddress());
-	}
-
-	@Test
-	void test_setAndGetPassword() {
-
-    	//GIVEN
-		String password = "password";
-        
-    	//WHEN
-		userAccountDeletingDto.setPassword(password);
-    	
-    	//THEN
-        assertEquals(password, userAccountDeletingDto.getPassword());
 	}
 
 	@Test

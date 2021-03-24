@@ -101,15 +101,12 @@ class UserAccountServiceTest {
 
     	//GIVEN
 		String emailAddress = "emailAddress";
-		String password = "password";
         
     	//WHEN
 		when(userAccountDeletingDto.getEmailAddress()).thenReturn(emailAddress);
-		when(userAccountDeletingDto.getPassword()).thenReturn(password);
 		
 		when(userAccountRepository.deleteUserAccount(
-				userAccountDeletingDto.getEmailAddress(),
-				userAccountDeletingDto.getPassword())).thenReturn("00000");
+				userAccountDeletingDto.getEmailAddress())).thenReturn("00000");
 		
 		userAccountService.deleteUserAccount(userAccountDeletingDto);
 	    
@@ -122,15 +119,12 @@ class UserAccountServiceTest {
 
     	//GIVEN
 		String emailAddress = "emailAddress";
-		String password = "password";
         
     	//WHEN
 		when(userAccountDeletingDto.getEmailAddress()).thenReturn(emailAddress);
-		when(userAccountDeletingDto.getPassword()).thenReturn(password);
 		
 		when(userAccountRepository.deleteUserAccount(
-				userAccountDeletingDto.getEmailAddress(),
-				userAccountDeletingDto.getPassword())).thenReturn("");
+				userAccountDeletingDto.getEmailAddress())).thenReturn("");
 		
 		userAccountService.deleteUserAccount(userAccountDeletingDto);
 	    

@@ -6,17 +6,15 @@ import org.springframework.stereotype.Component;
 public class UserAccountDeletingDto {
 
 	private String emailAddress;
-	private String password;
 	
 	private boolean dataValidated;
 	private String message;
 	
 	public UserAccountDeletingDto() {}
 	
-	public UserAccountDeletingDto(String emailAddress, String password) {
+	public UserAccountDeletingDto(String emailAddress) {
 		
 		this.emailAddress = emailAddress;
-		this.password = password;
 	}
 
 	public String getEmailAddress() {
@@ -25,14 +23,6 @@ public class UserAccountDeletingDto {
 
 	public void setEmailAddress(String emailAddress) {
 		this.emailAddress = emailAddress;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public boolean isDataValidated() {
