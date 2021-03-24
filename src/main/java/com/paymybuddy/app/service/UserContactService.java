@@ -28,19 +28,34 @@ public class UserContactService {
 	public UserContactAddingDto addUserContact(UserContactAddingDto userContactAddingDto) {
 		logger.info("addUserContact(" + userContactAddingDto + ")");
 
-		switch (userContactRepository.insertUserContact(userContactAddingDto.getUserEmailAddress(),
-				userContactAddingDto.getContactEmailAddress())) {
-
-		case ("00000"):
-
-			userContactAddingDto.setDataValidated(true);
-			break;
-
-		default:
+		if (userContactAddingDto.getContactEmailAddress().equals(userContactAddingDto.getUserEmailAddress())) {
 
 			userContactAddingDto.setDataValidated(false);
-			userContactAddingDto.setMessage("Contact couldn't be added");
-			break;
+			userContactAddingDto.setMessage("You can't adding yourself to your contact list");
+		}
+		
+		else {
+
+			switch (userContactRepository.insertUserContact(userContactAddingDto.getUserEmailAddress(),
+					userContactAddingDto.getContactEmailAddress())) {
+
+			case ("00000"):
+
+				userContactAddingDto.setDataValidated(true);
+				break;
+
+			case ("23502"):
+
+				userContactAddingDto.setDataValidated(false);
+				userContactAddingDto.setMessage("This email address is not assigned to any user");
+				break;
+
+			default:
+
+				userContactAddingDto.setDataValidated(false);
+				userContactAddingDto.setMessage("Contact couldn't be added");
+				break;
+			}
 		}
 
 		return userContactAddingDto;
