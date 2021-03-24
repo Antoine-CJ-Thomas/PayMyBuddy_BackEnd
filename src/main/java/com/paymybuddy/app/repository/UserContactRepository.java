@@ -32,28 +32,16 @@ public class UserContactRepository {
         
         ArrayList<String> queryList = new ArrayList<String>();
 				
-		String query 	= "INSERT "
-						+ "INTO user_contact (user_id,contact_id) "
-						+ "VALUES ("
-						
-							+ "("
-								+ "SELECT user_account.id "
-								+ "FROM user_account "
-								+ "WHERE user_account.email_address = '" + userEmailAddress + "'"
-								
-							+ "),("
-							
-								+ "SELECT user_account.id "
-								+ "FROM user_account "
-								+ "WHERE user_account.email_address = '" + contactEmailAddress + "'"
-							
-							+ ")"
-							
-						+ ");";
-
-		queryList.add(query);
+		String insertUserContactQuery
 		
-		dataBaseConfig.insertQuery(queryList);
+			= "INSERT INTO user_contact (user_id,contact_id) VALUES ("
+						
+				+ "(SELECT user_account.id FROM user_account WHERE user_account.email_address = '" + userEmailAddress + "'),"
+				+ "(SELECT user_account.id FROM user_account WHERE user_account.email_address = '" + contactEmailAddress + "'));";
+
+		queryList.add(insertUserContactQuery);
+		
+		dataBaseConfig.executeUpdate(queryList);
 		
 		return dataBaseConfig.getSQLExceptionState();
 	}
@@ -63,23 +51,15 @@ public class UserContactRepository {
         
         ArrayList<String> queryList = new ArrayList<String>();
 		
-		String query 	= "SELECT * "
-						+ "FROM user_account "
-						+ "INNER JOIN user_contact ON user_account.id = user_contact.contact_id "
-						+ "WHERE "
+		String selectUserContactListQuery
+		
+			= "SELECT * FROM user_account INNER JOIN user_contact ON user_account.id = user_contact.contact_id WHERE "
 						
-							+ "user_contact.user_id = ("
-							
-								+ "SELECT user_account.id "
-								+ "FROM user_account "
-								+ "WHERE user_account.email_address = '" + emailAddress + "'"
-								
-							+ ")"
-						+ ";";
+				+ "user_contact.user_id = (SELECT user_account.id FROM user_account WHERE user_account.email_address = '" + emailAddress + "');";
 
-		queryList.add(query);
+		queryList.add(selectUserContactListQuery);
 
-		ResultSet resultSet = dataBaseConfig.selectQuery(queryList);
+		ResultSet resultSet = dataBaseConfig.executeQuery(queryList);
 		
     	try {
     		
@@ -115,28 +95,16 @@ public class UserContactRepository {
         
         ArrayList<String> queryList = new ArrayList<String>();
         
-		String query 	= "DELETE "
-						+ "FROM user_contact "
-						+ "WHERE "
+		String deleteUserContactQuery
+		
+			= "DELETE FROM user_contact WHERE "
 						
-							+ "user_contact.user_id = ("
-								+ "SELECT user_account.id "
-								+ "FROM user_account "
-								+ "WHERE user_account.email_address = '" + userEmailAddress + "'"
-							+ ") "
-								
-							+ "AND "
-							
-							+ "user_contact.contact_id = ("
-								+ "SELECT user_account.id "
-								+ "FROM user_account "
-								+ "WHERE user_account.email_address = '" + contactEmailAddress + "'"
-							+ ")"
-						+ ";";
+				+ "user_contact.user_id = (SELECT user_account.id FROM user_account WHERE user_account.email_address = '" + userEmailAddress + "') AND "
+				+ "user_contact.contact_id = (SELECT user_account.id FROM user_account WHERE user_account.email_address = '" + contactEmailAddress + "');";
 
-		queryList.add(query);
+		queryList.add(deleteUserContactQuery);
         
-		dataBaseConfig.deleteQuery(queryList);
+		dataBaseConfig.executeUpdate(queryList);
 		
 		return dataBaseConfig.getSQLExceptionState();
 	}

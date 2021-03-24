@@ -49,7 +49,7 @@ public class PostgreConfig implements DataBaseConfig {
 	}
 
 	@Override
-	public void insertQuery(ArrayList<String> queryList) {
+	public void executeUpdate(ArrayList<String> queryList) {
 
 		Connection connection = null;
 		Statement statement = null;
@@ -86,7 +86,7 @@ public class PostgreConfig implements DataBaseConfig {
 	}
 
 	@Override
-	public ResultSet selectQuery(ArrayList<String> queryList) {
+	public ResultSet executeQuery(ArrayList<String> queryList) {
 
 		Connection connection = null;
 		Statement statement = null;
@@ -121,80 +121,6 @@ public class PostgreConfig implements DataBaseConfig {
 		}
 		
 		return resultSet;
-	}
-
-	@Override
-	public void updateQuery(ArrayList<String> queryList) {
-
-		Connection connection = null;
-		Statement statement = null;
-		
-		sqlExceptionState = "00000";
-
-		try {
-
-			connection = DriverManager.getConnection(url, user, password);
-			statement = connection.createStatement();
-
-			connection.setAutoCommit(false);
-			
-			for (String query : queryList) {
-
-				statement.executeUpdate(query);
-			}
-			
-			connection.commit();
-
-		} catch (SQLException e) {
-			
-	        logger.error(e);
-	        
-	        sqlExceptionState = e.getSQLState();
-	        
-			rollbackTransaction(connection);
-			
-		} finally {
-			
-			closeStatement(statement);
-			closeConnection(connection);
-		}
-	}
-
-	@Override
-	public void deleteQuery(ArrayList<String> queryList) {
-
-		Connection connection = null;
-		Statement statement = null;
-		
-		sqlExceptionState = "00000";
-
-		try {
-
-			connection = DriverManager.getConnection(url, user, password);
-			statement = connection.createStatement();
-
-			connection.setAutoCommit(false);
-			
-			for (String query : queryList) {
-
-				statement.executeUpdate(query);
-			}
-			
-			connection.commit();
-
-		} catch (SQLException e) {
-			
-	        logger.error(e);
-	        
-	        sqlExceptionState = e.getSQLState();
-	        
-			rollbackTransaction(connection);
-			
-		} finally {
-			
-			closeStatement(statement);
-			closeConnection(connection);
-		}
 	}
 
 	@Override

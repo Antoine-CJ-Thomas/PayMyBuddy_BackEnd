@@ -32,35 +32,18 @@ public class BankAccountRepository {
         
         ArrayList<String> queryList = new ArrayList<String>();
 				
-		String query 	= "INSERT "
-						+ "INTO bank_account (user_id,account_name,account_number,swift_code) "
-						+ "VALUES ("
-						
-							+ "("
-							
-								+ "SELECT user_account.id "
-								+ "FROM user_account "
-								+ "WHERE user_account.email_address = '" + userEmailAddress + "'"
-								
-							+ "),("
-							
-								+ "'" + accountName + "'"
-								
-							+ "),("
-							
-								+ "'" + accountNumber + "'"
-								
-							+ "),("
-							
-								+ "'" + swiftCode + "'"
-							
-							+ ")"
-							
-						+ ");";
+		String insertBankAccountQuery
+		
+			= "INSERT INTO bank_account (user_id,account_name,account_number,swift_code) VALUES ("
+			
+				+ "(SELECT user_account.id FROM user_account WHERE user_account.email_address = '" + userEmailAddress + "'),"
+				+ "('" + accountName + "'),"
+				+ "('" + accountNumber + "'),"
+				+ "('" + swiftCode + "'));";
 
-		queryList.add(query);
+		queryList.add(insertBankAccountQuery);
         
-		dataBaseConfig.insertQuery(queryList);
+		dataBaseConfig.executeUpdate(queryList);
 		
 		return dataBaseConfig.getSQLExceptionState();
 	}
@@ -70,23 +53,15 @@ public class BankAccountRepository {
         
         ArrayList<String> queryList = new ArrayList<String>();
 		
-		String query 	= "SELECT * "
-						+ "FROM bank_account "
-						+ "INNER JOIN user_account ON bank_account.user_id = user_account.id "
-						+ "WHERE "
-						
-							+ "user_account.id = ("
-							
-								+ "SELECT user_account.id "
-								+ "FROM user_account "
-								+ "WHERE user_account.email_address = '" + emailAddress + "'"
-								
-							+ ")"
-						+ ";";
+		String selectBankAccountListQuery 	
+		
+			= "SELECT * FROM bank_account INNER JOIN user_account ON bank_account.user_id = user_account.id WHERE "
+			
+				+ "user_account.id = (SELECT user_account.id FROM user_account WHERE user_account.email_address = '" + emailAddress + "');";
 
-		queryList.add(query);
+		queryList.add(selectBankAccountListQuery);
 
-		ResultSet resultSet = dataBaseConfig.selectQuery(queryList);
+		ResultSet resultSet = dataBaseConfig.executeQuery(queryList);
 		
     	try {
     		
@@ -122,24 +97,16 @@ public class BankAccountRepository {
         
         ArrayList<String> queryList = new ArrayList<String>();
         
-		String query 	= "DELETE "
-						+ "FROM bank_account "
-						+ "WHERE "
-						
-							+ "bank_account.user_id = ("
-								+ "SELECT user_account.id "
-								+ "FROM user_account "
-								+ "WHERE user_account.email_address = '" + userEmailAddress + "'"
-							+ ") "
-								
-							+ "AND "
-							
-								+ "bank_account.account_name ='" + accountName + "'"
-						+ ";";
+		String deleteBankAccountQuery 
+		
+			= "DELETE FROM bank_account WHERE "
+			
+				+ "bank_account.user_id = (SELECT user_account.id FROM user_account WHERE user_account.email_address = '" + userEmailAddress + "') AND "
+				+ "bank_account.account_name ='" + accountName + "';";
 
-		queryList.add(query);
+		queryList.add(deleteBankAccountQuery);
         
-		dataBaseConfig.deleteQuery(queryList);
+		dataBaseConfig.executeUpdate(queryList);
 		
 		return dataBaseConfig.getSQLExceptionState();
 	}

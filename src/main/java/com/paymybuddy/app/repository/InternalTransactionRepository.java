@@ -34,41 +34,24 @@ public class InternalTransactionRepository {
         
         ArrayList<String> queryList = new ArrayList<String>();
 				
-		String query 	= "INSERT "
-						+ "INTO internal_transaction (user_id,contact_id,date_time,amount,description) "
-						+ "VALUES ("
-						
-							+ "("
-							
-								+ "SELECT user_account.id "
-								+ "FROM user_account "
-								+ "WHERE user_account.email_address = '" + userEmailAddress + "'"
-								
-							+ "),("
-							
-								+ "SELECT user_account.id "
-								+ "FROM user_account "
-								+ "WHERE user_account.email_address = '" + contactEmailAddress + "'"
-								
-							+ "),("
-							
-								+ "'" + new Timestamp(System.currentTimeMillis()) + "'"
-								
-							+ "),("
-							
-								+ amount
-							
-							+ "),("
-							
-								+ "'" + description + "'"
-							
-							+ ")"
-							
-						+ ");";
+		String insertInternalTransactionQuery 
+		
+			= "INSERT INTO internal_transaction (user_id,contact_id,date_time,amount,description) VALUES ("
+			
+				+ "(SELECT user_account.id FROM user_account WHERE user_account.email_address = '" + userEmailAddress + "'),"
+				+ "(SELECT user_account.id FROM user_account WHERE user_account.email_address = '" + contactEmailAddress + "'),"
+				+ "('" + new Timestamp(System.currentTimeMillis()) + "'),"
+				+ "(" + amount + "),"
+				+ "('" + description + "'));";
+		
+		String editUserAccountQuery = "UPDATE user_account SET balance = balance - " + amount + " WHERE email_address = '" + userEmailAddress + "';";
+		String editContactAccountQuery = "UPDATE user_account SET balance = balance + " + amount + " WHERE email_address = '" + contactEmailAddress + "';";
 
-		queryList.add(query);
+		queryList.add(insertInternalTransactionQuery);
+		queryList.add(editUserAccountQuery);
+		queryList.add(editContactAccountQuery);
 
-		dataBaseConfig.insertQuery(queryList);
+		dataBaseConfig.executeUpdate(queryList);
 		
 		return dataBaseConfig.getSQLExceptionState();
 	}
@@ -78,46 +61,33 @@ public class InternalTransactionRepository {
         
         ArrayList<String> queryList = new ArrayList<String>();
 		
-		String query 	= "SELECT "
+		String selectInternalTransactionListQuery 
+		
+			= "SELECT "
 				
-							+ "internal_transaction.date_time, "
-							+ "user_table.email_address AS user_email_address, "
-							+ "user_table.first_name AS user_first_name, "
-							+ "user_table.last_name AS user_last_name, "
-							+ "contact_table.email_address AS contact_email_address, "
-							+ "contact_table.first_name AS contact_first_name,"
-							+ "contact_table.last_name AS contact_last_name,"
-							+ "internal_transaction.amount,"
-							+ "internal_transaction.description "
-						
-						+ "FROM internal_transaction "
-						+ "INNER JOIN user_account AS user_table ON internal_transaction.user_id = user_table.id "
-						+ "INNER JOIN user_account AS contact_table ON internal_transaction.contact_id = contact_table.id "
-						+ "WHERE "
-						
-							+ "internal_transaction.user_id = ("
-							
-								+ "SELECT user_account.id "
-								+ "FROM user_account "
-								+ "WHERE user_account.email_address = '" + emailAddress + "'"
-								
-							+ ")"
-							
-							+ "OR "
-						
-							+ "internal_transaction.contact_id = ("
-							
-								+ "SELECT user_account.id "
-								+ "FROM user_account "
-								+ "WHERE user_account.email_address = '" + emailAddress + "'"
-								
-							+ ")"
-							
-						+ "ORDER BY internal_transaction.date_time DESC";
+				+ "internal_transaction.date_time, "
+				+ "user_table.email_address AS user_email_address, "
+				+ "user_table.first_name AS user_first_name, "
+				+ "user_table.last_name AS user_last_name, "
+				+ "contact_table.email_address AS contact_email_address, "
+				+ "contact_table.first_name AS contact_first_name,"
+				+ "contact_table.last_name AS contact_last_name,"
+				+ "internal_transaction.amount,"
+				+ "internal_transaction.description "
+			
+			+ "FROM internal_transaction "
+			+ "INNER JOIN user_account AS user_table ON internal_transaction.user_id = user_table.id "
+			+ "INNER JOIN user_account AS contact_table ON internal_transaction.contact_id = contact_table.id "
+			+ "WHERE "
+			
+				+ "internal_transaction.user_id = (SELECT user_account.id FROM user_account WHERE user_account.email_address = '" + emailAddress + "') OR "			
+				+ "internal_transaction.contact_id = (SELECT user_account.id FROM user_account WHERE user_account.email_address = '" + emailAddress + "')"
+									
+			+ "ORDER BY internal_transaction.date_time DESC";
 
-		queryList.add(query);
+		queryList.add(selectInternalTransactionListQuery);
 
-		ResultSet resultSet = dataBaseConfig.selectQuery(queryList);
+		ResultSet resultSet = dataBaseConfig.executeQuery(queryList);
 		
     	try {
     		

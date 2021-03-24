@@ -32,13 +32,19 @@ public class UserAccountRepository {
         
         ArrayList<String> queryList = new ArrayList<String>();
 		
-		String query 	= "INSERT "
-						+ "INTO user_account (email_address,password,first_name,last_name,balance) " 
-						+ "VALUES ('" + emailAddress + "','" + password + "','" + firstName + "','" + lastName + "'," + 0.00 + ");";
+		String insertUserAccountQuery 	
+		
+			= "INSERT INTO user_account (email_address,password,first_name,last_name,balance) VALUES ("
+			
+				+ "'" + emailAddress + "',"
+				+ "'" + password + "',"
+				+ "'" + firstName + "',"
+				+ "'" + lastName + "',"
+				+ "" + 0.00 + ");";
 
-		queryList.add(query);
+		queryList.add(insertUserAccountQuery);
 
-		dataBaseConfig.insertQuery(queryList);
+		dataBaseConfig.executeUpdate(queryList);
 		
 		return dataBaseConfig.getSQLExceptionState();
 	}
@@ -48,13 +54,13 @@ public class UserAccountRepository {
         
         ArrayList<String> queryList = new ArrayList<String>();
 		
-		String query 	= "SELECT * "
-						+ "FROM user_account " 
-						+ "WHERE email_address='" + emailAddress + "';";
+		String selectUserAccountQuery	
+		
+			= "SELECT * FROM user_account WHERE email_address='" + emailAddress + "';";
 
-		queryList.add(query);
+		queryList.add(selectUserAccountQuery);
 
-		ResultSet resultSet = dataBaseConfig.selectQuery(queryList);
+		ResultSet resultSet = dataBaseConfig.executeQuery(queryList);
 				
     	try {
 
@@ -91,13 +97,19 @@ public class UserAccountRepository {
         
         ArrayList<String> queryList = new ArrayList<String>();   
 		
-		String query 	= "UPDATE user_account "
-						+ "SET password='" + password + "'," + "first_name='" + firstName + "'," + "last_name='" + lastName + "'" 
-						+ "WHERE email_address='" + emailAddress + "';";
-
-		queryList.add(query);
+		String updateUserAccountQuery
 		
-		dataBaseConfig.updateQuery(queryList);
+			= "UPDATE user_account SET "
+			
+				+ "password='" + password + "'," 
+				+ "first_name='" + firstName + "'," 
+				+ "last_name='" + lastName + "'" 
+					
+			+ "WHERE email_address='" + emailAddress + "';";
+
+		queryList.add(updateUserAccountQuery);
+		
+		dataBaseConfig.executeUpdate(queryList);
 		
 		return dataBaseConfig.getSQLExceptionState();
 	
@@ -108,21 +120,16 @@ public class UserAccountRepository {
         
         ArrayList<String> queryList = new ArrayList<String>();
 	
-		String query 	= "DELETE "
-						+ "FROM user_account " 
-						+ "WHERE "
-
-							+ "user_account.email_address = '" + emailAddress + "'"
-							
-							+ "AND "
-						
-							+ "user_account.password = '" + password + "'"
-							
-						+ ";";
-
-		queryList.add(query);
+		String deleteUserAccountQuery
 		
-		dataBaseConfig.deleteQuery(queryList);
+			= "DELETE FROM user_account WHERE "
+
+				+ "user_account.email_address = '" + emailAddress + "' AND "
+				+ "user_account.password = '" + password + "';";
+
+		queryList.add(deleteUserAccountQuery);
+		
+		dataBaseConfig.executeUpdate(queryList);
 		
 		return dataBaseConfig.getSQLExceptionState();
 	}

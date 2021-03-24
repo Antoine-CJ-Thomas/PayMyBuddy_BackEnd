@@ -34,53 +34,26 @@ public class ExternalTransactionRepository {
         
         ArrayList<String> queryList = new ArrayList<String>();
 				
-		String query 	= "INSERT "
-						+ "INTO external_transaction (user_id,bank_id,date_time,amount,description) "
-						+ "VALUES ("
-						
-							+ "("
-							
-								+ "SELECT user_account.id "
-								+ "FROM user_account "
-								+ "WHERE user_account.email_address = '" + userEmailAddress + "'"
-								
-							+ "),("
-							
-								+ "SELECT bank_account.id "
-								+ "FROM bank_account "
-								+ "WHERE ("
-								
-									+ "bank_account.account_name = '" + accountName + "'"
-									+ "AND "						
-									+ "bank_account.user_id = ("
-							
-										+ "SELECT user_account.id "
-										+ "FROM user_account "
-										+ "WHERE user_account.email_address = '" + userEmailAddress + "'"
-								
-									+ ")"
-									
-								+ ")"
-								
-							+ "),("
-							
-								+ "'" + new Timestamp(System.currentTimeMillis()) + "'"
-								
-							+ "),("
-							
-								+ amount
-							
-							+ "),("
-							
-								+ "'" + description + "'"
-							
-							+ ")"
-							
-						+ ");";
-
-		queryList.add(query);
+		String insertExternalTransactionQuery 
 		
-		dataBaseConfig.insertQuery(queryList);
+			= "INSERT INTO external_transaction (user_id,bank_id,date_time,amount,description) VALUES ("
+			
+				+ "(SELECT user_account.id FROM user_account WHERE user_account.email_address = '" + userEmailAddress + "'),"
+				
+				+ "(SELECT bank_account.id FROM bank_account WHERE ("
+					+ "bank_account.account_name = '" + accountName + "' AND bank_account.user_id = ("
+						+ "SELECT user_account.id FROM user_account WHERE user_account.email_address = '" + userEmailAddress + "'))),"
+							
+				+ "('" + new Timestamp(System.currentTimeMillis()) + "'),"
+				+ "(" + amount + "),"
+				+ "('" + description + "'));";
+		
+		String editUserAccountQuery = "UPDATE user_account SET balance = balance - " + amount + " WHERE email_address = '" + userEmailAddress + "';";
+
+		queryList.add(insertExternalTransactionQuery);
+		queryList.add(editUserAccountQuery);
+		
+		dataBaseConfig.executeUpdate(queryList);
 		
 		return dataBaseConfig.getSQLExceptionState();
 	}
@@ -90,23 +63,14 @@ public class ExternalTransactionRepository {
         
         ArrayList<String> queryList = new ArrayList<String>();
 		
-		String query 	= "SELECT * "
-						+ "FROM external_transaction "
-						+ "INNER JOIN bank_account ON external_transaction.bank_id = bank_account.id "
-						+ "WHERE "
-						
-							+ "external_transaction.user_id = ("
-							
-								+ "SELECT user_account.id "
-								+ "FROM user_account "
-								+ "WHERE user_account.email_address = '" + emailAddress + "'"
-								
-							+ ")"
-						+ ";";
+		String selectExternalTransactionListQuery
+		
+			= "SELECT * FROM external_transaction INNER JOIN bank_account ON external_transaction.bank_id = bank_account.id "
+			+ "WHERE external_transaction.user_id = (SELECT user_account.id FROM user_account WHERE user_account.email_address = '" + emailAddress + "');";
 
-		queryList.add(query);
+		queryList.add(selectExternalTransactionListQuery);
 
-		ResultSet resultSet = dataBaseConfig.selectQuery(queryList);
+		ResultSet resultSet = dataBaseConfig.executeQuery(queryList);
 		
     	try {
     		

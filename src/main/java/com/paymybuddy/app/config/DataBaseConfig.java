@@ -5,9 +5,7 @@ import java.util.ArrayList;
 
 public interface DataBaseConfig {
 	
-    public void insertQuery(ArrayList<String> queryList);
-    public ResultSet selectQuery(ArrayList<String> queryList);
-    public void updateQuery(ArrayList<String> queryList);
-    public void deleteQuery(ArrayList<String> queryList);
+    public void executeUpdate(ArrayList<String> queryList);
+    public ResultSet executeQuery(ArrayList<String> queryList);
     public String getSQLExceptionState();
  }
