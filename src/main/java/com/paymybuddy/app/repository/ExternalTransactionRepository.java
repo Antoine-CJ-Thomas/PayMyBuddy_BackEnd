@@ -38,7 +38,7 @@ public class ExternalTransactionRepository {
 		
 			= "INSERT INTO external_transaction (user_id,bank_id,date_time,amount,description) VALUES ("
 			
-				+ "(SELECT user_account.id FROM user_account WHERE user_account.email_address = '" + userEmailAddress + "'),"
+				+ "(SELECT user_account.id FROM user_account WHERE user_account.email_address = '" + userEmailAddress + "' AND balance >= " + amount + "),"
 				
 				+ "(SELECT bank_account.id FROM bank_account WHERE ("
 					+ "bank_account.account_name = '" + accountName + "' AND bank_account.user_id = ("
@@ -54,6 +54,8 @@ public class ExternalTransactionRepository {
 		queryList.add(editUserAccountQuery);
 		
 		dataBaseConfig.executeUpdate(queryList);
+		
+		System.out.println("dataBaseConfig.getSQLExceptionState() : " + dataBaseConfig.getSQLExceptionState());
 		
 		return dataBaseConfig.getSQLExceptionState();
 	}

@@ -38,7 +38,7 @@ public class InternalTransactionRepository {
 		
 			= "INSERT INTO internal_transaction (user_id,contact_id,date_time,amount,description) VALUES ("
 			
-				+ "(SELECT user_account.id FROM user_account WHERE user_account.email_address = '" + userEmailAddress + "'),"
+				+ "(SELECT user_account.id FROM user_account WHERE user_account.email_address = '" + userEmailAddress + "' AND balance >= " + amount + "),"
 				+ "(SELECT user_account.id FROM user_account WHERE user_account.email_address = '" + contactEmailAddress + "'),"
 				+ "('" + new Timestamp(System.currentTimeMillis()) + "'),"
 				+ "(" + amount + "),"

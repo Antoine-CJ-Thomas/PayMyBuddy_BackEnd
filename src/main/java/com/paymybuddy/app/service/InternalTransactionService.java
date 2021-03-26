@@ -7,9 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.paymybuddy.app.dto.InternalTransactionExecutingDto;
 import com.paymybuddy.app.dto.InternalTransactionRetrievingDto;
-import com.paymybuddy.app.model.UserAccount;
 import com.paymybuddy.app.repository.InternalTransactionRepository;
-import com.paymybuddy.app.repository.UserAccountRepository;
 
 /**
  *
@@ -21,8 +19,6 @@ public class InternalTransactionService {
 
 	@Autowired
 	private InternalTransactionRepository internalTransactionRepository;
-	@Autowired
-	private UserAccountRepository userAccountRepository;
 
 	public InternalTransactionService() {
 		logger.info("InternalTransactionService()");
@@ -32,34 +28,27 @@ public class InternalTransactionService {
 			InternalTransactionExecutingDto internalTransactionExecutingDto) {
 		logger.info("executeInternalTransaction(" + internalTransactionExecutingDto + ")");
 		
-		UserAccount userAccount = new UserAccount();
-		
-		userAccountRepository.selectUserAccount(internalTransactionExecutingDto.getUserEmailAddress(), userAccount);
+		switch (internalTransactionRepository.insertInternalTransaction(
+				internalTransactionExecutingDto.getUserEmailAddress(),
+				internalTransactionExecutingDto.getContactEmailAddress(),
+				internalTransactionExecutingDto.getDescription(), internalTransactionExecutingDto.getAmount())) {
 
-		if(userAccount.getBalanceAmount() < internalTransactionExecutingDto.getAmount()) {
+		case ("00000"):
+
+			internalTransactionExecutingDto.setDataValidated(true);
+			break;
+
+		case ("23502"):
 
 			internalTransactionExecutingDto.setDataValidated(false);
 			internalTransactionExecutingDto.setMessage("Your balance is lower than the amount you want to send");
-		}
-		
-		else {
-			
-			switch (internalTransactionRepository.insertInternalTransaction(
-					internalTransactionExecutingDto.getUserEmailAddress(),
-					internalTransactionExecutingDto.getContactEmailAddress(),
-					internalTransactionExecutingDto.getDescription(), internalTransactionExecutingDto.getAmount())) {
+			break;
 
-			case ("00000"):
+		default:
 
-				internalTransactionExecutingDto.setDataValidated(true);
-				break;
-
-			default:
-
-				internalTransactionExecutingDto.setDataValidated(false);
-				internalTransactionExecutingDto.setMessage("Transaction couldn't be executed");
-				break;
-			}
+			internalTransactionExecutingDto.setDataValidated(false);
+			internalTransactionExecutingDto.setMessage("Transaction couldn't be executed");
+			break;
 		}
 
 		return internalTransactionExecutingDto;

@@ -7,9 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.paymybuddy.app.dto.ExternalTransactionExecutingDto;
 import com.paymybuddy.app.dto.ExternalTransactionRetrievingDto;
-import com.paymybuddy.app.model.UserAccount;
 import com.paymybuddy.app.repository.ExternalTransactionRepository;
-import com.paymybuddy.app.repository.UserAccountRepository;
 
 /**
  *
@@ -21,8 +19,6 @@ public class ExternalTransactionService {
 
 	@Autowired
 	private ExternalTransactionRepository externalTransactionRepository;
-	@Autowired
-	private UserAccountRepository userAccountRepository;
 
 	public ExternalTransactionService() {
 		logger.info("ExternalTransactionService()");
@@ -32,33 +28,26 @@ public class ExternalTransactionService {
 			ExternalTransactionExecutingDto externalTransactionExecutingDto) {
 		logger.info("executeExternalTransaction(" + externalTransactionExecutingDto + ")");
 		
-		UserAccount userAccount = new UserAccount();
-		
-		userAccountRepository.selectUserAccount(externalTransactionExecutingDto.getEmailAddress(), userAccount);
+		switch (externalTransactionRepository.insertExternalTransaction(
+				externalTransactionExecutingDto.getEmailAddress(), externalTransactionExecutingDto.getAccountName(),
+				externalTransactionExecutingDto.getDescription(), externalTransactionExecutingDto.getAmount())) {
 
-		if(userAccount.getBalanceAmount() < externalTransactionExecutingDto.getAmount()) {
+		case ("00000"):
+
+			externalTransactionExecutingDto.setDataValidated(true);
+			break;
+
+		case ("23502"):
 
 			externalTransactionExecutingDto.setDataValidated(false);
 			externalTransactionExecutingDto.setMessage("Your balance is lower than the amount you want to send");
-		}
-		
-		else {
+			break;
 
-			switch (externalTransactionRepository.insertExternalTransaction(
-					externalTransactionExecutingDto.getEmailAddress(), externalTransactionExecutingDto.getAccountName(),
-					externalTransactionExecutingDto.getDescription(), externalTransactionExecutingDto.getAmount())) {
+		default:
 
-			case ("00000"):
-
-				externalTransactionExecutingDto.setDataValidated(true);
-				break;
-
-			default:
-
-				externalTransactionExecutingDto.setDataValidated(false);
-				externalTransactionExecutingDto.setMessage("Transaction couldn't be executed");
-				break;
-			}
+			externalTransactionExecutingDto.setDataValidated(false);
+			externalTransactionExecutingDto.setMessage("Transaction couldn't be executed");
+			break;
 		}
 
 		return externalTransactionExecutingDto;
