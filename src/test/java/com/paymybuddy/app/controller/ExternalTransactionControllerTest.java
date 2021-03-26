@@ -15,7 +15,7 @@ import com.paymybuddy.app.dto.ExternalTransactionRetrievingDto;
 import com.paymybuddy.app.service.ExternalTransactionService;
 
 @SpringBootTest
-class ExternalTransactionServiceTest {
+class ExternalTransactionControllerTest {
 
 	private ExternalTransactionController externalTransactionController;
 

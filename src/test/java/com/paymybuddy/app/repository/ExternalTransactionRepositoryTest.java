@@ -17,7 +17,7 @@ import com.paymybuddy.app.config.PostgreConfig;
 import com.paymybuddy.app.model.ExternalTransaction;
 
 @SpringBootTest
-class ExternalTransactionServiceTest {
+class ExternalTransactionRepositoryTest {
 
 	private ExternalTransactionRepository externalTransactionRepository;
 

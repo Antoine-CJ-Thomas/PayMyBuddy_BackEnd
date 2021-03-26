@@ -17,7 +17,7 @@ import com.paymybuddy.app.config.PostgreConfig;
 import com.paymybuddy.app.model.BankAccount;
 
 @SpringBootTest
-class bankAccountServiceTest {
+class BankAccountRepositoryTest {
 
 	private BankAccountRepository bankAccountRepository;
 

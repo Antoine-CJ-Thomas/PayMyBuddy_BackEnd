@@ -15,7 +15,7 @@ import com.paymybuddy.app.dto.InternalTransactionRetrievingDto;
 import com.paymybuddy.app.service.InternalTransactionService;
 
 @SpringBootTest
-class internalTransactionServiceTest {
+class InternalTransactionControllerTest {
 
 	private InternalTransactionController internalTransactionController;
 

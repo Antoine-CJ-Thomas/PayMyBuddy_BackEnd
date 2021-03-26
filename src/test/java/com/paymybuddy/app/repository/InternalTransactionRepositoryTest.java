@@ -17,7 +17,7 @@ import com.paymybuddy.app.config.PostgreConfig;
 import com.paymybuddy.app.model.InternalTransaction;
 
 @SpringBootTest
-class InternalTransactionServiceTest {
+class InternalTransactionRepositoryTest {
 
 	private InternalTransactionRepository internalTransactionRepository;
 
