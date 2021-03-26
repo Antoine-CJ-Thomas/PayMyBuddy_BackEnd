@@ -37,6 +37,12 @@ public class BankAccountService {
 			bankAccountAddingDto.setDataValidated(true);
 			break;
 
+		case ("23505"):
+
+			bankAccountAddingDto.setDataValidated(false);
+			bankAccountAddingDto.setMessage("A bank account with the same name is already in your bank account list");
+			break;
+
 		default:
 
 			bankAccountAddingDto.setDataValidated(false);

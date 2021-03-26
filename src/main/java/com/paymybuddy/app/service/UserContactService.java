@@ -50,6 +50,12 @@ public class UserContactService {
 				userContactAddingDto.setMessage("This email address is not assigned to any user");
 				break;
 
+			case ("23505"):
+
+				userContactAddingDto.setDataValidated(false);
+				userContactAddingDto.setMessage("A contact with this address is already in your contact list");
+				break;
+
 			default:
 
 				userContactAddingDto.setDataValidated(false);
