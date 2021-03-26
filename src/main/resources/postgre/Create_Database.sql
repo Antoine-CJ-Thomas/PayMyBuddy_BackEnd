@@ -3,10 +3,10 @@ CREATE SEQUENCE public.user_account_id_seq;
 
 CREATE TABLE public.user_account (
                 id INTEGER NOT NULL DEFAULT nextval('public.user_account_id_seq'),
-                email_address VARCHAR(40) NOT NULL,
-                password VARCHAR(20) NOT NULL,
-                first_name VARCHAR(20) NOT NULL,
-                last_name VARCHAR(20) NOT NULL,
+                email_address VARCHAR(64) NOT NULL,
+                password VARCHAR(72) NOT NULL,
+                first_name VARCHAR(32) NOT NULL,
+                last_name VARCHAR(32) NOT NULL,
                 balance NUMERIC(10,2) NOT NULL,
                 CONSTRAINT user_account_pk PRIMARY KEY (id)
 );
