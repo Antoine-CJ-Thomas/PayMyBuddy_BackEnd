@@ -37,24 +37,19 @@ class bankAccountServiceTest {
 	@BeforeEach
 	void beforeEach() {
 
+		//GIVEN
 		bankAccountService = new BankAccountService();
 		ReflectionTestUtils.setField(bankAccountService, "bankAccountRepository", bankAccountRepository);
 	}
 	
 	@Test
-	void test_addBankAccount_true() {
-
-    	//GIVEN
-		String emailAddress = "emailAddress";
-		String accountName = "accountName";
-		String accountNumber = "accountNumber";
-		String swiftCode = "swiftCode";
+	void test_addBankAccount_OK() {
         
     	//WHEN
-		when(bankAccountAddingDto.getEmailAddress()).thenReturn(emailAddress);
-		when(bankAccountAddingDto.getAccountName()).thenReturn(accountName);
-		when(bankAccountAddingDto.getAccountNumber()).thenReturn(accountNumber);
-		when(bankAccountAddingDto.getSwiftCode()).thenReturn(swiftCode);
+		when(bankAccountAddingDto.getEmailAddress()).thenReturn("emailAddress");
+		when(bankAccountAddingDto.getAccountName()).thenReturn("accountName");
+		when(bankAccountAddingDto.getAccountNumber()).thenReturn("accountNumber");
+		when(bankAccountAddingDto.getSwiftCode()).thenReturn("swiftCode");
 		
 		when(bankAccountRepository.insertBankAccount(
 				bankAccountAddingDto.getEmailAddress(), 
@@ -69,19 +64,34 @@ class bankAccountServiceTest {
 	}
 
 	@Test
-	void test_addBankAccount_false() {
-
-    	//GIVEN
-		String emailAddress = "emailAddress";
-		String accountName = "accountName";
-		String accountNumber = "accountNumber";
-		String swiftCode = "swiftCode";
+	void test_addBankAccount_NOK_accountNameAlreadyUsed() {
         
     	//WHEN
-		when(bankAccountAddingDto.getEmailAddress()).thenReturn(emailAddress);
-		when(bankAccountAddingDto.getAccountName()).thenReturn(accountName);
-		when(bankAccountAddingDto.getAccountNumber()).thenReturn(accountNumber);
-		when(bankAccountAddingDto.getSwiftCode()).thenReturn(swiftCode);
+		when(bankAccountAddingDto.getEmailAddress()).thenReturn("emailAddress");
+		when(bankAccountAddingDto.getAccountName()).thenReturn("accountName");
+		when(bankAccountAddingDto.getAccountNumber()).thenReturn("accountNumber");
+		when(bankAccountAddingDto.getSwiftCode()).thenReturn("swiftCode");
+		
+		when(bankAccountRepository.insertBankAccount(
+				bankAccountAddingDto.getEmailAddress(), 
+				bankAccountAddingDto.getAccountName(), 
+				bankAccountAddingDto.getAccountNumber(), 
+				bankAccountAddingDto.getSwiftCode())).thenReturn("23505");
+		
+		bankAccountService.addBankAccount(bankAccountAddingDto);
+	    
+    	//THEN
+        verify(bankAccountAddingDto, Mockito.times(1)).setDataValidated(false);
+	}
+
+	@Test
+	void test_addBankAccount_NOK() {
+        
+    	//WHEN
+		when(bankAccountAddingDto.getEmailAddress()).thenReturn("emailAddress");
+		when(bankAccountAddingDto.getAccountName()).thenReturn("accountName");
+		when(bankAccountAddingDto.getAccountNumber()).thenReturn("accountNumber");
+		when(bankAccountAddingDto.getSwiftCode()).thenReturn("swiftCode");
 		
 		when(bankAccountRepository.insertBankAccount(
 				bankAccountAddingDto.getEmailAddress(), 
@@ -96,15 +106,11 @@ class bankAccountServiceTest {
 	}
 	
 	@Test
-	void test_removeBankAccount_true() {
-
-    	//GIVEN
-		String emailAddress = "emailAddress";
-		String accountName = "accountName";
+	void test_removeBankAccount_OK() {
         
     	//WHEN
-		when(bankAccountRemovingDto.getEmailAddress()).thenReturn(emailAddress);
-		when(bankAccountRemovingDto.getAccountName()).thenReturn(accountName);
+		when(bankAccountRemovingDto.getEmailAddress()).thenReturn("emailAddress");
+		when(bankAccountRemovingDto.getAccountName()).thenReturn("accountName");
 		
 		when(bankAccountRepository.deleteBankAccount(
 				bankAccountRemovingDto.getEmailAddress(), 
@@ -117,15 +123,11 @@ class bankAccountServiceTest {
 	}
 	
 	@Test
-	void test_removeBankAccount_false() {
-
-    	//GIVEN
-		String emailAddress = "emailAddress";
-		String accountName = "accountName";
+	void test_removeBankAccount_NOK() {
         
     	//WHEN
-		when(bankAccountRemovingDto.getEmailAddress()).thenReturn(emailAddress);
-		when(bankAccountRemovingDto.getAccountName()).thenReturn(accountName);
+		when(bankAccountRemovingDto.getEmailAddress()).thenReturn("emailAddress");
+		when(bankAccountRemovingDto.getAccountName()).thenReturn("accountName");
 		
 		when(bankAccountRepository.deleteBankAccount(
 				bankAccountRemovingDto.getEmailAddress(), 
@@ -138,13 +140,10 @@ class bankAccountServiceTest {
 	}
 
 	@Test
-	void test_retrieveBankAccountList_true() {
-
-    	//GIVEN
-		String emailAddress = "emailAddress";
+	void test_retrieveBankAccountList_OK() {
         
     	//WHEN
-		when(bankAccountRetrievingDto.getEmailAddress()).thenReturn(emailAddress);
+		when(bankAccountRetrievingDto.getEmailAddress()).thenReturn("emailAddress");
 		when(bankAccountRetrievingDto.getBankAccountList()).thenReturn(bankAccountList);
 		
 		when(bankAccountRepository.selectBankAccountList(
@@ -158,13 +157,10 @@ class bankAccountServiceTest {
 	}
 
 	@Test
-	void test_retrieveBankAccountList_false() {
-
-    	//GIVEN
-		String emailAddress = "emailAddress";
+	void test_retrieveBankAccountList_NOK() {
         
     	//WHEN
-		when(bankAccountRetrievingDto.getEmailAddress()).thenReturn(emailAddress);
+		when(bankAccountRetrievingDto.getEmailAddress()).thenReturn("emailAddress");
 		when(bankAccountRetrievingDto.getBankAccountList()).thenReturn(bankAccountList);
 		
 		when(bankAccountRepository.selectBankAccountList(

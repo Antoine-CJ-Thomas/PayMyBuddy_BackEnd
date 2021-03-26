@@ -37,21 +37,18 @@ class UserContactServiceTest {
 	@BeforeEach
 	void beforeEach() {
 
+    	//GIVEN
 		userContactService = new UserContactService();
 		ReflectionTestUtils.setField(userContactService, "userContactRepository", userContactRepository);
 		userContactList = new ArrayList<UserContact>();
 	}
 	
 	@Test
-	void test_addUserContact_true() {
-
-    	//GIVEN
-		String userEmailAddress = "userEmailAddress";
-		String contactEmailAddress = "contactEmailAddress";
+	void test_addUserContact_OK() {
         
     	//WHEN
-		when(userContactAddingDto.getUserEmailAddress()).thenReturn(userEmailAddress);
-		when(userContactAddingDto.getContactEmailAddress()).thenReturn(contactEmailAddress);
+		when(userContactAddingDto.getUserEmailAddress()).thenReturn("userEmailAddress");
+		when(userContactAddingDto.getContactEmailAddress()).thenReturn("contactEmailAddress");
 		
 		when(userContactRepository.insertUserContact(
 				userContactAddingDto.getUserEmailAddress(), 
@@ -64,15 +61,58 @@ class UserContactServiceTest {
 	}
 
 	@Test
-	void test_addUserContact_false() {
-
-    	//GIVEN
-		String userEmailAddress = "userEmailAddress";
-		String contactEmailAddress = "contactEmailAddress";
+	void test_addUserContact_false_userEmailAddressEqualContactEmailAddress() {
         
     	//WHEN
-		when(userContactAddingDto.getUserEmailAddress()).thenReturn(userEmailAddress);
-		when(userContactAddingDto.getContactEmailAddress()).thenReturn(contactEmailAddress);
+		when(userContactAddingDto.getUserEmailAddress()).thenReturn("userEmailAddress");
+		when(userContactAddingDto.getContactEmailAddress()).thenReturn("userEmailAddress");
+		
+		userContactService.addUserContact(userContactAddingDto);
+	    
+    	//THEN
+        verify(userContactAddingDto, Mockito.times(1)).setDataValidated(false);
+	}
+
+	@Test
+	void test_addUserContact_false_contactEmailAddressDoesNotExist() {
+        
+    	//WHEN
+		when(userContactAddingDto.getUserEmailAddress()).thenReturn("userEmailAddress");
+		when(userContactAddingDto.getContactEmailAddress()).thenReturn("contactEmailAddress");
+		
+		when(userContactRepository.insertUserContact(
+				userContactAddingDto.getUserEmailAddress(), 
+				userContactAddingDto.getContactEmailAddress())).thenReturn("23502");
+		
+		userContactService.addUserContact(userContactAddingDto);
+	    
+    	//THEN
+        verify(userContactAddingDto, Mockito.times(1)).setDataValidated(false);
+	}
+
+	@Test
+	void test_addUserContact_false_contactAlreadyInContactList() {
+        
+    	//WHEN
+		when(userContactAddingDto.getUserEmailAddress()).thenReturn("userEmailAddress");
+		when(userContactAddingDto.getContactEmailAddress()).thenReturn("contactEmailAddress");
+		
+		when(userContactRepository.insertUserContact(
+				userContactAddingDto.getUserEmailAddress(), 
+				userContactAddingDto.getContactEmailAddress())).thenReturn("23505");
+		
+		userContactService.addUserContact(userContactAddingDto);
+	    
+    	//THEN
+        verify(userContactAddingDto, Mockito.times(1)).setDataValidated(false);
+	}
+
+	@Test
+	void test_addUserContact_NOK() {
+        
+    	//WHEN
+		when(userContactAddingDto.getUserEmailAddress()).thenReturn("userEmailAddress");
+		when(userContactAddingDto.getContactEmailAddress()).thenReturn("contactEmailAddress");
 		
 		when(userContactRepository.insertUserContact(
 				userContactAddingDto.getUserEmailAddress(), 
@@ -85,15 +125,11 @@ class UserContactServiceTest {
 	}
 	
 	@Test
-	void test_removeUserContact_true() {
-
-    	//GIVEN
-		String userEmailAddress = "userEmailAddress";
-		String contactEmailAddress = "contactEmailAddress";
+	void test_removeUserContact_OK() {
         
     	//WHEN
-		when(userContactRemovingDto.getUserEmailAddress()).thenReturn(userEmailAddress);
-		when(userContactRemovingDto.getContactEmailAddress()).thenReturn(contactEmailAddress);
+		when(userContactRemovingDto.getUserEmailAddress()).thenReturn("userEmailAddress");
+		when(userContactRemovingDto.getContactEmailAddress()).thenReturn("contactEmailAddress");
 		
 		when(userContactRepository.deleteUserContact(
 				userContactRemovingDto.getUserEmailAddress(), 
@@ -106,15 +142,11 @@ class UserContactServiceTest {
 	}
 	
 	@Test
-	void test_removeUserContact_false() {
-
-    	//GIVEN
-		String userEmailAddress = "userEmailAddress";
-		String contactEmailAddress = "contactEmailAddress";
+	void test_removeUserContact_NOK() {
         
     	//WHEN
-		when(userContactRemovingDto.getUserEmailAddress()).thenReturn(userEmailAddress);
-		when(userContactRemovingDto.getContactEmailAddress()).thenReturn(contactEmailAddress);
+		when(userContactRemovingDto.getUserEmailAddress()).thenReturn("userEmailAddress");
+		when(userContactRemovingDto.getContactEmailAddress()).thenReturn("contactEmailAddress");
 		
 		when(userContactRepository.deleteUserContact(
 				userContactRemovingDto.getUserEmailAddress(), 
@@ -127,13 +159,10 @@ class UserContactServiceTest {
 	}
 
 	@Test
-	void test_retrieveUserContactList_true() {
-
-    	//GIVEN
-		String emailAddress = "emailAddress";
-        
+	void test_retrieveUserContactList_OK() {
+		
     	//WHEN
-		when(userContactRetrievingDto.getEmailAddress()).thenReturn(emailAddress);
+		when(userContactRetrievingDto.getEmailAddress()).thenReturn("emailAddress");
 		when(userContactRetrievingDto.getUserContactList()).thenReturn(userContactList);
 		
 		when(userContactRepository.selectUserContactList(
@@ -147,13 +176,10 @@ class UserContactServiceTest {
 	}
 
 	@Test
-	void test_retrieveUserContactList_false() {
-
-    	//GIVEN
-		String emailAddress = "emailAddress";
-        
+	void test_retrieveUserContactList_NOK() {
+		
     	//WHEN
-		when(userContactRetrievingDto.getEmailAddress()).thenReturn(emailAddress);
+		when(userContactRetrievingDto.getEmailAddress()).thenReturn("emailAddress");
 		when(userContactRetrievingDto.getUserContactList()).thenReturn(userContactList);
 		
 		when(userContactRepository.selectUserContactList(

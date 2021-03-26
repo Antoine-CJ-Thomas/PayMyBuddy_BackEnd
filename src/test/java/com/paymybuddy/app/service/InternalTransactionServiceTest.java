@@ -36,24 +36,19 @@ class internalTransactionServiceTest {
 	@BeforeEach
 	void beforeEach() {
 
+    	//GIVEN
 		internalTransactionService = new InternalTransactionService();
 		ReflectionTestUtils.setField(internalTransactionService, "internalTransactionRepository", internalTransactionRepository);
 	}
 	
 	@Test
-	void test_addInternalTransaction_true() {
-
-    	//GIVEN
-		String userEmailAddress = "userEmailAddress";
-		String contactEmailAddress = "contactEmailAddress";
-		String description = "description";
-		float amount = 0.0f;
-        
+	void test_addInternalTransaction_OK() {
+		
     	//WHEN
-		when(internalTransactionExecutingDto.getUserEmailAddress()).thenReturn(userEmailAddress);
-		when(internalTransactionExecutingDto.getContactEmailAddress()).thenReturn(contactEmailAddress);
-		when(internalTransactionExecutingDto.getDescription()).thenReturn(description);
-		when(internalTransactionExecutingDto.getAmount()).thenReturn(amount);
+		when(internalTransactionExecutingDto.getUserEmailAddress()).thenReturn("userEmailAddress");
+		when(internalTransactionExecutingDto.getContactEmailAddress()).thenReturn("contactEmailAddress");
+		when(internalTransactionExecutingDto.getDescription()).thenReturn("description");
+		when(internalTransactionExecutingDto.getAmount()).thenReturn(0.0f);
 	
 		when(internalTransactionRepository.insertInternalTransaction(
 				internalTransactionExecutingDto.getUserEmailAddress(), 
@@ -68,19 +63,34 @@ class internalTransactionServiceTest {
 	}
 
 	@Test
-	void test_addInternalTransaction_false() {
-
-    	//GIVEN
-		String userEmailAddress = "userEmailAddress";
-		String contactEmailAddress = "contactEmailAddress";
-		String description = "description";
-		float amount = 0.0f;
-        
+	void test_addInternalTransaction_NOK_balanceInferiorAmount() {
+		
     	//WHEN
-		when(internalTransactionExecutingDto.getUserEmailAddress()).thenReturn(userEmailAddress);
-		when(internalTransactionExecutingDto.getContactEmailAddress()).thenReturn(contactEmailAddress);
-		when(internalTransactionExecutingDto.getDescription()).thenReturn(description);
-		when(internalTransactionExecutingDto.getAmount()).thenReturn(amount);
+		when(internalTransactionExecutingDto.getUserEmailAddress()).thenReturn("userEmailAddress");
+		when(internalTransactionExecutingDto.getContactEmailAddress()).thenReturn("contactEmailAddress");
+		when(internalTransactionExecutingDto.getDescription()).thenReturn("description");
+		when(internalTransactionExecutingDto.getAmount()).thenReturn(0.0f);
+	
+		when(internalTransactionRepository.insertInternalTransaction(
+				internalTransactionExecutingDto.getUserEmailAddress(), 
+				internalTransactionExecutingDto.getContactEmailAddress(), 
+				internalTransactionExecutingDto.getDescription(),
+				internalTransactionExecutingDto.getAmount())).thenReturn("23502");
+		
+		internalTransactionService.executeInternalTransaction(internalTransactionExecutingDto);
+	    
+    	//THEN
+        verify(internalTransactionExecutingDto, Mockito.times(1)).setDataValidated(false);
+	}
+
+	@Test
+	void test_addInternalTransaction_NOK() {
+		
+    	//WHEN
+		when(internalTransactionExecutingDto.getUserEmailAddress()).thenReturn("userEmailAddress");
+		when(internalTransactionExecutingDto.getContactEmailAddress()).thenReturn("contactEmailAddress");
+		when(internalTransactionExecutingDto.getDescription()).thenReturn("description");
+		when(internalTransactionExecutingDto.getAmount()).thenReturn(0.0f);
 	
 		when(internalTransactionRepository.insertInternalTransaction(
 				internalTransactionExecutingDto.getUserEmailAddress(), 
@@ -95,13 +105,10 @@ class internalTransactionServiceTest {
 	}
 
 	@Test
-	void test_retrieveInternalTransactionList_true() {
-
-    	//GIVEN
-		String emailAddress = "emailAddress";
+	void test_retrieveInternalTransactionList_OK() {
         
     	//WHEN
-		when(internalTransactionRetrievingDto.getEmailAddress()).thenReturn(emailAddress);
+		when(internalTransactionRetrievingDto.getEmailAddress()).thenReturn("emailAddress");
 		when(internalTransactionRetrievingDto.getInternalTransactionList()).thenReturn(internalTransactionList);
 
 		when(internalTransactionRepository.selectInternalTransactionList(
@@ -115,13 +122,10 @@ class internalTransactionServiceTest {
 	}
 
 	@Test
-	void test_retrieveInternalTransactionList_false() {
-
-    	//GIVEN
-		String emailAddress = "emailAddress";
+	void test_retrieveInternalTransactionList_NOK() {
         
     	//WHEN
-		when(internalTransactionRetrievingDto.getEmailAddress()).thenReturn(emailAddress);
+		when(internalTransactionRetrievingDto.getEmailAddress()).thenReturn("emailAddress");
 		when(internalTransactionRetrievingDto.getInternalTransactionList()).thenReturn(internalTransactionList);
 
 		when(internalTransactionRepository.selectInternalTransactionList(

@@ -38,24 +38,19 @@ class UserAccountServiceTest {
 	@BeforeEach
 	void beforeEach() {
 
+    	//GIVEN
 		userAccountService = new UserAccountService();
 		ReflectionTestUtils.setField(userAccountService, "userAccountRepository", userAccountRepository);
 	}
 	
 	@Test
-	void test_createUserAccount_true() {
-
-    	//GIVEN
-		String emailAddress = "emailAddress";
-		String password = "password";
-		String firstName = "firstName";
-		String lastName = "lastName";
+	void test_createUserAccount_OK() {
         
     	//WHEN
-		when(userAccountCreatingDto.getEmailAddress()).thenReturn(emailAddress);
-		when(userAccountCreatingDto.getPassword()).thenReturn(password);
-		when(userAccountCreatingDto.getFirstName()).thenReturn(firstName);
-		when(userAccountCreatingDto.getLastName()).thenReturn(lastName);
+		when(userAccountCreatingDto.getEmailAddress()).thenReturn("emailAddress");
+		when(userAccountCreatingDto.getPassword()).thenReturn("password");
+		when(userAccountCreatingDto.getFirstName()).thenReturn("firstName");
+		when(userAccountCreatingDto.getLastName()).thenReturn("lastName");
 		
 		when(userAccountRepository.insertUserAccount(
 				userAccountCreatingDto.getEmailAddress(), 
@@ -70,19 +65,34 @@ class UserAccountServiceTest {
 	}
 
 	@Test
-	void test_createUserAccount_false() {
-
-    	//GIVEN
-		String emailAddress = "emailAddress";
-		String password = "password";
-		String firstName = "firstName";
-		String lastName = "lastName";
+	void test_createUserAccount_NOK_emailAddressAlreadyUsed() {
         
     	//WHEN
-		when(userAccountCreatingDto.getEmailAddress()).thenReturn(emailAddress);
-		when(userAccountCreatingDto.getPassword()).thenReturn(password);
-		when(userAccountCreatingDto.getFirstName()).thenReturn(firstName);
-		when(userAccountCreatingDto.getLastName()).thenReturn(lastName);
+		when(userAccountCreatingDto.getEmailAddress()).thenReturn("emailAddress");
+		when(userAccountCreatingDto.getPassword()).thenReturn("password");
+		when(userAccountCreatingDto.getFirstName()).thenReturn("firstName");
+		when(userAccountCreatingDto.getLastName()).thenReturn("lastName");
+		
+		when(userAccountRepository.insertUserAccount(
+				userAccountCreatingDto.getEmailAddress(), 
+				userAccountCreatingDto.getPassword(), 
+				userAccountCreatingDto.getFirstName(), 
+				userAccountCreatingDto.getLastName())).thenReturn("23505");
+		
+		userAccountService.createUserAccount(userAccountCreatingDto);
+	    
+    	//THEN
+        verify(userAccountCreatingDto, Mockito.times(1)).setDataValidated(false);
+	}
+
+	@Test
+	void test_createUserAccount_NOK() {
+        
+    	//WHEN
+		when(userAccountCreatingDto.getEmailAddress()).thenReturn("emailAddress");
+		when(userAccountCreatingDto.getPassword()).thenReturn("password");
+		when(userAccountCreatingDto.getFirstName()).thenReturn("firstName");
+		when(userAccountCreatingDto.getLastName()).thenReturn("lastName");
 		
 		when(userAccountRepository.insertUserAccount(
 				userAccountCreatingDto.getEmailAddress(), 
@@ -97,13 +107,10 @@ class UserAccountServiceTest {
 	}
 	
 	@Test
-	void test_deleteUserAccount_true() {
-
-    	//GIVEN
-		String emailAddress = "emailAddress";
+	void test_deleteUserAccount_OK() {
         
     	//WHEN
-		when(userAccountDeletingDto.getEmailAddress()).thenReturn(emailAddress);
+		when(userAccountDeletingDto.getEmailAddress()).thenReturn("emailAddress");
 		
 		when(userAccountRepository.deleteUserAccount(
 				userAccountDeletingDto.getEmailAddress())).thenReturn("00000");
@@ -115,13 +122,10 @@ class UserAccountServiceTest {
 	}
 	
 	@Test
-	void test_deleteUserAccount_false() {
-
-    	//GIVEN
-		String emailAddress = "emailAddress";
+	void test_deleteUserAccount_NOK() {
         
     	//WHEN
-		when(userAccountDeletingDto.getEmailAddress()).thenReturn(emailAddress);
+		when(userAccountDeletingDto.getEmailAddress()).thenReturn("emailAddress");
 		
 		when(userAccountRepository.deleteUserAccount(
 				userAccountDeletingDto.getEmailAddress())).thenReturn("");
@@ -133,19 +137,13 @@ class UserAccountServiceTest {
 	}
 
 	@Test
-	void test_editUserAccount_true() {
-
-    	//GIVEN
-		String emailAddress = "emailAddress";
-		String password = "password";
-		String firstName = "firstName";
-		String lastName = "lastName";
+	void test_editUserAccount_OK() {
         
     	//WHEN
-		when(userAccountEditingDto.getEmailAddress()).thenReturn(emailAddress);
-		when(userAccountEditingDto.getPassword()).thenReturn(password);
-		when(userAccountEditingDto.getFirstName()).thenReturn(firstName);
-		when(userAccountEditingDto.getLastName()).thenReturn(lastName);
+		when(userAccountEditingDto.getEmailAddress()).thenReturn("emailAddress");
+		when(userAccountEditingDto.getPassword()).thenReturn("password");
+		when(userAccountEditingDto.getFirstName()).thenReturn("firstName");
+		when(userAccountEditingDto.getLastName()).thenReturn("lastName");
 		
 		when(userAccountRepository.updateUserAccount(
 				userAccountEditingDto.getEmailAddress(), 
@@ -160,19 +158,13 @@ class UserAccountServiceTest {
 	}
 	
 	@Test
-	void test_editUserAccount_false() {
-
-    	//GIVEN
-		String emailAddress = "emailAddress";
-		String password = "password";
-		String firstName = "firstName";
-		String lastName = "lastName";
+	void test_editUserAccount_NOK() {
         
     	//WHEN
-		when(userAccountEditingDto.getEmailAddress()).thenReturn(emailAddress);
-		when(userAccountEditingDto.getPassword()).thenReturn(password);
-		when(userAccountEditingDto.getFirstName()).thenReturn(firstName);
-		when(userAccountEditingDto.getLastName()).thenReturn(lastName);
+		when(userAccountEditingDto.getEmailAddress()).thenReturn("emailAddress");
+		when(userAccountEditingDto.getPassword()).thenReturn("password");
+		when(userAccountEditingDto.getFirstName()).thenReturn("firstName");
+		when(userAccountEditingDto.getLastName()).thenReturn("lastName");
 		
 		when(userAccountRepository.updateUserAccount(
 				userAccountEditingDto.getEmailAddress(), 
@@ -187,13 +179,10 @@ class UserAccountServiceTest {
 	}
 
 	@Test
-	void test_retrieveUserAccount_true() {
-
-    	//GIVEN
-		String emailAddress = "emailAddress";
+	void test_retrieveUserAccount_OK() {
         
     	//WHEN
-		when(userAccountRetrievingDto.getEmailAddress()).thenReturn(emailAddress);
+		when(userAccountRetrievingDto.getEmailAddress()).thenReturn("emailAddress");
 		when(userAccountRetrievingDto.getUserAccount()).thenReturn(userAccount);
 		
 		when(userAccountRepository.selectUserAccount(
@@ -207,13 +196,10 @@ class UserAccountServiceTest {
 	}
 
 	@Test
-	void test_retrieveUserAccount_false() {
-
-    	//GIVEN
-		String emailAddress = "emailAddress";
+	void test_retrieveUserAccount_NOK() {
         
     	//WHEN
-		when(userAccountRetrievingDto.getEmailAddress()).thenReturn(emailAddress);
+		when(userAccountRetrievingDto.getEmailAddress()).thenReturn("emailAddress");
 		when(userAccountRetrievingDto.getUserAccount()).thenReturn(userAccount);
 		
 		when(userAccountRepository.selectUserAccount(

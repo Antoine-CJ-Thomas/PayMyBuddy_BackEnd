@@ -36,24 +36,19 @@ class ExternalTransactionServiceTest {
 	@BeforeEach
 	void beforeEach() {
 
+    	//GIVEN
 		externalTransactionService = new ExternalTransactionService();
 		ReflectionTestUtils.setField(externalTransactionService, "externalTransactionRepository", externalTransactionRepository);
 	}
 	
 	@Test
-	void test_addExternalTransaction_true() {
-
-    	//GIVEN
-		String emailAddress = "emailAddress";
-		String acountName = "acountName";
-		String description = "description";
-		float amount = 0.0f;
+	void test_addExternalTransaction_OK() {
         
     	//WHEN
-		when(externalTransactionExecutingDto.getEmailAddress()).thenReturn(emailAddress);
-		when(externalTransactionExecutingDto.getAccountName()).thenReturn(acountName);
-		when(externalTransactionExecutingDto.getDescription()).thenReturn(description);
-		when(externalTransactionExecutingDto.getAmount()).thenReturn(amount);
+		when(externalTransactionExecutingDto.getEmailAddress()).thenReturn("emailAddress");
+		when(externalTransactionExecutingDto.getAccountName()).thenReturn("acountName");
+		when(externalTransactionExecutingDto.getDescription()).thenReturn("description");
+		when(externalTransactionExecutingDto.getAmount()).thenReturn(0.0f);
 		
 		when(externalTransactionRepository.insertExternalTransaction(
 				externalTransactionExecutingDto.getEmailAddress(), 
@@ -68,19 +63,34 @@ class ExternalTransactionServiceTest {
 	}
 
 	@Test
-	void test_addExternalTransaction_false() {
-
-    	//GIVEN
-		String emailAddress = "emailAddress";
-		String acountName = "acountName";
-		String description = "description";
-		float amount = 0.0f;
+	void test_addExternalTransaction_NOK_balanceInferiorAmount() {
         
     	//WHEN
-		when(externalTransactionExecutingDto.getEmailAddress()).thenReturn(emailAddress);
-		when(externalTransactionExecutingDto.getAccountName()).thenReturn(acountName);
-		when(externalTransactionExecutingDto.getDescription()).thenReturn(description);
-		when(externalTransactionExecutingDto.getAmount()).thenReturn(amount);
+		when(externalTransactionExecutingDto.getEmailAddress()).thenReturn("emailAddress");
+		when(externalTransactionExecutingDto.getAccountName()).thenReturn("acountName");
+		when(externalTransactionExecutingDto.getDescription()).thenReturn("description");
+		when(externalTransactionExecutingDto.getAmount()).thenReturn(0.0f);
+		
+		when(externalTransactionRepository.insertExternalTransaction(
+				externalTransactionExecutingDto.getEmailAddress(), 
+				externalTransactionExecutingDto.getAccountName(), 
+				externalTransactionExecutingDto.getDescription(),
+				externalTransactionExecutingDto.getAmount())).thenReturn("23502");		
+		
+		externalTransactionService.executeExternalTransaction(externalTransactionExecutingDto);
+	    
+    	//THEN
+        verify(externalTransactionExecutingDto, Mockito.times(1)).setDataValidated(false);
+	}
+
+	@Test
+	void test_addExternalTransaction_NOK() {
+        
+    	//WHEN
+		when(externalTransactionExecutingDto.getEmailAddress()).thenReturn("emailAddress");
+		when(externalTransactionExecutingDto.getAccountName()).thenReturn("acountName");
+		when(externalTransactionExecutingDto.getDescription()).thenReturn("description");
+		when(externalTransactionExecutingDto.getAmount()).thenReturn(0.0f);
 		
 		when(externalTransactionRepository.insertExternalTransaction(
 				externalTransactionExecutingDto.getEmailAddress(), 
@@ -95,13 +105,10 @@ class ExternalTransactionServiceTest {
 	}
 
 	@Test
-	void test_retrieveExternalTransactionList_true() {
-
-    	//GIVEN
-		String emailAddress = "emailAddress";
+	void test_retrieveExternalTransactionList_OK() {
         
     	//WHEN
-		when(externalTransactionRetrievingDto.getEmailAddress()).thenReturn(emailAddress);
+		when(externalTransactionRetrievingDto.getEmailAddress()).thenReturn("emailAddress");
 		when(externalTransactionRetrievingDto.getExternalTransactionList()).thenReturn(externalTransactionList);
 
 		when(externalTransactionRepository.selectExternalTransactionList(
@@ -115,13 +122,10 @@ class ExternalTransactionServiceTest {
 	}
 
 	@Test
-	void test_retrieveExternalTransactionList_false() {
-
-    	//GIVEN
-		String emailAddress = "emailAddress";
+	void test_retrieveExternalTransactionList_NOK() {
         
     	//WHEN
-		when(externalTransactionRetrievingDto.getEmailAddress()).thenReturn(emailAddress);
+		when(externalTransactionRetrievingDto.getEmailAddress()).thenReturn("emailAddress");
 		when(externalTransactionRetrievingDto.getExternalTransactionList()).thenReturn(externalTransactionList);
 
 		when(externalTransactionRepository.selectExternalTransactionList(
