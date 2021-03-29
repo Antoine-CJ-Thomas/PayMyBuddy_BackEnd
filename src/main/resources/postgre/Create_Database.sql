@@ -29,8 +29,9 @@ CREATE TABLE public.internal_transaction (
                 user_id INTEGER NOT NULL,
                 contact_id INTEGER NOT NULL,
                 date_time TIMESTAMP NOT NULL,
+                description VARCHAR(200),
                 amount NUMERIC(10,2) NOT NULL,
-                description VARCHAR(40),
+                commission NUMERIC(10,2) NOT NULL,
                 CONSTRAINT internal_transaction_pk PRIMARY KEY (user_id, contact_id, date_time)
 );
 
@@ -57,8 +58,8 @@ CREATE TABLE public.external_transaction (
                 user_id INTEGER NOT NULL,
                 bank_id INTEGER NOT NULL,
                 date_time TIMESTAMP NOT NULL,
+                description VARCHAR(200),
                 amount NUMERIC(10,2) NOT NULL,
-                description VARCHAR(40),
                 CONSTRAINT external_transaction_pk PRIMARY KEY (user_id, bank_id, date_time)
 );
 
@@ -66,48 +67,48 @@ CREATE TABLE public.external_transaction (
 ALTER TABLE public.bank_account ADD CONSTRAINT user_bank_account_fk
 FOREIGN KEY (user_id)
 REFERENCES public.user_account (id)
-ON DELETE NO ACTION
+ON DELETE CASCADE
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
 ALTER TABLE public.internal_transaction ADD CONSTRAINT user_transaction_fk1
 FOREIGN KEY (user_id)
 REFERENCES public.user_account (id)
-ON DELETE NO ACTION
+ON DELETE CASCADE
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
 ALTER TABLE public.user_contact ADD CONSTRAINT user_relation_fk
 FOREIGN KEY (user_id)
 REFERENCES public.user_account (id)
-ON DELETE NO ACTION
+ON DELETE CASCADE
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
 ALTER TABLE public.user_contact ADD CONSTRAINT user_relation_fk1
 FOREIGN KEY (contact_id)
 REFERENCES public.user_account (id)
-ON DELETE NO ACTION
+ON DELETE CASCADE
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
 ALTER TABLE public.internal_transaction ADD CONSTRAINT user_transaction_fk
 FOREIGN KEY (contact_id)
 REFERENCES public.user_account (id)
-ON DELETE NO ACTION
+ON DELETE CASCADE
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
 ALTER TABLE public.external_transaction ADD CONSTRAINT user_external_transaction_fk
 FOREIGN KEY (user_id)
 REFERENCES public.user_account (id)
-ON DELETE NO ACTION
+ON DELETE CASCADE
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
 ALTER TABLE public.external_transaction ADD CONSTRAINT bank_account_external_transaction_fk
 FOREIGN KEY (bank_id)
 REFERENCES public.bank_account (id)
-ON DELETE NO ACTION
+ON DELETE CASCADE
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
