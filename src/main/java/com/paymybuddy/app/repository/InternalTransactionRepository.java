@@ -32,19 +32,22 @@ public class InternalTransactionRepository {
 	public String insertInternalTransaction(String userEmailAddress, String contactEmailAddress, String description, float amount) {
         logger.info("insertInternalTransaction(" + userEmailAddress + "," + contactEmailAddress + "," + description + "," + amount + ")");
         
+        float commission = amount * 0.005f;
+        
         ArrayList<String> queryList = new ArrayList<String>();
 				
 		String insertInternalTransactionQuery 
 		
-			= "INSERT INTO internal_transaction (user_id,contact_id,date_time,amount,description) VALUES ("
+			= "INSERT INTO internal_transaction (user_id,contact_id,date_time,amount,description,commission) VALUES ("
 			
-				+ "(SELECT user_account.id FROM user_account WHERE user_account.email_address = '" + userEmailAddress + "' AND balance >= " + amount + "),"
+				+ "(SELECT user_account.id FROM user_account WHERE user_account.email_address = '" + userEmailAddress + "' AND balance >= " + (amount + commission) + "),"
 				+ "(SELECT user_account.id FROM user_account WHERE user_account.email_address = '" + contactEmailAddress + "'),"
 				+ "('" + new Timestamp(System.currentTimeMillis()) + "'),"
 				+ "(" + amount + "),"
-				+ "('" + description + "'));";
+				+ "('" + description + "'),"
+				+ "(" + commission + "));";
 		
-		String editUserAccountQuery = "UPDATE user_account SET balance = balance - " + amount + " WHERE email_address = '" + userEmailAddress + "';";
+		String editUserAccountQuery = "UPDATE user_account SET balance = balance - " + (amount + commission) + " WHERE email_address = '" + userEmailAddress + "';";
 		String editContactAccountQuery = "UPDATE user_account SET balance = balance + " + amount + " WHERE email_address = '" + contactEmailAddress + "';";
 
 		queryList.add(insertInternalTransactionQuery);

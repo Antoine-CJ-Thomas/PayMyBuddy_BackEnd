@@ -41,7 +41,7 @@ public class InternalTransactionService {
 		case ("23502"):
 
 			internalTransactionExecutingDto.setDataValidated(false);
-			internalTransactionExecutingDto.setMessage("Your balance is lower than the amount you want to send");
+			internalTransactionExecutingDto.setMessage("Your balance is lower than the amount you want to send (with commission of 0.05%)");
 			break;
 
 		default:
