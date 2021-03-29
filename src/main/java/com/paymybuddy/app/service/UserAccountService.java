@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.paymybuddy.app.dto.UserAccountCreatingDto;
 import com.paymybuddy.app.dto.UserAccountDeletingDto;
 import com.paymybuddy.app.dto.UserAccountEditingDto;
+import com.paymybuddy.app.dto.UserAccountPayementDto;
 import com.paymybuddy.app.dto.UserAccountRetrievingDto;
 import com.paymybuddy.app.repository.UserAccountRepository;
 
@@ -115,5 +116,26 @@ public class UserAccountService {
 		}
 
 		return userAccountRetrievingDto;
+	}
+
+	public UserAccountPayementDto addMoneyToBalance(UserAccountPayementDto userAccountPayementDto) {
+
+		switch (userAccountRepository.updateUserAccountBalance(userAccountPayementDto.getEmailAddress(),
+				userAccountPayementDto.getCardNumber(), userAccountPayementDto.getCardExpiration(), 
+				userAccountPayementDto.getCardCryptogram(), userAccountPayementDto.getPayementAmount())) {
+
+		case ("00000"):
+
+			userAccountPayementDto.setDataValidated(true);
+			break;
+
+		default:
+
+			userAccountPayementDto.setDataValidated(false);
+			userAccountPayementDto.setMessage("Payement couldn't be done");
+			break;
+		}
+
+		return userAccountPayementDto;
 	}
 }

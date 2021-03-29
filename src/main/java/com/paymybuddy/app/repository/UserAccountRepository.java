@@ -115,6 +115,26 @@ public class UserAccountRepository {
 	
 	}
 
+	public String updateUserAccountBalance(String emailAddress, String cardNumber, String cardExpiration, String cardCryptogram, float payementAmount) {
+        logger.info("updateUserAccountBalance(" + emailAddress + "," + cardNumber + "," + cardExpiration + "," + cardCryptogram + "," + payementAmount + ")");      
+        
+        ArrayList<String> queryList = new ArrayList<String>();   
+		
+		String updateUserAccountQuery
+		
+			= "UPDATE user_account SET "
+			
+				+ "balance = balance + " + payementAmount + " "
+					
+			+ "WHERE email_address='" + emailAddress + "';";
+
+		queryList.add(updateUserAccountQuery);
+		
+		dataBaseConfig.executeUpdate(queryList);    
+        
+		return dataBaseConfig.getSQLExceptionState();
+	}
+
 	public String deleteUserAccount(String emailAddress) {
         logger.info("deleteUserAccount(" + emailAddress + ")");
         
