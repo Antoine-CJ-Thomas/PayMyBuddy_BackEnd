@@ -115,8 +115,8 @@ public class UserAccountRepository {
 	
 	}
 
-	public String updateUserAccountBalance(String emailAddress, String cardNumber, String cardExpiration, String cardCryptogram, float payementAmount) {
-        logger.info("updateUserAccountBalance(" + emailAddress + "," + cardNumber + "," + cardExpiration + "," + cardCryptogram + "," + payementAmount + ")");      
+	public String updateUserAccountBalance(String emailAddress, float payementAmount) {
+        logger.info("updateUserAccountBalance(" + emailAddress + "," + payementAmount + ")");      
         
         ArrayList<String> queryList = new ArrayList<String>();   
 		

@@ -120,9 +120,7 @@ public class UserAccountService {
 
 	public UserAccountBalanceEditingDto editUserAccountBalance(UserAccountBalanceEditingDto userAccountBalanceEditingDto) {
 
-		switch (userAccountRepository.updateUserAccountBalance(userAccountBalanceEditingDto.getEmailAddress(),
-				userAccountBalanceEditingDto.getCardNumber(), userAccountBalanceEditingDto.getCardExpiration(), 
-				userAccountBalanceEditingDto.getCardCryptogram(), userAccountBalanceEditingDto.getPayementAmount())) {
+		switch (userAccountRepository.updateUserAccountBalance(userAccountBalanceEditingDto.getEmailAddress(), userAccountBalanceEditingDto.getPayementAmount())) {
 
 		case ("00000"):
 
