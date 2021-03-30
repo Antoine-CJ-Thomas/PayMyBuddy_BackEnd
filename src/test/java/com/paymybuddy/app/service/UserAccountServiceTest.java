@@ -10,6 +10,7 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import com.paymybuddy.app.dto.UserAccountBalanceEditingDto;
 import com.paymybuddy.app.dto.UserAccountCreatingDto;
 import com.paymybuddy.app.dto.UserAccountDeletingDto;
 import com.paymybuddy.app.dto.UserAccountEditingDto;
@@ -30,6 +31,8 @@ class UserAccountServiceTest {
 	private UserAccountEditingDto userAccountEditingDto;
 	@Mock
 	private UserAccountRetrievingDto userAccountRetrievingDto;
+	@Mock
+	private UserAccountBalanceEditingDto userAccountBalanceEditingDto;
 	@Mock
 	private UserAccountRepository userAccountRepository;
 	@Mock
@@ -210,5 +213,51 @@ class UserAccountServiceTest {
 	    
     	//THEN
         verify(userAccountRetrievingDto, Mockito.times(1)).setDataValidated(false);
+	}
+
+	@Test
+	void test_editUserAccountBalance_OK() {
+        
+    	//WHEN
+		when(userAccountBalanceEditingDto.getEmailAddress()).thenReturn("emailAddress");
+		when(userAccountBalanceEditingDto.getCardNumber()).thenReturn("cardNumber");
+		when(userAccountBalanceEditingDto.getCardExpiration()).thenReturn("cardExpiration");
+		when(userAccountBalanceEditingDto.getCardCryptogram()).thenReturn("cardCryptogram");
+		when(userAccountBalanceEditingDto.getPayementAmount()).thenReturn(10.0f);
+		
+		when(userAccountRepository.updateUserAccountBalance(
+				userAccountBalanceEditingDto.getEmailAddress(), 
+				userAccountBalanceEditingDto.getCardNumber(), 
+				userAccountBalanceEditingDto.getCardExpiration(), 
+				userAccountBalanceEditingDto.getCardCryptogram(), 
+				userAccountBalanceEditingDto.getPayementAmount())).thenReturn("00000");
+		
+		userAccountService.editUserAccountBalance(userAccountBalanceEditingDto);
+	    
+    	//THEN
+        verify(userAccountBalanceEditingDto, Mockito.times(1)).setDataValidated(true);
+	}
+
+	@Test
+	void test_editUserAccountBalance_NOK() {
+        
+    	//WHEN
+		when(userAccountBalanceEditingDto.getEmailAddress()).thenReturn("emailAddress");
+		when(userAccountBalanceEditingDto.getCardNumber()).thenReturn("cardNumber");
+		when(userAccountBalanceEditingDto.getCardExpiration()).thenReturn("cardExpiration");
+		when(userAccountBalanceEditingDto.getCardCryptogram()).thenReturn("cardCryptogram");
+		when(userAccountBalanceEditingDto.getPayementAmount()).thenReturn(10.0f);
+		
+		when(userAccountRepository.updateUserAccountBalance(
+				userAccountBalanceEditingDto.getEmailAddress(), 
+				userAccountBalanceEditingDto.getCardNumber(), 
+				userAccountBalanceEditingDto.getCardExpiration(), 
+				userAccountBalanceEditingDto.getCardCryptogram(), 
+				userAccountBalanceEditingDto.getPayementAmount())).thenReturn("");
+		
+		userAccountService.editUserAccountBalance(userAccountBalanceEditingDto);
+	    
+    	//THEN
+        verify(userAccountBalanceEditingDto, Mockito.times(1)).setDataValidated(false);
 	}
 }

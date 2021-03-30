@@ -97,4 +97,22 @@ class UserAccountRepositoryTest {
     	//THEN
         assertEquals(sqlState, userAccountRepository.deleteUserAccount(emailAddress));
 	}
+	
+	@Test
+	void test_updateUserAccountBalance() {
+
+    	//GIVEN
+		String emailAddress = "emailAddress";
+		String cardNumber = "cardNumber";
+		String cardExpiration = "cardExpiration";
+		String cardCryptogram = "cardCryptogram";
+		float payementAmount = 10.0f;
+		String sqlState = "00000";
+        
+    	//WHEN
+		when(dataBaseConfig.getSQLExceptionState()).thenReturn(sqlState);
+	    
+    	//THEN
+        assertEquals(sqlState, userAccountRepository.updateUserAccountBalance(emailAddress, cardNumber, cardExpiration, cardCryptogram, payementAmount));
+	}
 }
