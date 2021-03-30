@@ -12,6 +12,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import com.paymybuddy.app.dto.UserAccountCreatingDto;
 import com.paymybuddy.app.dto.UserAccountDeletingDto;
+import com.paymybuddy.app.dto.UserAccountBalanceEditingDto;
 import com.paymybuddy.app.dto.UserAccountEditingDto;
 import com.paymybuddy.app.dto.UserAccountRetrievingDto;
 import com.paymybuddy.app.service.UserAccountService;
@@ -29,6 +30,8 @@ class UserAccountControllerTest {
 	private UserAccountEditingDto userAccountEditingDto;
 	@Mock
 	private UserAccountRetrievingDto userAccountRetrievingDto;
+	@Mock
+	private UserAccountBalanceEditingDto userAccountEditingBalanceDtoTest;
 	@Mock
     private UserAccountService userAccountService;
     
@@ -86,5 +89,17 @@ class UserAccountControllerTest {
 	    
     	//THEN
         assertEquals(userAccountRetrievingDto, userAccountController.retrieveUserAccount(emailAdress));
+	}
+
+	@Test
+	void test_editUserAccountBalance() {
+
+    	//GIVEN
+        
+    	//WHEN
+		when(userAccountService.editUserAccountBalance(userAccountEditingBalanceDtoTest)).thenReturn(userAccountEditingBalanceDtoTest);
+	    
+    	//THEN
+        assertEquals(userAccountEditingBalanceDtoTest, userAccountController.editUserAccountBalance(userAccountEditingBalanceDtoTest));
 	}
 }

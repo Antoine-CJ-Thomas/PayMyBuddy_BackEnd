@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.paymybuddy.app.dto.UserAccountCreatingDto;
 import com.paymybuddy.app.dto.UserAccountDeletingDto;
+import com.paymybuddy.app.dto.UserAccountBalanceEditingDto;
 import com.paymybuddy.app.dto.UserAccountEditingDto;
-import com.paymybuddy.app.dto.UserAccountPayementDto;
 import com.paymybuddy.app.dto.UserAccountRetrievingDto;
 import com.paymybuddy.app.repository.UserAccountRepository;
 
@@ -118,24 +118,24 @@ public class UserAccountService {
 		return userAccountRetrievingDto;
 	}
 
-	public UserAccountPayementDto addMoneyToBalance(UserAccountPayementDto userAccountPayementDto) {
+	public UserAccountBalanceEditingDto editUserAccountBalance(UserAccountBalanceEditingDto userAccountBalanceEditingDto) {
 
-		switch (userAccountRepository.updateUserAccountBalance(userAccountPayementDto.getEmailAddress(),
-				userAccountPayementDto.getCardNumber(), userAccountPayementDto.getCardExpiration(), 
-				userAccountPayementDto.getCardCryptogram(), userAccountPayementDto.getPayementAmount())) {
+		switch (userAccountRepository.updateUserAccountBalance(userAccountBalanceEditingDto.getEmailAddress(),
+				userAccountBalanceEditingDto.getCardNumber(), userAccountBalanceEditingDto.getCardExpiration(), 
+				userAccountBalanceEditingDto.getCardCryptogram(), userAccountBalanceEditingDto.getPayementAmount())) {
 
 		case ("00000"):
 
-			userAccountPayementDto.setDataValidated(true);
+			userAccountBalanceEditingDto.setDataValidated(true);
 			break;
 
 		default:
 
-			userAccountPayementDto.setDataValidated(false);
-			userAccountPayementDto.setMessage("Payement couldn't be done");
+			userAccountBalanceEditingDto.setDataValidated(false);
+			userAccountBalanceEditingDto.setMessage("Payement couldn't be done");
 			break;
 		}
 
-		return userAccountPayementDto;
+		return userAccountBalanceEditingDto;
 	}
 }

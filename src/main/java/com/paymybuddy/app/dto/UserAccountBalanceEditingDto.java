@@ -3,7 +3,7 @@ package com.paymybuddy.app.dto;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserAccountPayementDto {
+public class UserAccountBalanceEditingDto {
 
 	private String emailAddress;
 	private String cardNumber;
@@ -14,9 +14,9 @@ public class UserAccountPayementDto {
 	private boolean dataValidated;
 	private String message;
 	
-	public UserAccountPayementDto() {}
+	public UserAccountBalanceEditingDto() {}
 	
-	public UserAccountPayementDto(String emailAddress, String cardNumber, String cardExpiration, String cardCryptogram, float payementAmount) {
+	public UserAccountBalanceEditingDto(String emailAddress, String cardNumber, String cardExpiration, String cardCryptogram, float payementAmount) {
 
 		this.emailAddress = emailAddress;
 		this.cardNumber = cardNumber;
