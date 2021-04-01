@@ -61,7 +61,7 @@ class ExternalTransactionRepositoryTest {
 		String sqlState = "00000";
         
     	//WHEN
-		when(dataBaseConfig.executeQuery(any(ArrayList.class))).thenReturn(resultSet);
+		when(dataBaseConfig.executeQuery(any())).thenReturn(resultSet);
 		when(dataBaseConfig.getSQLExceptionState()).thenReturn(sqlState);
 	    
     	//THEN

@@ -5,8 +5,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.sql.ResultSet;
-import java.util.ArrayList;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -61,7 +59,7 @@ class UserAccountRepositoryTest {
 		String sqlState = "00000";
         
     	//WHEN
-		when(dataBaseConfig.executeQuery(any(ArrayList.class))).thenReturn(resultSet);
+		when(dataBaseConfig.executeQuery(any())).thenReturn(resultSet);
 		when(dataBaseConfig.getSQLExceptionState()).thenReturn(sqlState);
 	    
     	//THEN
