@@ -13,7 +13,7 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import com.paymybuddy.app.config.PostgreConfig;
+import com.paymybuddy.app.config.DataBaseConfig;
 import com.paymybuddy.app.model.InternalTransaction;
 import com.paymybuddy.app.repository.InternalTransactionRepository;
 
@@ -23,7 +23,7 @@ class InternalTransactionRepositoryTest {
 	private InternalTransactionRepository internalTransactionRepository;
 
 	@Mock
-	private PostgreConfig dataBaseConfig;
+	private DataBaseConfig dataBaseConfig;
 	@Mock
 	private ResultSet resultSet;
 	@Mock

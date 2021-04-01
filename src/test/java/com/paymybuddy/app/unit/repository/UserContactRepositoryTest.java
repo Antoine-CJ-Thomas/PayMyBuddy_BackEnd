@@ -13,7 +13,7 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import com.paymybuddy.app.config.PostgreConfig;
+import com.paymybuddy.app.config.DataBaseConfig;
 import com.paymybuddy.app.model.UserContact;
 import com.paymybuddy.app.repository.UserContactRepository;
 
@@ -23,7 +23,7 @@ class UserContactRepositoryTest {
 	private UserContactRepository userContactRepository;
 
 	@Mock
-	private PostgreConfig dataBaseConfig;
+	private DataBaseConfig dataBaseConfig;
 	@Mock
 	private ResultSet resultSet;
 	@Mock
