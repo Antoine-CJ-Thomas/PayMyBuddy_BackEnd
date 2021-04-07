@@ -1,0 +1,7 @@
+com.paymybuddy.app
+com.paymybuddy.app.config
+com.paymybuddy.app.controller
+com.paymybuddy.app.dto
+com.paymybuddy.app.model
+com.paymybuddy.app.repository
+com.paymybuddy.app.service

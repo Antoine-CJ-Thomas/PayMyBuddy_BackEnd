@@ -6,6 +6,9 @@ import org.springframework.stereotype.Component;
 
 import com.paymybuddy.app.model.InternalTransaction;
 
+/**
+ * This class stores the data of a request to retrieve an user internal transaction list
+ */
 @Component
 public class InternalTransactionRetrievingDto {
 

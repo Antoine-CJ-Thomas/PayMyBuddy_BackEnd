@@ -2,6 +2,9 @@ package com.paymybuddy.app.model;
 
 import org.springframework.stereotype.Component;
 
+/**
+ * This class stores the data of an user contact
+ */
 @Component
 public class UserContact {
 

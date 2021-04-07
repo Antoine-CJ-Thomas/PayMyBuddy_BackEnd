@@ -13,7 +13,7 @@ import com.paymybuddy.app.dto.UserAccountRetrievingDto;
 import com.paymybuddy.app.repository.UserAccountRepository;
 
 /**
- *
+ * This class allows to interact with a UserAccountRepository
  */
 @Service
 public class UserAccountService {

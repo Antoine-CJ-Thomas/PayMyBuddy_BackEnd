@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 /**
-*
+ * This class allows to interact with a relational database management system of type PostgreSQL
 */
 @Component
 public class PostgreConfig implements DataBaseConfig {

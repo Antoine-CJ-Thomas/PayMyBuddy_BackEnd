@@ -11,7 +11,7 @@ import com.paymybuddy.app.dto.BankAccountRetrievingDto;
 import com.paymybuddy.app.repository.BankAccountRepository;
 
 /**
- *
+ * This class allows to interact with a BankAccountRepository
  */
 @Service
 public class BankAccountService {

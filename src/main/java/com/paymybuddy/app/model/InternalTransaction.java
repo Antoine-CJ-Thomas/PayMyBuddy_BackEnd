@@ -2,6 +2,9 @@ package com.paymybuddy.app.model;
 
 import org.springframework.stereotype.Component;
 
+/**
+ * This class stores the data of an internal transaction
+ */
 @Component
 public class InternalTransaction extends Transaction {
 

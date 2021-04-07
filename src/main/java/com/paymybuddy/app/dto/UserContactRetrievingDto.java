@@ -6,6 +6,9 @@ import org.springframework.stereotype.Component;
 
 import com.paymybuddy.app.model.UserContact;
 
+/**
+ * This class stores the data of a request to retrieve a list of contact of an user
+ */
 @Component
 public class UserContactRetrievingDto {
 
