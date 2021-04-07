@@ -10,7 +10,7 @@ import com.paymybuddy.app.dto.ExternalTransactionRetrievingDto;
 import com.paymybuddy.app.repository.ExternalTransactionRepository;
 
 /**
- *
+ * This class allows to interact with a ExternalTransactionRepository
  */
 @Service
 public class ExternalTransactionService {

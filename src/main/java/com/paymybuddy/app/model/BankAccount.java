@@ -2,6 +2,9 @@ package com.paymybuddy.app.model;
 
 import org.springframework.stereotype.Component;
 
+/**
+ * This class stores the data of a bank account
+ */
 @Component
 public class BankAccount {
 

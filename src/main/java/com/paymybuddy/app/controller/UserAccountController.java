@@ -18,9 +18,8 @@ import com.paymybuddy.app.dto.UserAccountEditingDto;
 import com.paymybuddy.app.dto.UserAccountRetrievingDto;
 import com.paymybuddy.app.service.UserAccountService;
 
-
 /**
- *
+ * This class allows to intercept user account requests
  */
 @RestController
 public class UserAccountController {

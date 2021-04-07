@@ -15,7 +15,7 @@ import com.paymybuddy.app.config.DataBaseConfig;
 import com.paymybuddy.app.config.PostgreConfig;
 
 /**
- *
+ * This class allows to prepare queries for the internal transaction table and send them to the DataBaseConfig
  */
 @Component
 public class InternalTransactionRepository {

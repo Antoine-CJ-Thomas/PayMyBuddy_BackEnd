@@ -2,6 +2,9 @@ package com.paymybuddy.app.dto;
 
 import org.springframework.stereotype.Component;
 
+/**
+ * This class stores the data of a request to delete an user account
+ */
 @Component
 public class UserAccountDeletingDto {
 

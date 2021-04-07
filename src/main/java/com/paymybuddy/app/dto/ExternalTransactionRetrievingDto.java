@@ -6,6 +6,9 @@ import org.springframework.stereotype.Component;
 
 import com.paymybuddy.app.model.ExternalTransaction;
 
+/**
+ * This class stores the data of a request to retrieve an user external transaction list
+ */
 @Component
 public class ExternalTransactionRetrievingDto {
 

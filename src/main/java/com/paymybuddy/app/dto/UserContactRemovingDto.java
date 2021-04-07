@@ -2,6 +2,9 @@ package com.paymybuddy.app.dto;
 
 import org.springframework.stereotype.Component;
 
+/**
+ * This class stores the data of a request to remove a contact to an user contact list
+ */
 @Component
 public class UserContactRemovingDto {
 

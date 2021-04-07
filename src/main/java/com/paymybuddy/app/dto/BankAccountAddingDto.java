@@ -2,6 +2,9 @@ package com.paymybuddy.app.dto;
 
 import org.springframework.stereotype.Component;
 
+/**
+ * This class stores the data of a request to add a bank account to an user bank account list
+ */
 @Component
 public class BankAccountAddingDto {
 

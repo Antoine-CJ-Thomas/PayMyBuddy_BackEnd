@@ -4,6 +4,9 @@ import org.springframework.stereotype.Component;
 
 import com.paymybuddy.app.model.UserAccount;
 
+/**
+ * This class stores the data of a request to retrieve an user account data
+ */
 @Component
 public class UserAccountRetrievingDto {
 

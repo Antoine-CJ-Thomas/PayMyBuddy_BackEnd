@@ -6,6 +6,9 @@ import org.springframework.stereotype.Component;
 
 import com.paymybuddy.app.model.BankAccount;
 
+/**
+ * This class stores the data of a request to retrieve an user bank account list
+ */
 @Component
 public class BankAccountRetrievingDto {
 
